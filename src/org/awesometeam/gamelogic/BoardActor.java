@@ -65,5 +65,9 @@ public class BoardActor {
 		//TO-DO
 		return 0;
 	}
-	
+
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName()+": pos "+position+"; ";
+	}
 }
