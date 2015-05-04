@@ -1,4 +1,4 @@
-package org.gamelogic;
+package org.awesometeam.gamelogic;
 
 import java.util.ArrayList;
 
