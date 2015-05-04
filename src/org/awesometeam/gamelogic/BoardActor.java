@@ -16,7 +16,10 @@ public class BoardActor {
 	private int mass;
 	private Vector2D velocity;
 	private State state;
+        private Vector2D angle;
 	
+        static double haxxx = 0;
+        
 	public BoardActor(Point2D pos) {
 		position = pos;
 		shape = new PointArray2D();
@@ -24,6 +27,7 @@ public class BoardActor {
 		mass = 0;
 		velocity = new Vector2D(0, 0);
 		state = State.ALIVE;
+                angle = new Vector2D(10, 0);
 	}
 	
 	public BoardActor() {
@@ -63,7 +67,9 @@ public class BoardActor {
 	
 	public double getAngle() {
 		//TO-DO
-		return 0;
+//		return angle.angle();
+            haxxx += 0.01;
+            return haxxx; 
 	}
 
 	@Override

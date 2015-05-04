@@ -1,8 +1,12 @@
 package org.awesometeam;
 
 import java.util.ArrayList;
-import org.awesometeam.ui.Actor;
-import org.awesometeam.ui.Spaceship;
+import math.geom2d.Point2D;
+import org.awesometeam.gamelogic.Asteroid;
+import org.awesometeam.gamelogic.BoardActor;
+import org.awesometeam.gamelogic.Spaceship;
+import org.awesometeam.ui.AsteroidRenderer;
+import org.awesometeam.ui.SpaceshipRenderer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -18,7 +22,9 @@ public class GameState extends BasicGameState {
 
     private final static boolean[] keyPresses = new boolean[5];
     private ClientSideNetworking net;
-    ArrayList<Actor> arr = new ArrayList<>();
+    ArrayList<BoardActor> arr = new ArrayList<>();
+
+    Asteroid ass;
 
     public GameState() throws SlickException {
         this.net = new ClientSideNetworking();
@@ -31,19 +37,18 @@ public class GameState extends BasicGameState {
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        arr.clear();
-        arr.addAll(ClientSideNetworking.getAsteroids());
-        arr.addAll(ClientSideNetworking.getProjectiles());
-        arr.addAll(ClientSideNetworking.getSpaceships());
-        for (Actor a : arr) {
-            a.init(gc, sbg);
-        }
+        AsteroidRenderer.init(gc, sbg);
+        SpaceshipRenderer.init(gc, sbg);
+        ass = new Asteroid();
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        for (Actor a : arr) {
-            a.render(gc, sbg, grphcs);
+        for (Asteroid a : GameLogic.getAsteroids()) {
+            AsteroidRenderer.render(gc, sbg, grphcs, a);
+        }
+        for (Spaceship s : GameLogic.getSpaceships()) {
+            SpaceshipRenderer.render(gc, sbg, grphcs, s);
         }
     }
 
@@ -54,13 +59,6 @@ public class GameState extends BasicGameState {
         keyPresses[2] = gc.getInput().isKeyDown(Input.KEY_UP);
         keyPresses[3] = gc.getInput().isKeyDown(Input.KEY_DOWN);
         keyPresses[4] = gc.getInput().isKeyDown(Input.KEY_SPACE);
-        arr.clear();
-        arr.addAll(ClientSideNetworking.getAsteroids());
-        arr.addAll(ClientSideNetworking.getProjectiles());
-        arr.addAll(ClientSideNetworking.getSpaceships());
-        for (Actor a : arr) {
-            a.update(gc, sbg, i);
-        }
     }
 
     /**

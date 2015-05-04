@@ -13,6 +13,7 @@ public class Asteroid extends Obstacle {
 	
 	//
 	public int getSize() {
-		return size;
+		//return size;
+            return 3;
 	}
 }

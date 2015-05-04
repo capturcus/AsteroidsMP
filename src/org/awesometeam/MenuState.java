@@ -38,7 +38,8 @@ public class MenuState extends BasicGameState {
                     (new Thread() {
                         @Override
                         public void run() {
-                            for (int i = 0; i < 0; i++) {
+                            (new GameLogic()).start();
+                            for (int i = 0; i < 1; i++) {
                                 LoadingState.message("loading... " + (i + 1));
                                 try {
                                     Thread.sleep(1000);
