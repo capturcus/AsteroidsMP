@@ -2,9 +2,7 @@ package org.awesometeam;
 
 import java.util.ArrayList;
 import math.geom2d.Point2D;
-import org.awesometeam.ui.Asteroid;
 import org.awesometeam.ui.Projectile;
-import org.awesometeam.ui.Spaceship;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -13,7 +11,7 @@ import org.newdawn.slick.SlickException;
  * @author NoSpacesName
  */
 public class ClientSideNetworking {
-
+/*
     private static ArrayList<Spaceship> spaceships = new ArrayList<>();
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
     private static ArrayList<Asteroid> asteroids = new ArrayList<>();
@@ -40,7 +38,7 @@ public class ClientSideNetworking {
     public static ArrayList<Asteroid> getAsteroids() {
         return asteroids;
     }
-
+*/
     public void startSending() {
 
     }
