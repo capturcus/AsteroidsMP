@@ -19,6 +19,10 @@ public class Player {
 	public void setKeyPresses(KeyPresses newKeyPresses) {
 		keyPresses = newKeyPresses;
 	}
+        
+        public KeyPresses getKeyPresses() {
+            return keyPresses;
+        }
 	
 	public void die() {
 		state = State.DEAD;

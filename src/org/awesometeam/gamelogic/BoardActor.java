@@ -10,13 +10,13 @@ public class BoardActor {
 		ALIVE, DEAD, DYING
 	}
 	
-	private Point2D position;
-	private PointArray2D shape;
-	private int healthPoints;
-	private int mass;
-	private Vector2D velocity;
-	private State state;
-        private Vector2D angle;
+	protected Point2D position;
+	protected PointArray2D shape;
+	protected int healthPoints;
+	protected int mass;
+	protected Vector2D velocity;
+	protected State state;
+        protected Vector2D orientation;
 	
         static double haxxx = 0;
         
@@ -27,7 +27,7 @@ public class BoardActor {
 		mass = 0;
 		velocity = new Vector2D(0, 0);
 		state = State.ALIVE;
-                angle = new Vector2D(10, 0);
+                orientation = new Vector2D(1, 0);
 	}
 	
 	public BoardActor() {
@@ -39,7 +39,7 @@ public class BoardActor {
 	}
 	
 	public void move(Physics physics, Board board, int timeInterval) {
-		Vector2D vector = physics.getMove(timeInterval, velocity, timeInterval);
+		Vector2D vector = physics.getMove(mass, velocity, timeInterval);
 		position = board.getNewPosition(position, vector);
 	}
 	
@@ -66,10 +66,10 @@ public class BoardActor {
 	}
 	
 	public double getAngle() {
-		//TO-DO
-//		return angle.angle();
-            haxxx += 0.01;
-            return haxxx; 
+		//TODO
+		return orientation.angle();
+        //  haxxx += 0.01;
+         //   return haxxx; 
 	}
 
 	@Override
