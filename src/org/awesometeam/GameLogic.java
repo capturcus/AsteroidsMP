@@ -1,4 +1,9 @@
 package org.awesometeam;
+import java.util.ArrayList;
+
+import org.awesometeam.gamelogic.Spaceship;
+import org.awesometeam.gamelogic.Asteroid;
+import org.awesometeam.gamelogic.Projectile;
 
 /**
  *
@@ -9,5 +14,17 @@ public class GameLogic extends Thread {
     @Override
     public void run() {
         ServerSideNetworking net = new ServerSideNetworking();
+    }
+    
+    public static ArrayList<Spaceship> getSpaceships() {
+		return new ArrayList<Spaceship>();
+    }
+    
+    public static ArrayList<Asteroid> getAsteroids() {
+    	return new ArrayList<Asteroid>();
+    }
+    
+    public static ArrayList<Projectile> getProjectile() {
+    	return new ArrayList<Projectile>();
     }
 }
