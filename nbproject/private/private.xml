@@ -2,6 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/GameLogic.java</file>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/MenuState.java</file>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/ui/Projectile.java</file>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/GameState.java</file>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/ClientSideNetworking.java</file>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/ui/Spaceship.java</file>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/ui/Asteroid.java</file>
+            <file>file:/D:/Projekty/AsteroidsMP/src/org/awesometeam/LoadingState.java</file>
+        </group>
     </open-files>
 </project-private>
