@@ -1,4 +1,4 @@
-package org.gamelogic;
+package org.awesometeam.gamelogic;
 
 public class Asteroid extends Obstacle {
 	

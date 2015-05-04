@@ -38,14 +38,15 @@ public class MenuState extends BasicGameState {
                     (new Thread() {
                         @Override
                         public void run() {
-                            while(true){
-                                LoadingState.message("huehue");
+                            for (int i = 0; i < 5; i++) {
+                                LoadingState.message("loading... "+(i+1));
                                 try {
                                     Thread.sleep(1000);
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
+                            sbg.enterState(AsteroidsMP.GAMESTATE);
                         }
                     }).start();
                     //this Thread is just a test, actually here will be a simple call to the networking class
@@ -58,6 +59,7 @@ public class MenuState extends BasicGameState {
         hostButton = new Button("res/img/host.jpg", gc.getWidth() / 2, step * 5, 200, step * 2,
                 (() -> {
                     System.out.println("host!");
+                    
                 })
         );
         hostButton.init(gc, sbg);
