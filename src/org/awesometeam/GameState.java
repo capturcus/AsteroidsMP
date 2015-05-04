@@ -13,8 +13,8 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class GameState extends BasicGameState {
 
-    private final boolean[] keyPresses = new boolean[5];
-    private ClientSideNetworking net = new ClientSideNetworking(this);
+    private final static boolean[] keyPresses = new boolean[5];
+    private ClientSideNetworking net = new ClientSideNetworking();
 
     @Override
     public int getID() {
@@ -38,7 +38,11 @@ public class GameState extends BasicGameState {
         keyPresses[4] = gc.getInput().isKeyDown(Input.KEY_SPACE);
     }
 
-    public boolean[] getKeyPresses() {
+    /**
+     * Returns key presses.
+     * @return 5 element boolean table; 0-left, 1-right, 2-up, 3-down, 4-space
+     */
+    public static synchronized boolean[] getKeyPresses() {
         return keyPresses;
     }
 
