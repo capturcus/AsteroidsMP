@@ -1,7 +1,10 @@
 package org.awesometeam;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
+import org.awesometeam.gamelogic.ActorManager;
+import org.awesometeam.gamelogic.GameUpdater;
 import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.gamelogic.Asteroid;
 import org.awesometeam.gamelogic.Projectile;
@@ -12,20 +15,32 @@ import org.awesometeam.gamelogic.Projectile;
  */
 public class GameLogic extends Thread {
 
+	final static int PLAYER_COUNT = 1;
+	private static ActorManager game;
+	
     @Override
     public void run() {
-        ServerSideNetworking net = new ServerSideNetworking();
-    }
 
-    public static ArrayList<Spaceship> getSpaceships() {
-        return new ArrayList<>();
-    }
+		//System.out.println("test");
+		game = new ActorManager(PLAYER_COUNT);
+		//System.out.println(game.getActorList().toString());
 
-    public static ArrayList<Asteroid> getAsteroids() {
-        return new ArrayList<>();
-    }
+		Timer time = new Timer(); // Instantiate Timer Object
+		GameUpdater gu = new GameUpdater(game, 1000); // Instantiate
+														// SheduledTask class
+		time.schedule(gu, 0, 1000); // Create Repetitively task for every 1 secs
 
-    public static ArrayList<Projectile> getProjectile() {
-        return new ArrayList<>();
+	}
+
+	public static ArrayList<Spaceship> getSpaceships() {
+		return game.getSpaceshipList();
+	}
+
+	public static ArrayList<Asteroid> getAsteroids() {
+		return game.getAsteroidList();
+	}
+
+	public static ArrayList<Projectile> getProjectile() {
+		return game.getProjectileList();
     }
 }

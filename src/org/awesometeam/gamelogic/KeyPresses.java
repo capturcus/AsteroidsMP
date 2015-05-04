@@ -9,4 +9,8 @@ public class KeyPresses {
 		keyPresses = new boolean[NUMBER_OF_KEYS];
 	}
 	
+	public void setKeyPresses(boolean newKeyPresses) {
+		System.arraycopy(newKeyPresses, 0, keyPresses, 0, NUMBER_OF_KEYS);
+	}
+	
 }

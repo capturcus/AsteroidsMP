@@ -12,7 +12,19 @@ public class ActorManager {
 	private Board board;
 	private Physics physics;
 
+	// tmp begin
+	private ArrayList<Asteroid> asteroidList;
+	private ArrayList<Spaceship> spaceshipList;
+	private ArrayList<Projectile> projectileList;
+
+	// tmp end
+
 	public ActorManager(int playerCount) {
+		// tmp begin
+		asteroidList = new ArrayList<Asteroid>();
+		spaceshipList = new ArrayList<Spaceship>();
+		projectileList = new ArrayList<Projectile>();
+		// tmp end
 
 		collisionDetector = new CollisionDetector();
 		board = new Board();
@@ -24,7 +36,11 @@ public class ActorManager {
 		for (int index = 0; index < playerCount; index++) {
 			Player player = new Player(index);
 			playerList.add(player);
-			actorList.add(new Spaceship(player));
+			Spaceship spaceship = new Spaceship(player);
+			actorList.add(spaceship);
+			// tmp beign
+			spaceshipList.add(spaceship);
+			// tmp end
 		}
 
 		int asteroidCount = 2 * playerCount;
@@ -45,19 +61,23 @@ public class ActorManager {
 	private ArrayList<BoardActor> createObstacles(int asteroidCount) {
 		ArrayList<BoardActor> obstacleList = new ArrayList<BoardActor>();
 		for (int i = 0; i < asteroidCount; i++) {
-			obstacleList.add(new Asteroid());
+			Asteroid asteroid = new Asteroid();
+			obstacleList.add(asteroid);
+			// tmp beign
+			asteroidList.add(asteroid);
+			// tmp end
 		}
 		return obstacleList;
 	}
 
 	public void update(ArrayList<KeyPresses> playersKeyPresses, int timeInterval)
 			throws IncorrectListLengthAsteroidsMPGLException {
-		
+
 		if (playersKeyPresses.size() != playerList.size())
 			throw new IncorrectListLengthAsteroidsMPGLException();
 		for (int i = 0; i < playerList.size(); i++)
 			playerList.get(i).setKeyPresses(playersKeyPresses.get(i));
-		
+
 		moveActors(timeInterval);
 		detectCollisions();
 	}
@@ -80,7 +100,6 @@ public class ActorManager {
 				playerList.remove(i);
 		}
 	}
-	
 
 	private void moveActors(int timeInterval) {
 		for (BoardActor actor : actorList) {
@@ -92,4 +111,18 @@ public class ActorManager {
 		actor1.collision(actor2);
 		actor2.collision(actor1);
 	}
+
+	// tmp begin
+	public ArrayList<Spaceship> getSpaceshipList() {
+		return spaceshipList;
+	}
+
+	public ArrayList<Asteroid> getAsteroidList() {
+		return asteroidList;
+	}
+
+	public ArrayList<Projectile> getProjectileList() {
+		return projectileList;
+	}
+	// tmp end
 }
