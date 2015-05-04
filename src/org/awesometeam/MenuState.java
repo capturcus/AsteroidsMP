@@ -39,7 +39,7 @@ public class MenuState extends BasicGameState {
                         @Override
                         public void run() {
                             for (int i = 0; i < 5; i++) {
-                                LoadingState.message("loading... "+(i+1));
+                                LoadingState.message("loading... " + (i + 1));
                                 try {
                                     Thread.sleep(1000);
                                 } catch (InterruptedException ex) {
@@ -59,7 +59,9 @@ public class MenuState extends BasicGameState {
         hostButton = new Button("res/img/host.jpg", gc.getWidth() / 2, step * 5, 200, step * 2,
                 (() -> {
                     System.out.println("host!");
-                    
+                    //TODO change to networking
+                    GameLogic gl = new GameLogic();
+                    gl.start();
                 })
         );
         hostButton.init(gc, sbg);
