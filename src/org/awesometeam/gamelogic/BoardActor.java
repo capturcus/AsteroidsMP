@@ -51,4 +51,19 @@ public class BoardActor {
 		position = pos;
 	}
 	
+	
+	//
+	public Point2D getPosition() {
+		return position;
+	}
+	
+	public int getHealthPoints() {
+		return healthPoints;
+	}
+	
+	public double getAngle() {
+		//TO-DO
+		return 0;
+	}
+	
 }

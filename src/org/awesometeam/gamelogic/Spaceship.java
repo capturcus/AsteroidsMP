@@ -8,7 +8,7 @@ public class Spaceship extends BoardActor {
 		player = pl;
 	}
 	
-	public void attack(Weapon weapon) {
+	public void attack(Projectile weapon) {
 		
 	}
 	
