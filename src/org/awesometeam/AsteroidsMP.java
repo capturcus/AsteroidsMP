@@ -43,7 +43,7 @@ public class AsteroidsMP extends StateBasedGame {
     public void initStatesList(GameContainer gc) throws SlickException {
         addState(new MenuState());
         addState(new GameState());
-        addState(new LoadingState());
+        addState(LoadingState.getInstance());
         enterState(MENUSTATE);
     }
 
