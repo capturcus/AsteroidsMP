@@ -16,7 +16,6 @@ public class CollisionDetector {
                     collisions.add(new ActorPair(actorList.get(i), actorList.get(j)));
             }
         }
-        System.out.println(collisions);
         return collisions;
     }
     
