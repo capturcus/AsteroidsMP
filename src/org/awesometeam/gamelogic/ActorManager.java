@@ -42,7 +42,7 @@ public class ActorManager {
             // tmp end
         }
 
-        int asteroidCount = 3;// 2 * playerCount;
+        int asteroidCount = 5;// 2 * playerCount;
 
         actorList.addAll(createObstacles(asteroidCount));
         Point2D[] positions = board.randomPositions(actorList.size());
@@ -106,7 +106,6 @@ public class ActorManager {
                 actorList.get(i).die();
                 if (actorList.get(i).getState() == BoardActor.State.DEAD) {
                     //tmp begin
-                    System.out.println("remove");
                     spaceshipList.remove(actorList.get(i));
                     asteroidList.remove(actorList.get(i));
                     projectileList.remove(actorList.get(i));

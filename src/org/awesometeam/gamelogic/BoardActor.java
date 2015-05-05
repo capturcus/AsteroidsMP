@@ -39,7 +39,6 @@ public class BoardActor {
     }
 
     public void collision(BoardActor other) {
-        System.out.println(":)");
     }
     
     public void asteroidCollision(Asteroid asteroid) {
