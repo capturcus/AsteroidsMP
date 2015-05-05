@@ -1,5 +1,6 @@
 build/
 natives/
+nbproject/private/
 
 *.class
 
@@ -17,3 +18,7 @@ hs_err_pid*
 # Eclipse configuration files #
 *.classpath
 *.project
+
+# NetBeans configuration files #
+nbproject/private/private.xml
+nbproject/private/private.properties
