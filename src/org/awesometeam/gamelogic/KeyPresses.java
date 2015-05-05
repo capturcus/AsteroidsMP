@@ -14,8 +14,8 @@ public class KeyPresses {
         keyPresses = new boolean[NUMBER_OF_KEYS];
     }
 
-    public boolean[] getKeyPresses() {
-        return keyPresses;
+    public boolean isPressed(int key) {
+        return keyPresses[key];
     }
     
     public void setKeyPresses(boolean[] newKeyPresses) {
