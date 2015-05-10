@@ -88,7 +88,7 @@ public class ActorManager {
         for (int i = 0; i < actorList.size(); i++) {
             if (actorList.get(i).isAttacking()) {
                 ArrayList<Projectile> newProjectiles = actorList.get(i).attack();
-                asteroidList.addAll(newProjectiles);
+                projectileList.addAll(newProjectiles);
                 actorList.addAll(newProjectiles);
             }
                 
