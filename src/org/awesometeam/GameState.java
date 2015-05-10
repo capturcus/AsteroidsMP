@@ -37,8 +37,8 @@ public class GameState extends BasicGameState {
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        AsteroidRenderer.init(gc, sbg);
-        SpaceshipRenderer.init(gc, sbg);
+        AsteroidRenderer.init(gc, sbg, "res/img/asteroid.png");
+        SpaceshipRenderer.init(gc, sbg, "res/img/ship.png");
         ass = new Asteroid();
     }
 
