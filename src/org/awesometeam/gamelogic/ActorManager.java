@@ -6,29 +6,20 @@ import java.util.ArrayList;
 
 public class ActorManager {
 
+    private ActorLists actorLists;
     private ArrayList<BoardActor> actorList;
     private ArrayList<Player> playerList;
     private CollisionDetector collisionDetector;
     private Board board;
     private Physics physics;
 
-    // tmp begin
-    private ArrayList<Asteroid> asteroidList;
-    private ArrayList<Spaceship> spaceshipList;
-    private ArrayList<Projectile> projectileList;
-
-	// tmp end
     public ActorManager(int playerCount) {
-        // tmp begin
-        asteroidList = new ArrayList<Asteroid>();
-        spaceshipList = new ArrayList<Spaceship>();
-        projectileList = new ArrayList<Projectile>();
-        // tmp end
 
         collisionDetector = new CollisionDetector();
         board = new Board();
         physics = new Physics();
 
+        actorLists = new ActorLists();
         actorList = new ArrayList<BoardActor>();
         playerList = new ArrayList<Player>();
 
@@ -36,35 +27,29 @@ public class ActorManager {
             Player player = new Player(index);
             playerList.add(player);
             Spaceship spaceship = new Spaceship(player);
-            actorList.add(spaceship);
-            // tmp beign
-            spaceshipList.add(spaceship);
-            // tmp end
+            actorLists.addSpaceship(spaceship);
         }
 
-        int asteroidCount = 5;// 2 * playerCount;
+        int asteroidCount = 4;// 2 * playerCount;
 
-        actorList.addAll(createObstacles(asteroidCount));
-        Point2D[] positions = board.randomPositions(actorList.size());
+        createObstacles(asteroidCount);
+        Point2D[] positions = board.randomPositions(actorLists.getActorList().size());
         int i = 0;
-        for (BoardActor actor : actorList) {
+        for (BoardActor actor : actorLists.getActorList()) {
             actor.setPosition(positions[i]);
             i++;
         }
     }
 
-    public ArrayList<BoardActor> getActorList() {
-        return actorList;
+    public ActorLists getActorLists() {
+        return actorLists;
     }
 
     private ArrayList<BoardActor> createObstacles(int asteroidCount) {
         ArrayList<BoardActor> obstacleList = new ArrayList<BoardActor>();
         for (int i = 0; i < asteroidCount; i++) {
             Asteroid asteroid = new Asteroid();
-            obstacleList.add(asteroid);
-            // tmp beign
-            asteroidList.add(asteroid);
-            // tmp end
+            actorLists.addAsteroid(asteroid);
         }
         return obstacleList;
     }
@@ -85,33 +70,22 @@ public class ActorManager {
     }
 
     private void attack() {
-        for (int i = 0; i < actorList.size(); i++) {
-            if (actorList.get(i).isAttacking()) {
-                ArrayList<Projectile> newProjectiles = actorList.get(i).attack();
-                projectileList.addAll(newProjectiles);
-                actorList.addAll(newProjectiles);
+        for (int i = 0; i < actorLists.getActorList().size(); i++) {
+            if (actorLists.getActorList().get(i).isAttacking()) {
+                actorLists.getActorList().get(i).attack();
             }
-                
         }
     }
     
     private void detectCollisions() {
         ArrayList<ActorPair> collisionList = collisionDetector
-                .getCollisions(actorList);
+                .getCollisions(actorLists.getActorList());
         for (ActorPair pair : collisionList) {
             collision(pair.getFirst(), pair.getSecond());
         }
-        for (int i = actorList.size() - 1; i >= 0; i--) {
-            if (actorList.get(i).getState() == BoardActor.State.DYING) {
-                actorList.get(i).die();
-                if (actorList.get(i).getState() == BoardActor.State.DEAD) {
-                    //tmp begin
-                    spaceshipList.remove(actorList.get(i));
-                    asteroidList.remove(actorList.get(i));
-                    projectileList.remove(actorList.get(i));
-                    //tmp end
-                    actorList.remove(i);
-                }
+        for (int i = actorLists.getActorList().size() - 1; i >= 0; i--) {
+            if (actorLists.getActorList().get(i).getState() == BoardActor.State.DYING) {
+                actorLists.getActorList().get(i).die();
             }
         }
         for (int i = playerList.size() - 1; i >= 0; i--) {
@@ -122,7 +96,7 @@ public class ActorManager {
     }
 
     private void moveActors(int timeInterval) {
-        for (BoardActor actor : actorList) {
+        for (BoardActor actor : actorLists.getActorList()) {
             actor.move(physics, board, timeInterval);
         }
     }
@@ -131,18 +105,4 @@ public class ActorManager {
         actor1.collision(actor2);
         actor2.collision(actor1);
     }
-
-    // tmp begin
-    public ArrayList<Spaceship> getSpaceshipList() {
-        return spaceshipList;
-    }
-
-    public ArrayList<Asteroid> getAsteroidList() {
-        return asteroidList;
-    }
-
-    public ArrayList<Projectile> getProjectileList() {
-        return projectileList;
-    }
-	// tmp end
 }

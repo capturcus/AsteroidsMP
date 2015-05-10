@@ -12,6 +12,7 @@ public class BoardActor {
         ALIVE, DEAD, DYING
     }
 
+    protected ActorLists actorLists;
     protected Point2D position;
     protected PointArray2D shape;
     protected int healthPoints;
@@ -64,6 +65,9 @@ public class BoardActor {
         projectile.setOrientation(orientation);
         projectile.setVelocity(orientation.normalize().times(30));
         projectiles.add(projectile);
+        
+        actorLists.addProjectile(projectile);
+        
         return projectiles;
     }
 
@@ -116,5 +120,9 @@ public class BoardActor {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + ": pos " + position + "; ";
+    }
+    
+    public void setActorList(ActorLists actorLists) {
+        this.actorLists = actorLists;
     }
 }
