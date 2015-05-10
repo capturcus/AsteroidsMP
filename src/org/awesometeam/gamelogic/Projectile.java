@@ -9,10 +9,16 @@ public class Projectile extends Asteroid {
 
     public Projectile(Point2D pos) {
         position = pos;
-        turnsToDie = 20;
+        turnsToDie = 40;
         //tmp begin
         size = 0;
         //tmp end
+    }
+    
+    @Override
+    public void die() {
+        state = State.DEAD;
+        actorLists.removeProjectile(this);
     }
     
     @Override

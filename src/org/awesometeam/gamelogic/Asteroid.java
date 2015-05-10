@@ -24,6 +24,20 @@ public class Asteroid extends Obstacle {
     }
 
     @Override
+    public void die() {
+        state = State.DEAD;
+        actorLists.removeAsteroid(this);
+        if (size > 0) {
+            Asteroid asteroid1 = new Asteroid(this.position);
+            asteroid1.setSize(size - 1);
+            Asteroid asteroid2 = new Asteroid(this.position);
+            asteroid2.setSize(size - 1);
+            actorLists.addAsteroid(asteroid1);
+            actorLists.addAsteroid(asteroid2);
+        }
+    }
+    
+    @Override
     public void collision(BoardActor other) {
         other.asteroidCollision(this);
     }
@@ -32,7 +46,10 @@ public class Asteroid extends Obstacle {
         state = BoardActor.State.DYING;
     }
     
-    //
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
     public int getSize() {
         return size;
     }

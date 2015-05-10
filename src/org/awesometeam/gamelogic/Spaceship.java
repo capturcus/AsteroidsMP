@@ -19,8 +19,9 @@ public class Spaceship extends BoardActor {
 
     @Override
     public void die() {
-        super.die();
+        state = State.DEAD;
         player.die();
+        actorLists.removeSpaceship(this);
     }
 
     @Override

@@ -26,21 +26,21 @@ public class GameLogic extends Thread {
         //System.out.println(game.getActorList().toString());
 
         Timer time = new Timer(); // Instantiate Timer Object
-        GameUpdater gu = new GameUpdater(game, 100); // Instantiate
+        GameUpdater gu = new GameUpdater(game, 50); // Instantiate
         // SheduledTask class
-        time.schedule(gu, 0, 100); // Create Repetitively task for every 1 secs
+        time.schedule(gu, 0, 50); // Create Repetitively task for every 0.5 secs
 
     }
 
     public static ArrayList<Spaceship> getSpaceships() {
-        return new ArrayList<Spaceship>(game.getSpaceshipList());
+        return new ArrayList<Spaceship>(game.getActorLists().getSpaceshipList());
     }
 
     public static ArrayList<Asteroid> getAsteroids() {
-        return new ArrayList<Asteroid>(game.getAsteroidList());
+        return new ArrayList<Asteroid>(game.getActorLists().getAsteroidList());
     }
 
     public static ArrayList<Projectile> getProjectile() {
-        return new ArrayList<Projectile>(game.getProjectileList());
+        return new ArrayList<Projectile>(game.getActorLists().getProjectileList());
     }
 }
