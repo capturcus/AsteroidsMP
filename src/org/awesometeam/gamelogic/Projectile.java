@@ -9,7 +9,10 @@ public class Projectile extends Asteroid {
 
     public Projectile(Point2D pos) {
         position = pos;
-        turnsToDie = 30;
+        turnsToDie = 20;
+        //tmp begin
+        size = 0;
+        //tmp end
     }
     
     @Override

@@ -7,7 +7,7 @@ import math.geom2d.Vector2D;
 public class Asteroid extends Obstacle {
 
     public static final int minRadius = 10;
-    private int size;
+    protected int size;
     public static final Random generator = new Random();
     private int moveLength;
     private int moveRandom;
@@ -41,14 +41,14 @@ public class Asteroid extends Obstacle {
     public void move(Physics physics, Board board, int timeInterval) {
         if (moveLength <= 0) {
             moveLength = generator.nextInt(20)+5;
-            moveRandom = generator.nextInt(20);
+            moveRandom = generator.nextInt(10);
         }
         moveLength--;
-        if (moveRandom == 3) {
+        if (moveRandom == 0) {
             orientation = orientation.rotate(0.1);
             velocity = velocity.rotate(0.1);
         }
-        if (moveRandom == 4) {
+        if (moveRandom == 1) {
             orientation = orientation.rotate(-0.1);
             velocity = velocity.rotate(-0.1);
         }
