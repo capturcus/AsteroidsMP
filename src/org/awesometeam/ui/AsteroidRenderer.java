@@ -18,24 +18,21 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Marcin
  */
-public class AsteroidRenderer {
+public class AsteroidRenderer extends Renderer {
 
     private final static double SCALE = .2d;
-    private static Image img;
-
+    public static Image img;
+    
+    public static void init(GameContainer gc, StateBasedGame sbg, String path) throws SlickException {
+        img = new Image(path);
+    }
+    
     private static float sizeToCoefficient(int size) {
         return .2f * size + .2f;
     }
 
-    public static void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        img = new Image("res/img/asteroid.png");
-    }
-
     public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, Asteroid a) throws SlickException {
         float finalScale = (float) (SCALE * sizeToCoefficient(a.getSize()));
-        Image temp = img.getScaledCopy(finalScale);
-        temp.setRotation((float) Math.toDegrees(a.getAngle()));
-        //temp.draw((float) a.getPosition().x() + (img.getWidth() / 2.f) * (1 - finalScale), (float) a.getPosition().y() + (img.getHeight() / 2.f) * (1 - finalScale));
-        temp.draw((float) a.getPosition().x(), (float) a.getPosition().y());
+        render(gc, sbg, grphcs, a, finalScale, img);
     }
 }
