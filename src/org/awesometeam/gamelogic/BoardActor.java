@@ -8,7 +8,6 @@ import math.geom2d.point.PointArray2D;
 public class BoardActor {
 
     public enum State {
-
         ALIVE, DEAD, DYING
     }
 
