@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import math.geom2d.Point2D;
 import org.awesometeam.gamelogic.Asteroid;
 import org.awesometeam.gamelogic.BoardActor;
+import org.awesometeam.gamelogic.Projectile;
 import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.ui.AsteroidRenderer;
 import org.awesometeam.ui.SpaceshipRenderer;
+import org.awesometeam.ui.ProjectileRenderer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -39,6 +41,7 @@ public class GameState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         AsteroidRenderer.init(gc, sbg, "res/img/asteroid.png");
         SpaceshipRenderer.init(gc, sbg, "res/img/ship.png");
+        ProjectileRenderer.init(gc, sbg, "res/img/projectile.png");
         ass = new Asteroid();
     }
 
@@ -49,6 +52,9 @@ public class GameState extends BasicGameState {
         }
         for (Spaceship s : GameLogic.getSpaceships()) {
             SpaceshipRenderer.render(gc, sbg, grphcs, s);
+        }
+        for (Projectile s : GameLogic.getProjectiles()) {
+            ProjectileRenderer.render(gc, sbg, grphcs, s);
         }
     }
 

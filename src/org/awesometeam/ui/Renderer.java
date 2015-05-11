@@ -22,7 +22,7 @@ public abstract class Renderer {
     public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, BoardActor a, float scale, Image img) throws SlickException {
         Image temp = img.getScaledCopy(scale);
         temp.setRotation((float) Math.toDegrees(a.getAngle()));
-        //temp.draw((float) a.getPosition().x() + (img.getWidth() / 2.f) * (1 - finalScale), (float) a.getPosition().y() + (img.getHeight() / 2.f) * (1 - finalScale));
-        temp.draw((float) a.getPosition().x(), (float) a.getPosition().y());
+        temp.draw((float) a.getPosition().x() - (temp.getWidth() / 2.f), (float) a.getPosition().y() - (temp.getHeight() / 2.f));
+        //temp.draw((float) a.getPosition().x(), (float) a.getPosition().y());
     }
 }

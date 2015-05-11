@@ -40,7 +40,7 @@ public class GameLogic extends Thread {
         return new ArrayList<Asteroid>(game.getActorLists().getAsteroidList());
     }
 
-    public static ArrayList<Projectile> getProjectile() {
+    public static ArrayList<Projectile> getProjectiles() {
         return new ArrayList<Projectile>(game.getActorLists().getProjectileList());
     }
 }
