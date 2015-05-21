@@ -23,13 +23,13 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameState extends BasicGameState {
 
     private final static boolean[] keyPresses = new boolean[5];
-    private ClientSideNetworking net;
+    private AsteroidClientMain net;
     ArrayList<BoardActor> arr = new ArrayList<>();
 
     Asteroid ass;
 
     public GameState() throws SlickException {
-        this.net = new ClientSideNetworking();
+        this.net = new AsteroidClientMain();
     }
 
     @Override
