@@ -7,6 +7,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,6 +20,7 @@ public class MenuState extends BasicGameState {
 
     Image menu;
     Button joinButton, hostButton, optionsButton, exitButton;
+    private TextField textField;
 
     @Override
     public int getID() {
@@ -32,7 +35,7 @@ public class MenuState extends BasicGameState {
         int step = gc.getHeight() / 13;
 
         //uwielbiam ten kod <3
-        joinButton = new Button("res/img/join.jpg", gc.getWidth() / 2, step * 2, 200, step * 2,
+        joinButton = new Button("res/img/join.jpg", 200, step * 2, 200, step * 2,
                 (() -> {
                     sbg.enterState(AsteroidsMP.LOADINGSTATE);
                     (new Thread() {
@@ -57,7 +60,7 @@ public class MenuState extends BasicGameState {
         );
         joinButton.init(gc, sbg);
 
-        hostButton = new Button("res/img/host.jpg", gc.getWidth() / 2, step * 5, 200, step * 2,
+        hostButton = new Button("res/img/host.jpg", 200, step * 5, 200, step * 2,
                 (() -> {
                     System.out.println("host!");
                     //TODO change to networking
@@ -67,20 +70,32 @@ public class MenuState extends BasicGameState {
         );
         hostButton.init(gc, sbg);
 
-        optionsButton = new Button("res/img/options.jpg", gc.getWidth() / 2, step * 8, 200, step * 2,
+        optionsButton = new Button("res/img/options.jpg", 200, step * 8, 200, step * 2,
                 (() -> {
                     System.out.println("options!");
                 })
         );
         optionsButton.init(gc, sbg);
 
-        exitButton = new Button("res/img/quit.jpg", gc.getWidth() / 2, step * 11, 200, step * 2,
+        exitButton = new Button("res/img/quit.jpg", 200, step * 11, 200, step * 2,
                 (() -> {
                     System.out.println("gtfo!");
                     System.exit(0);
                 })
         );
         exitButton.init(gc, sbg);
+        textField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
+                333, (int) (step * 1.5), 400, 40,
+                ((x) -> {
+                    (new GameLogic()).start();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    sbg.enterState(AsteroidsMP.GAMESTATE);
+                })
+        );
     }
 
     @Override
@@ -90,6 +105,7 @@ public class MenuState extends BasicGameState {
         hostButton.render(gc, sbg, grphcs);
         optionsButton.render(gc, sbg, grphcs);
         exitButton.render(gc, sbg, grphcs);
+        textField.render(gc, grphcs);
     }
 
     @Override
