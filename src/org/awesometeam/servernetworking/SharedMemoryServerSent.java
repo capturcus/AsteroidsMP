@@ -16,6 +16,7 @@ public class SharedMemoryServerSent {
     private ServerSentData DATA;
     
     private SharedMemoryServerSent() {
+        DATA = new ServerSentData();
     }
     
     public static SharedMemoryServerSent getInstance() {
