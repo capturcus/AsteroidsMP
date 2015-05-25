@@ -23,6 +23,7 @@ public class AsteroidsMP extends StateBasedGame {
     public final static int MENUSTATE = 0;
     public final static int GAMESTATE = 1;
     public final static int LOADINGSTATE = 2;
+    public final static int OPTIONSSTATE = 3;
 
     /**
      * @param args the command line arguments
@@ -44,6 +45,7 @@ public class AsteroidsMP extends StateBasedGame {
         addState(new MenuState());
         addState(new GameState());
         addState(LoadingState.getInstance());
+        addState(new OptionsState());
         enterState(MENUSTATE);
     }
 
