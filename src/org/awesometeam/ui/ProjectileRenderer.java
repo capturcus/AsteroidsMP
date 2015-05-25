@@ -23,6 +23,6 @@ public class ProjectileRenderer extends Renderer {
     public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, Projectile p) throws SlickException {
         Image temp = img.getScaledCopy((float) SCALE);
         temp.setRotation((float) Math.toDegrees(p.angle) - 90);
-        temp.draw((float) p.pos.x() - (temp.getWidth() / 2.f), (float) p.pos.y() - (temp.getHeight() / 2.f));
+        temp.draw((float) p.x - (temp.getWidth() / 2.f), (float) p.y - (temp.getHeight() / 2.f));
     }
 }

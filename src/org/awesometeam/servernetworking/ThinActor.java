@@ -6,6 +6,7 @@
 package org.awesometeam.servernetworking;
 
 import java.io.Serializable;
+
 import math.geom2d.Point2D;
 
 /**
