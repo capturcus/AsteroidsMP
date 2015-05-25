@@ -53,7 +53,8 @@ public class AsteroidClientMain {
         try {
 
         	socketTCP = new Socket(serverIP,serverPort);
-        	clientPort = socketTCP.getPort();
+        	clientPort = socketTCP.getLocalPort();
+        	//System.out.println("clientPort: "+ socketTCP.getLocalPort());
         	PrintWriter out = new PrintWriter(socketTCP.getOutputStream(), true);
         	out.println("REQUEST: " + nickname);
         	

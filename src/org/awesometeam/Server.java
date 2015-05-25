@@ -87,6 +87,7 @@ public class Server extends Thread {
                         String name = input.substring(9);
                         int ID = nextID;
                         nextID += 1;
+                        
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
                         out.println("ACCEPT: " + ID);
