@@ -22,15 +22,17 @@ public class AsteroidClientSender implements Runnable {
     private final int FPS = 60;
     private final int waitTime = 1000 / FPS;
     private DatagramSocket socket;
+    private int id;
 
     public void interruptThread(){
     	thread.interrupt();
     }
     
-    public AsteroidClientSender(String serverIP, int serverPort, DatagramSocket socket) throws UnknownHostException {
+    public AsteroidClientSender(String serverIP, int serverPort, DatagramSocket socket, int id) throws UnknownHostException {
         this.serverIP = InetAddress.getByName(serverIP);
         this.serverPort = serverPort;
         this.socket = socket;
+        this.id = id;
     }
     
     public void run() {
@@ -39,7 +41,8 @@ public class AsteroidClientSender implements Runnable {
             int x = 0;
             while (!Thread.currentThread().isInterrupted()) {
                 x++;
-                ClientSentData keyPressesPacket = SharedMemoryClientSent.getInstance().getData();             
+                ClientSentData keyPressesPacket = SharedMemoryClientSent.getInstance().getData();
+                keyPressesPacket.setID(id);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(baos);
                 oos.writeObject(keyPressesPacket);

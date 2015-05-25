@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -49,15 +50,16 @@ public class AsteroidClientMain {
     }
 
     public void startSending(String nickname) {
+    	System.out.println("siusiu");
         this.nickname = nickname;
         try {
-
+        	System.out.println("Server ip: " + serverIP + " , serverPort: " + serverPort);
         	socketTCP = new Socket(serverIP,serverPort);
         	clientPort = socketTCP.getLocalPort();
-        	//System.out.println("clientPort: "+ socketTCP.getLocalPort());
+        	System.out.println("clientPort: "+ socketTCP.getLocalPort());
         	PrintWriter out = new PrintWriter(socketTCP.getOutputStream(), true);
         	out.println("REQUEST: " + nickname);
-        	
+        	System.out.println("polecial request");
         	
         	/*
         	OutputStream os = socketTCP.getOutputStream();
@@ -87,7 +89,7 @@ public class AsteroidClientMain {
         	
             socket = new DatagramSocket(clientPort);
             
-            acs = new AsteroidClientSender(serverIP, serverPort, socket);
+            acs = new AsteroidClientSender(serverIP, serverPort, socket,id);
             acr = new AsteroidClientReceiver(socket);
             acs.startThread();
             acr.startThread();
