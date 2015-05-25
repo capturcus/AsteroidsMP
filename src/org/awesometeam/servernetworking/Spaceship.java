@@ -19,14 +19,16 @@ public class Spaceship extends ThinActor implements Serializable {
     public int ID;
     
     public Spaceship() {
-        pos = new Point2D(0,0);
+        x = 0;
+        y = 0;
         angle = 0;
         name = "";
         ID = 0;
     }
     
     public Spaceship(org.awesometeam.gamelogic.Spaceship sp){
-        pos = sp.getPosition();
+        x = sp.getPosition().getX();
+        y = sp.getPosition().getY();
         angle = sp.getAngle();
         name = "";
         ID = 0;
