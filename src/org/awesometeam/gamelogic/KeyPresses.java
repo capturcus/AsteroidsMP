@@ -17,7 +17,7 @@ public class KeyPresses implements Serializable {
     }
     
     public KeyPresses(KeyPresses kp) {
-        keyPresses = kp.keyPresses.clone();
+    	setKeyPresses(kp.getKeypressesArray());
     }
 
     public boolean isPressed(int key) {
@@ -26,6 +26,18 @@ public class KeyPresses implements Serializable {
     
     public void setKeyPresses(boolean[] newKeyPresses) {
         System.arraycopy(newKeyPresses, 0, keyPresses, 0, NUMBER_OF_KEYS);
+    }
+    
+    public boolean[] getKeypressesArray(){
+    	return keyPresses;
+    }
+    
+    public String toString(){
+    	String txt = "";
+    	for(int i = 0; i < keyPresses.length; i++){
+    		txt += keyPresses[i] + " ";
+    	}
+    	return txt;
     }
 
 }

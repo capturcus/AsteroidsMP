@@ -6,7 +6,6 @@
 package org.awesometeam;
 
 import org.awesometeam.servernetworking.SharedMemoryServerReceived;
-import org.awesometeam.servernetworking.ClientSentData;
 import org.awesometeam.servernetworking.ClientData;
 import org.awesometeam.servernetworking.SharedMemoryServerSent;
 import java.io.BufferedInputStream;
@@ -27,6 +26,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.awesometeam.clientnetworking.ClientSentData;
 
 /**
  *

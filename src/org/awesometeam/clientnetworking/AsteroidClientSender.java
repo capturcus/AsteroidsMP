@@ -1,4 +1,4 @@
-package org.awesometeam;
+package org.awesometeam.clientnetworking;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,6 +11,9 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import org.awesometeam.GameState;
+import org.awesometeam.SharedMemoryClientSent;
+import org.awesometeam.servernetworking.*; 
 public class AsteroidClientSender implements Runnable {
 
     private Thread thread;
@@ -18,27 +21,25 @@ public class AsteroidClientSender implements Runnable {
     private int serverPort;
     private final int FPS = 60;
     private final int waitTime = 1000 / FPS;
+    private DatagramSocket socket;
 
-    public AsteroidClientSender(String serverIP, int serverPort) throws UnknownHostException {
+    public AsteroidClientSender(String serverIP, int serverPort, DatagramSocket socket) throws UnknownHostException {
         this.serverIP = InetAddress.getByName(serverIP);
         this.serverPort = serverPort;
+        this.socket = socket;
     }
-
-    
     
     public void run() {
         try {
-            DatagramSocket socket = new DatagramSocket();
-
-            boolean[] keyPresses = GameState.getKeyPresses();
+            
             int x = 0;
             while (true) {
                 x++;
-                PacketKeyPresses packet = new PacketKeyPresses(keyPresses);
-
+                ClientSentData keyPressesPacket = SharedMemoryClientSent.getInstance().getData();
+                
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(baos);
-                oos.writeObject(packet);
+                oos.writeObject(keyPressesPacket);
                 //oos.flush(); //what for?
                 byte[] byteKeyPresses = baos.toByteArray();
 
