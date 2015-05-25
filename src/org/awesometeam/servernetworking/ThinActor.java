@@ -5,13 +5,15 @@
  */
 package org.awesometeam.servernetworking;
 
+import java.io.Serializable;
+
 import math.geom2d.Point2D;
 
 /**
  *
  * @author marcin
  */
-public abstract class ThinActor {
+public abstract class ThinActor implements Serializable {
     public double x;
     public double y;
 }
