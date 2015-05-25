@@ -17,7 +17,7 @@ public class KeyPresses implements Serializable {
     }
     
     public KeyPresses(KeyPresses kp) {
-        keyPresses = kp.keyPresses.clone();
+    	setKeyPresses(kp.getKeypressesArray());
     }
 
     public boolean isPressed(int key) {
