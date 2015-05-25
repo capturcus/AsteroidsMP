@@ -123,13 +123,12 @@ public class Server extends Thread {
                 for (int i = 0; i < clientList.size(); ++i) {
                     try {
                         InetAddress address = clientList.get(i).address;
-                        //System.out.println("--------------------" + address + "------------------");
                         int port = clientList.get(i).port;
 
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(4096);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
-                        System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
+                        //System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());
 
                         byte[] buf = byteStream.toByteArray();
@@ -149,7 +148,6 @@ public class Server extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-                System.out.println("Sending packet from the server...");
                 /*dodane dla celow testowych */
             }
         }
@@ -178,7 +176,7 @@ public class Server extends Thread {
                     ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
                     data = (ClientSentData) is.readObject();
 
-                    System.out.println("Object received by the server: " + data);
+                    //System.out.println("Object received by the server: " + data);
                     //TODO change writeData to accomodate many clients
                     SharedMemoryServerReceived.getInstance().writeData(0, data);
 

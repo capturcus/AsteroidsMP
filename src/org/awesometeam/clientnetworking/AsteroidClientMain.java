@@ -29,7 +29,8 @@ public class AsteroidClientMain {
     private DatagramSocket socket;
     private Socket socketTCP;
     private String nickname;
-
+    private int id;
+    
     public AsteroidClientMain() {
         acs = null;
         serverIP = "";
@@ -53,24 +54,26 @@ public class AsteroidClientMain {
         this.nickname = nickname;
         try {
 
-        	/*socketTCP = new Socket(serverIP,serverPort);
+        	socketTCP = new Socket(serverIP,serverPort);
         	OutputStream os = socketTCP.getOutputStream();
         	ObjectOutputStream oos = new ObjectOutputStream(os);
-        	oos.writeObject(nickname);
+        	oos.writeObject("REQUEST: " + nickname);
         	
         	InputStream is = socketTCP.getInputStream();
         	ObjectInputStream ois = new ObjectInputStream(is);
         	while(true){
         		try {
 					String s = (String)ois.readObject();
-					if(s == "Accept"){
+					if(s.startsWith("ACCEPT")){
+						String[] subs = s.split(" ");
+						id = Integer.parseInt(subs[1]);
 						System.out.println("Server accepted our request");
 						break;
 					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-        	}*/
+        	}
             
             acs = new AsteroidClientSender(serverIP, serverPort, socket);
             acr = new AsteroidClientReceiver(socket);
@@ -85,11 +88,10 @@ public class AsteroidClientMain {
     }
 
     public void stopSending() {
-
     	try{
 			OutputStream os = socketTCP.getOutputStream();
 	    	ObjectOutputStream oos = new ObjectOutputStream(os);
-	    	oos.writeObject("Disconnect");
+	    	oos.writeObject("DISCONNECT: " + id);
 	    	acs.interruptThread();
 	    	acr.interruptThread();
     	} catch(IOException e){
