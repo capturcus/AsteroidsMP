@@ -5,12 +5,23 @@
  */
 package org.awesometeam.servernetworking;
 
+import math.geom2d.Point2D;
+
 /**
  *
  * @author michal
  */
 public class Projectile {
-    public double x;
-    public double y;
+    public Point2D pos; 
     public double angle;
+    
+    public Projectile() {
+        pos = new Point2D(0, 0);
+        angle = 0;
+    }
+    
+    public Projectile(org.awesometeam.gamelogic.Projectile pr) {
+        pos = pr.getPosition();
+        angle = pr.getAngle();
+    }
 }

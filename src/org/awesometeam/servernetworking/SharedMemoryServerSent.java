@@ -5,6 +5,8 @@
  */
 package org.awesometeam.servernetworking;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author michal
@@ -26,10 +28,12 @@ public class SharedMemoryServerSent {
     }
     
     public synchronized ServerSentData getData() {
-        return DATA; //TODO check what exactly game logic needs
+        return new ServerSentData(DATA);
     }
     
-    public synchronized void writeData(ServerSentData d) {
-        DATA = d; //should work, d is not changed by the server and thus I can just assign reference
+    public synchronized void writeData(ArrayList<org.awesometeam.gamelogic.Spaceship> sp,
+            ArrayList<org.awesometeam.gamelogic.Projectile> pr,
+            ArrayList<org.awesometeam.gamelogic.Asteroid> as) {
+        DATA = new ServerSentData(sp, pr, as);
     }
 }

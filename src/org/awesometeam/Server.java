@@ -115,7 +115,6 @@ public class Server extends Thread {
                         
                         os.flush();
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());
-                        os.flush();
                         
                         byte[] buf = byteStream.toByteArray();
                         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);

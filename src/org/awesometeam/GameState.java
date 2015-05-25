@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.awesometeam.clientnetworking.AsteroidClientMain;
 import org.awesometeam.gamelogic.Asteroid;
 import org.awesometeam.gamelogic.BoardActor;
+import org.awesometeam.gamelogic.KeyPresses;
 import org.awesometeam.gamelogic.Projectile;
 import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.ui.AsteroidRenderer;
@@ -66,15 +67,9 @@ public class GameState extends BasicGameState {
         keyPresses[2] = gc.getInput().isKeyDown(Input.KEY_UP);
         keyPresses[3] = gc.getInput().isKeyDown(Input.KEY_DOWN);
         keyPresses[4] = gc.getInput().isKeyDown(Input.KEY_SPACE);
-    }
-
-    /**
-     * Returns key presses.
-     *
-     * @return 5 element boolean table; 0-left, 1-right, 2-up, 3-down, 4-space
-     */
-    public static synchronized boolean[] getKeyPresses() {
-        return keyPresses;
+        KeyPresses kp = new KeyPresses();
+        kp.setKeyPresses(keyPresses);
+        SharedMemoryClientSent.getInstance().writeData(kp);
     }
 
     @Override
