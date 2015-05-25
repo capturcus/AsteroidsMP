@@ -5,6 +5,7 @@
  */
 package org.awesometeam;
 
+import org.awesometeam.clientnetworking.ClientSentData;
 import org.awesometeam.gamelogic.KeyPresses;
 
 

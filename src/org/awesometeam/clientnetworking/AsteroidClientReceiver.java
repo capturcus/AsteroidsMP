@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import org.awesometeam.SharedMemoryClientReceived;
 import org.awesometeam.servernetworking.*;
 
 
@@ -29,8 +30,9 @@ public class AsteroidClientReceiver implements Runnable{
 				dataBuffer = incomingPacket.getData();
 				ByteArrayInputStream bais = new ByteArrayInputStream(dataBuffer);
 				ObjectInputStream ois = new ObjectInputStream(bais);				
-				ServerSentData packetTest = (ServerSentData) ois.readObject();
-				System.out.println("Client received ServerSentData object: \n" + packetTest);
+				ServerSentData serverPacket = (ServerSentData) ois.readObject();
+				System.out.println("Client received ServerSentData object: \n" + serverPacket);
+				SharedMemoryClientReceived.getInstance().writeData(serverPacket);
 				
 				//zapisywanie otrzymanego obiektu do shared memory
 			}catch(ClassNotFoundException e){
