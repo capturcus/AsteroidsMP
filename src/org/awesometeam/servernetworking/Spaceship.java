@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.awesometeam;
-
-import java.net.InetAddress;
+package org.awesometeam.servernetworking;
 
 /**
  *
  * @author michal
  */
-class ClientData {
-    public InetAddress address;
-    public int port;
-    public int ID;
+public class Spaceship {
+    public double x;
+    public double y;
+    public double angle;
+    public String name;
 }
