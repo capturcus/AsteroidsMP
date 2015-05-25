@@ -49,13 +49,13 @@ public class GameState extends BasicGameState {
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        for (Asteroid a : GameLogic.getAsteroids()) {
+        for (Asteroid a : AsteroidClientMain.getInstance().getAsteroids()) {
             AsteroidRenderer.render(gc, sbg, grphcs, a);
         }
-        for (Spaceship s : GameLogic.getSpaceships()) {
+        for (Spaceship s : AsteroidClientMain.getInstance().getSpaceships()) {
             SpaceshipRenderer.render(gc, sbg, grphcs, s);
         }
-        for (Projectile s : GameLogic.getProjectiles()) {
+        for (Projectile s : AsteroidClientMain.getInstance().getProjectiles()) {
             ProjectileRenderer.render(gc, sbg, grphcs, s);
         }
     }

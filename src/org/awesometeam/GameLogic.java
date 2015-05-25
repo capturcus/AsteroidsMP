@@ -31,16 +31,4 @@ public class GameLogic extends Thread {
         time.schedule(gu, 0, 50); // Create Repetitively task for every 0.5 secs
 
     }
-
-    public static ArrayList<Spaceship> getSpaceships() {
-        return new ArrayList<Spaceship>(game.getActorLists().getSpaceshipList());
-    }
-
-    public static ArrayList<Asteroid> getAsteroids() {
-        return new ArrayList<Asteroid>(game.getActorLists().getAsteroidList());
-    }
-
-    public static ArrayList<Projectile> getProjectiles() {
-        return new ArrayList<Projectile>(game.getActorLists().getProjectileList());
-    }
 }
