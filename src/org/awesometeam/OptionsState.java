@@ -27,7 +27,10 @@ public class OptionsState extends BasicGameState {
     Image background = null;
     ArrayList<AbstractComponent> components;
     public static int serverPort = 13100;
-
+    public static int boardX = 1124;
+    public static int boardY = 868;
+    public static int asteroidDensity = 10;
+    
     @Override
     public int getID() {
         return AsteroidsMP.OPTIONSSTATE;
@@ -37,14 +40,29 @@ public class OptionsState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         components = new ArrayList<>();
         background = new Image("res/img/gears.jpg");
-        TextField textField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
-                260, 100, 100, 40);
-        textField.setText(String.valueOf(serverPort));
-        components.add(textField);
+        TextField hostServerPort = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
+                260, 100, 120, 40);
+        hostServerPort.setText(String.valueOf(serverPort));
+        components.add(hostServerPort);
         components.add(new Label(gc, 100, 110, "host server port: "));
+        TextField boardX = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
+                260, 200, 60, 40);
+        boardX.setText(String.valueOf(OptionsState.boardX));
+        components.add(boardX);
+        TextField boardY = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
+                320, 200, 60, 40);
+        boardY.setText(String.valueOf(OptionsState.boardY));
+        components.add(boardY);
+        components.add(new Label(gc, 100, 210, "board size: "));
+        TextField asteroidDensity = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
+                gc.getWidth() - 300, 100, 60, 40);
+        asteroidDensity.setText(String.valueOf(OptionsState.asteroidDensity));
+        components.add(asteroidDensity);
+        components.add(new Label(gc, gc.getWidth() - 500, 110, "asteroid density: "));
+
         Button b = new Button(gc, "res/img/back.png", gc.getWidth() - 150, gc.getWidth() - 400, 100, 100, AsteroidsMP.OPTIONSSTATE,
                 () -> {
-                    serverPort = Integer.valueOf(textField.getText());
+                    serverPort = Integer.valueOf(hostServerPort.getText());
                     sbg.enterState(AsteroidsMP.MENUSTATE);
                 }
         );

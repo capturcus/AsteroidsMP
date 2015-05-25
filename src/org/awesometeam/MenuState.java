@@ -63,6 +63,7 @@ public class MenuState extends BasicGameState {
                     System.out.println("host!");
                     try {
                         (new Server(OptionsState.serverPort)).start();
+                        (new GameLogic()).start();
                     } catch (IOException ex) {
                         Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
                     }
