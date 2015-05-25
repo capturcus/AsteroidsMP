@@ -8,6 +8,8 @@ public class ActorLists {
     private ArrayList<Asteroid> asteroidList;
     private ArrayList<Spaceship> spaceshipList;
     private ArrayList<Projectile> projectileList;
+    private Physics physics;
+    private Board board;
     
     public ActorLists() {
         actorList = new ArrayList<BoardActor>();
@@ -16,6 +18,22 @@ public class ActorLists {
         projectileList = new ArrayList<Projectile>();
     }
 
+    public void setPhysics(Physics physics) {
+        this.physics = physics;
+    }
+    
+    public Physics getPhyscics() {
+        return physics;
+    }
+    
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+    
+    public Board getBoard() {
+        return board;
+    }
+    
     public ArrayList<BoardActor> getActorList() {
         return actorList;
     }

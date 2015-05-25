@@ -3,6 +3,8 @@ package org.awesometeam.gamelogic;
 import math.geom2d.Point2D;
 import math.geom2d.Vector2D;
 import java.util.ArrayList;
+import java.util.TreeMap;
+//import org.awesometeam.SharedMemoryServerReceived;
 
 public class ActorManager {
 
@@ -10,16 +12,17 @@ public class ActorManager {
     private ArrayList<BoardActor> actorList;
     private ArrayList<Player> playerList;
     private CollisionDetector collisionDetector;
-    private Board board;
-    private Physics physics;
 
     public ActorManager(int playerCount) {
 
         collisionDetector = new CollisionDetector();
-        board = new Board();
-        physics = new Physics();
+        Board board = new Board();
+        Physics physics = new Physics();
 
         actorLists = new ActorLists();
+        actorLists.setBoard(board);
+        actorLists.setPhysics(physics);
+        
         actorList = new ArrayList<BoardActor>();
         playerList = new ArrayList<Player>();
 
@@ -30,7 +33,7 @@ public class ActorManager {
             actorLists.addSpaceship(spaceship);
         }
 
-        int asteroidCount = 4;// 2 * playerCount;
+        int asteroidCount = 1;// 2 * playerCount;
 
         createObstacles(asteroidCount);
         Point2D[] positions = board.randomPositions(actorLists.getActorList().size());
@@ -54,14 +57,17 @@ public class ActorManager {
         return obstacleList;
     }
 
-    public void update(ArrayList<KeyPresses> playersKeyPresses, int timeInterval)
+    public void update(TreeMap<Integer, KeyPresses> playersKeyPresses, double timeInterval)
             throws IncorrectListLengthAsteroidsMPGLException {
 
         if (false) { //TODO playersKeyPresses.size() != playerList.size()
             throw new IncorrectListLengthAsteroidsMPGLException();
         }
         for (int i = 0; i < playerList.size(); i++) {
-            playerList.get(i).setKeyPresses(playersKeyPresses.get(i));
+            System.out.println("GameLogic                         Debug" + playersKeyPresses.get(i));
+            if (playersKeyPresses.get(i) != null)
+                playerList.get(i).setKeyPresses(playersKeyPresses.get(/*i*/0));
+            System.out.println(i+" "+playerList.get(i).getKeyPresses());
         }
 
         moveActors(timeInterval);
@@ -76,7 +82,7 @@ public class ActorManager {
             }
         }
     }
-    
+
     private void detectCollisions() {
         ArrayList<ActorPair> collisionList = collisionDetector
                 .getCollisions(actorLists.getActorList());
@@ -95,9 +101,9 @@ public class ActorManager {
         }
     }
 
-    private void moveActors(int timeInterval) {
+    private void moveActors(double timeInterval) {
         for (BoardActor actor : actorLists.getActorList()) {
-            actor.move(physics, board, timeInterval);
+            actor.move(timeInterval);
         }
     }
 

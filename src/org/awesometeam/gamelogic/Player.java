@@ -12,7 +12,7 @@ public class Player {
     private State state;
 
     public Player(int index) {
-        id = index;
+        id = -1;
         state = State.ALIVE;
         keyPresses = new KeyPresses();
     }
@@ -37,4 +37,7 @@ public class Player {
         state = State.LEAVING;
     }
 
+    public int getId() {
+        return id;
+    }
 }
