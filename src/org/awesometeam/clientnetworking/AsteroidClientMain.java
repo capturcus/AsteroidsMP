@@ -52,7 +52,7 @@ public class AsteroidClientMain {
     public void startSending(String nickname) {
     	this.nickname = nickname;
         try {
-        	socketTCP = new Socket(serverIP,serverPort);
+        	/*socketTCP = new Socket(serverIP,serverPort);
         	OutputStream os = socketTCP.getOutputStream();
         	ObjectOutputStream oos = new ObjectOutputStream(os);
         	oos.writeObject(nickname);
@@ -69,7 +69,7 @@ public class AsteroidClientMain {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-        	}
+        	}*/
             
             acs = new AsteroidClientSender(serverIP, serverPort, socket);
             acr = new AsteroidClientReceiver(socket);
@@ -88,6 +88,8 @@ public class AsteroidClientMain {
 			OutputStream os = socketTCP.getOutputStream();
 	    	ObjectOutputStream oos = new ObjectOutputStream(os);
 	    	oos.writeObject("Disconnect");
+	    	acs.interruptThread();
+	    	acr.interruptThread();
     	} catch(IOException e){
 	    	System.out.println("IOException. Cannot instantiate outputsream for the socket");
 	    }

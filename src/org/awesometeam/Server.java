@@ -152,6 +152,7 @@ public class Server extends Thread {
                     ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
                     data = (ClientSentData) is.readObject();
 
+                    System.out.println("Object received by the server: " + data);
                     //TODO change writeData to accomodate many clients
                     SharedMemoryServerReceived.getInstance().writeData(0, data);
 

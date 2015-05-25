@@ -15,6 +15,10 @@ public class AsteroidClientReceiver implements Runnable {
     private Thread thread;
     private DatagramSocket socket;
 
+    public void interruptThread(){
+    	thread.interrupt();
+    }
+    
     public AsteroidClientReceiver(DatagramSocket socket) {
         this.socket = socket;
     }
@@ -22,7 +26,7 @@ public class AsteroidClientReceiver implements Runnable {
     @Override
     public void run() {
         byte[] dataBuffer = new byte[1024];
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 DatagramPacket incomingPacket = new DatagramPacket(dataBuffer, dataBuffer.length);
                 socket.receive(incomingPacket);

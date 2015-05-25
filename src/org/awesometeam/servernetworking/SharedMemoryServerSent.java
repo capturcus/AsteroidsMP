@@ -37,4 +37,5 @@ public class SharedMemoryServerSent {
             ArrayList<org.awesometeam.gamelogic.Asteroid> as) {
         DATA = new ServerSentData(sp, pr, as);
     }
+
 }
