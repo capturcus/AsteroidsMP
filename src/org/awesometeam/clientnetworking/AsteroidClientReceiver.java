@@ -34,10 +34,10 @@ public class AsteroidClientReceiver implements Runnable {
                 ByteArrayInputStream bais = new ByteArrayInputStream(dataBuffer);
                 ObjectInputStream ois = new ObjectInputStream(bais);
                 ServerSentData serverPacket = (ServerSentData) ois.readObject();
-                System.out.println("Client received ServerSentData object: \n" + serverPacket);
+                //System.out.println("Client received ServerSentData object: \n" + serverPacket);
                 SharedMemoryClientReceived.getInstance().writeData(serverPacket);
                 
-                System.out.println(SharedMemoryClientReceived.getInstance().getData().spaceships.get(0));
+                //System.out.println(SharedMemoryClientReceived.getInstance().getData().spaceships.get(0));
                 
             } catch (ClassNotFoundException e) {
                 System.out.println("Wrong class name of sent object");
