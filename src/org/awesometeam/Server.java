@@ -6,7 +6,6 @@
 package org.awesometeam;
 
 import org.awesometeam.servernetworking.SharedMemoryServerReceived;
-import org.awesometeam.servernetworking.ClientSentData;
 import org.awesometeam.servernetworking.ClientData;
 import org.awesometeam.servernetworking.SharedMemoryServerSent;
 import java.io.BufferedInputStream;

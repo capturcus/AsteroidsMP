@@ -34,6 +34,6 @@ public class SharedMemoryServerReceived {
     
     //writes data valid for a SINGLE CLIENT
     public synchronized void writeData(int ID, ClientSentData d) {
-        DATA.map.put(ID, new KeyPresses(d.keyPresses));
+        DATA.map.put(ID, new KeyPresses(d.getKeyPressesObject()));
     }
 }
