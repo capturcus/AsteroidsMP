@@ -19,6 +19,7 @@ public class Button implements IInitUpdateRender, MouseListener {
     String path;
     float x, y, width, height;
     Void2VoidFunction f;
+    StateBasedGame sbg;
 
     public Button(String path, float x, float y, float width, float height, Void2VoidFunction f) {
         this.path = path;
@@ -33,6 +34,7 @@ public class Button implements IInitUpdateRender, MouseListener {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         img = new Image(path);
         gc.getInput().addMouseListener(this);
+        this.sbg = sbg;
     }
 
     @Override
@@ -54,7 +56,8 @@ public class Button implements IInitUpdateRender, MouseListener {
         if (x > this.x - width / 2
                 && y > this.y - height / 2
                 && x < this.x + width / 2
-                && y < this.y + height / 2) {
+                && y < this.y + height / 2
+                && sbg.getCurrentStateID() == org.awesometeam.AsteroidsMP.MENUSTATE) {
             f.work();
         }
     }

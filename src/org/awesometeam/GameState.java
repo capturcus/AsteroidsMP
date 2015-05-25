@@ -1,6 +1,8 @@
 package org.awesometeam;
 
 import java.util.ArrayList;
+
+import org.awesometeam.clientnetworking.AsteroidClientMain;
 import org.awesometeam.gamelogic.Asteroid;
 import org.awesometeam.gamelogic.BoardActor;
 import org.awesometeam.gamelogic.Projectile;
@@ -8,13 +10,10 @@ import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.ui.AsteroidRenderer;
 import org.awesometeam.ui.SpaceshipRenderer;
 import org.awesometeam.ui.ProjectileRenderer;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
