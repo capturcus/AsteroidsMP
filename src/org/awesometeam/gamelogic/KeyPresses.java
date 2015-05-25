@@ -17,6 +17,7 @@ public class KeyPresses implements Serializable {
     }
     
     public KeyPresses(KeyPresses kp) {
+        keyPresses = new boolean[NUMBER_OF_KEYS];
     	setKeyPresses(kp.getKeypressesArray());
     }
 
