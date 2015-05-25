@@ -15,6 +15,7 @@ public class SharedMemoryClientReceived {
     private ServerSentData DATA;
     
     private SharedMemoryClientReceived() {
+        DATA = new ServerSentData();
     }
     
     public static SharedMemoryClientReceived getInstance() {
