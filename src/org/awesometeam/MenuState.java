@@ -27,6 +27,13 @@ public class MenuState extends BasicGameState {
         return AsteroidsMP.MENUSTATE;
     }
 
+    private void beginConnection(GameContainer gc, StateBasedGame sbg) {
+        sbg.enterState(AsteroidsMP.LOADINGSTATE);
+        AsteroidClientMain.getInstance().setServerIPToConnect(textField.getText());
+        AsteroidClientMain.getInstance().startSending();
+        sbg.enterState(AsteroidsMP.GAMESTATE);
+    }
+
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
@@ -37,25 +44,7 @@ public class MenuState extends BasicGameState {
         //uwielbiam ten kod <3
         joinButton = new Button("res/img/join.jpg", 200, step * 2, 200, step * 2,
                 (() -> {
-                    sbg.enterState(AsteroidsMP.LOADINGSTATE);
-                    (new Thread() {
-                        @Override
-                        public void run() {
-                            (new GameLogic()).start();
-                            for (int i = 0; i < 1; i++) {
-                                LoadingState.message("loading... " + (i + 1));
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            }
-                            sbg.enterState(AsteroidsMP.GAMESTATE);
-                        }
-                    }).start();
-                    //this Thread is just a test, actually here will be a simple call to the networking class
-                    //to start connecting
-                    System.out.println("join!");
+                    beginConnection(gc, sbg);
                 })
         );
         joinButton.init(gc, sbg);
@@ -64,8 +53,6 @@ public class MenuState extends BasicGameState {
                 (() -> {
                     System.out.println("host!");
                     //TODO change to networking
-                    GameLogic gl = new GameLogic();
-                    gl.start();
                 })
         );
         hostButton.init(gc, sbg);
@@ -87,13 +74,7 @@ public class MenuState extends BasicGameState {
         textField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
                 333, (int) (step * 1.5), 400, 40,
                 ((x) -> {
-                    (new GameLogic()).start();
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    sbg.enterState(AsteroidsMP.GAMESTATE);
+                    beginConnection(gc, sbg);
                 })
         );
     }
