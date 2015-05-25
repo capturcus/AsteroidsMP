@@ -7,6 +7,7 @@ package org.awesometeam.ui;
 
 import org.awesometeam.gamelogic.Asteroid;
 import org.awesometeam.gamelogic.BoardActor;
+import org.awesometeam.servernetworking.ThinActor;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -19,10 +20,10 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public abstract class Renderer {
 
-    public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, BoardActor a, float scale, Image img) throws SlickException {
+    public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, ThinActor a, float scale, float angle, Image img) throws SlickException {
         Image temp = img.getScaledCopy(scale);
-        temp.setRotation((float) Math.toDegrees(a.getAngle()));
-        temp.draw((float) a.getPosition().x() - (temp.getWidth() / 2.f), (float) a.getPosition().y() - (temp.getHeight() / 2.f));
+        temp.setRotation((float) Math.toDegrees(angle));
+        temp.draw((float) a.pos.x() - (temp.getWidth() / 2.f), (float) a.pos.y() - (temp.getHeight() / 2.f));
         //temp.draw((float) a.getPosition().x(), (float) a.getPosition().y());
     }
 }

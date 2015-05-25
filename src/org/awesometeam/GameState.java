@@ -1,13 +1,10 @@
 package org.awesometeam;
 
-import java.util.ArrayList;
-
-import org.awesometeam.clientnetworking.AsteroidClientMain;
-import org.awesometeam.gamelogic.Asteroid;
-import org.awesometeam.gamelogic.BoardActor;
 import org.awesometeam.gamelogic.KeyPresses;
-import org.awesometeam.gamelogic.Projectile;
-import org.awesometeam.gamelogic.Spaceship;
+import org.awesometeam.servernetworking.Asteroid;
+import org.awesometeam.servernetworking.Projectile;
+import org.awesometeam.servernetworking.ServerSentData;
+import org.awesometeam.servernetworking.Spaceship;
 import org.awesometeam.ui.AsteroidRenderer;
 import org.awesometeam.ui.SpaceshipRenderer;
 import org.awesometeam.ui.ProjectileRenderer;
@@ -25,7 +22,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameState extends BasicGameState {
 
     private final static boolean[] keyPresses = new boolean[5];
-    ArrayList<BoardActor> arr = new ArrayList<>();
 
     public GameState() throws SlickException {
 
@@ -45,13 +41,14 @@ public class GameState extends BasicGameState {
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
-        for (Asteroid a : AsteroidClientMain.getInstance().getAsteroids()) {
+        ServerSentData ssd = SharedMemoryClientReceived.getInstance().getData();
+        for (Asteroid a : ssd.asteroids) {
             AsteroidRenderer.render(gc, sbg, grphcs, a);
         }
-        for (Spaceship s : AsteroidClientMain.getInstance().getSpaceships()) {
+        for (Spaceship s : ssd.spaceships) {
             SpaceshipRenderer.render(gc, sbg, grphcs, s);
         }
-        for (Projectile s : AsteroidClientMain.getInstance().getProjectiles()) {
+        for (Projectile s : ssd.projectiles) {
             ProjectileRenderer.render(gc, sbg, grphcs, s);
         }
     }

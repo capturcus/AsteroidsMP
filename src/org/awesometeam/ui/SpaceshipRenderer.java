@@ -6,7 +6,7 @@
 package org.awesometeam.ui;
 
 import math.geom2d.Point2D;
-import org.awesometeam.gamelogic.Spaceship;
+import org.awesometeam.servernetworking.Spaceship;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -22,12 +22,12 @@ public class SpaceshipRenderer extends Renderer {
     private final static double SCALE = .6d;
 
     public static Image img;
-    
+
     public static void init(GameContainer gc, StateBasedGame sbg, String path) throws SlickException {
         img = new Image(path);
     }
-    
+
     public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, Spaceship s) throws SlickException {
-        render(gc, sbg, grphcs, s, (float)SCALE, img);
+        render(gc, sbg, grphcs, s, (float) SCALE, (float) s.angle, img);
     }
 }

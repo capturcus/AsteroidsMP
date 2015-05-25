@@ -35,11 +35,11 @@ public class AsteroidClientMain {
         serverIP = "";
         serverPort = 13100;
         try {
-			socket = new DatagramSocket();
-		} catch (SocketException e) {
-			System.out.println("Socket creation error!");
-			e.printStackTrace();
-		}
+            socket = new DatagramSocket();
+        } catch (SocketException e) {
+            System.out.println("Socket creation error!");
+            e.printStackTrace();
+        }
     }
 
     public static AsteroidClientMain getInstance() {
@@ -50,8 +50,9 @@ public class AsteroidClientMain {
     }
 
     public void startSending(String nickname) {
-    	this.nickname = nickname;
+        this.nickname = nickname;
         try {
+
         	/*socketTCP = new Socket(serverIP,serverPort);
         	OutputStream os = socketTCP.getOutputStream();
         	ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -75,15 +76,16 @@ public class AsteroidClientMain {
             acr = new AsteroidClientReceiver(socket);
             acs.startThread();
             acr.startThread();
-            
+
         } catch (UnknownHostException e) {
             LoadingState.message("Wrong server address");
-        } catch (IOException e){
-        	LoadingState.message("Cannot instantiate socket object. Please make sure you entered ip correctly");
+        } catch (IOException e) {
+            LoadingState.message("Cannot instantiate socket object. Please make sure you entered ip correctly");
         }
     }
 
     public void stopSending() {
+
     	try{
 			OutputStream os = socketTCP.getOutputStream();
 	    	ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -93,7 +95,6 @@ public class AsteroidClientMain {
     	} catch(IOException e){
 	    	System.out.println("IOException. Cannot instantiate outputsream for the socket");
 	    }
-
     }
 
     //choose IP server to which you want to connect

@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import math.geom2d.Point2D;
+
 import org.awesometeam.clientnetworking.ClientSentData;
+import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.servernetworking.ClientData;
 import org.awesometeam.servernetworking.SharedMemoryServerReceived;
 import org.awesometeam.servernetworking.SharedMemoryServerSent;
@@ -108,6 +111,7 @@ public class Server extends Thread {
                 for (int i = 0; i < clientList.size(); ++i) {
                     try {
                         InetAddress address = clientList.get(i).address;
+                        //System.out.println("--------------------" + address + "------------------");
                         int port = clientList.get(i).port;
 
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(4096);
@@ -120,11 +124,21 @@ public class Server extends Thread {
                         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 
                         dSocket.send(packet);
+                        
                         os.close();
                     } catch (IOException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                /*dodane dla celow testowych */
+                try {
+					Thread.sleep(33);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                System.out.println("Sending packet from the server...");
+                /*dodane dla celow testowych */
             }
         }
     }
@@ -174,7 +188,20 @@ public class Server extends Thread {
             InetAddress self = InetAddress.getLocalHost();
        
         //InetAddress hardcoded = InetAddress.getByName("")
-
+        
+        ArrayList<org.awesometeam.gamelogic.Spaceship> sp;
+        ArrayList<org.awesometeam.gamelogic.Asteroid> as;
+        ArrayList<org.awesometeam.gamelogic.Projectile> pr;
+        sp = new ArrayList<>();
+        as = new ArrayList<>();
+        pr = new ArrayList<>();
+        
+        org.awesometeam.gamelogic.Spaceship ship = new Spaceship();
+        
+        sp.add(ship);
+        
+        SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
+        
         clientsList.add(new ClientData(self, 9010, 0, "test"));
         } catch (UnknownHostException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

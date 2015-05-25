@@ -1,5 +1,6 @@
 package org.awesometeam.ui;
 
+import org.awesometeam.servernetworking.Projectile;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -19,9 +20,9 @@ public class ProjectileRenderer extends Renderer {
         img = new Image(path);
     }
 
-    public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, org.awesometeam.gamelogic.Projectile p) throws SlickException {
+    public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, Projectile p) throws SlickException {
         Image temp = img.getScaledCopy((float) SCALE);
-        temp.setRotation((float) Math.toDegrees(p.getAngle()) - 90);
-        temp.draw((float) p.getPosition().x() - (temp.getWidth() / 2.f), (float) p.getPosition().y() - (temp.getHeight() / 2.f));
+        temp.setRotation((float) Math.toDegrees(p.angle) - 90);
+        temp.draw((float) p.pos.x() - (temp.getWidth() / 2.f), (float) p.pos.y() - (temp.getHeight() / 2.f));
     }
 }
