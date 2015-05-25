@@ -12,7 +12,8 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import org.awesometeam.GameState;
-
+import org.awesometeam.SharedMemoryClientSent;
+import org.awesometeam.servernetworking.*; 
 public class AsteroidClientSender implements Runnable {
 
     private Thread thread;
@@ -30,15 +31,15 @@ public class AsteroidClientSender implements Runnable {
     
     public void run() {
         try {
-            boolean[] keyPresses = GameState.getKeyPresses();
+            
             int x = 0;
             while (true) {
                 x++;
-                ClientSentData packet = new ClientSentData(keyPresses);
-
+                ClientSentData keyPressesPacket = SharedMemoryClientSent.getInstance().getData();
+                
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(baos);
-                oos.writeObject(packet);
+                oos.writeObject(keyPressesPacket);
                 //oos.flush(); //what for?
                 byte[] byteKeyPresses = baos.toByteArray();
 
