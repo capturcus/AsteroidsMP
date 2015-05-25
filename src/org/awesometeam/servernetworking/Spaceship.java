@@ -5,14 +5,15 @@
  */
 package org.awesometeam.servernetworking;
 
+import java.io.Serializable;
+
 import math.geom2d.Point2D;
 
 /**
  *
  * @author michal
  */
-public class Spaceship {
-    public Point2D pos;
+public class Spaceship extends ThinActor implements Serializable {
     public double angle;
     public String name;
     public int ID;
