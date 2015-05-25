@@ -115,9 +115,9 @@ public class Server extends Thread {
                         int port = clientList.get(i).port;
 
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(4096);
-                        ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
+                        ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
-                        os.flush();
+                        System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());
 
                         byte[] buf = byteStream.toByteArray();
