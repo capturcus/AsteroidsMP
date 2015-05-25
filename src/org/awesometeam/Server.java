@@ -194,7 +194,7 @@ public class Server extends Thread {
         ServerUDPReceiveThread udpRThread;
         ServerUDPSendThread udpSThread;
 
-        /*try {
+        try {
             InetAddress self = InetAddress.getLocalHost();
        
         //InetAddress hardcoded = InetAddress.getByName("")
@@ -212,11 +212,9 @@ public class Server extends Thread {
         
         SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
         
-        clientsList.add(new ClientData(self, 9010, 0, "test"));
-        nextID += 1;
         } catch (UnknownHostException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         
         tcpThread = new ServerTCPThread(clientsList, serverSocket, nextID);
         udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
