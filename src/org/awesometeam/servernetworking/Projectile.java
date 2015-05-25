@@ -5,13 +5,13 @@
  */
 package org.awesometeam.servernetworking;
 
-import math.geom2d.Point2D;
+import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class Projectile extends ThinActor{ 
+public class Projectile extends ThinActor implements Serializable{ 
     public double angle;
     
     public Projectile() {
