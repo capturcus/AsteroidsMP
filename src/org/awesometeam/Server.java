@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 public class Server extends Thread {
     private final int portNumber = 13100;
     private String hostName;
-    private ArrayList<ClientData> ClientsList;
+    private ArrayList<ClientData> clientsList;
     
     protected ServerSocket serverSocket = null;
     protected DatagramSocket datagramSocket = null;
@@ -79,7 +79,7 @@ public class Server extends Thread {
         private final DatagramSocket dSocket;
         private final ArrayList<ClientData> clientList;
         
-        public ServerUDPSendThread(DatagramSocket ds, ArrayList<ClientData> cl)
+        public ServerUDPSendThread(ArrayList<ClientData> cl, DatagramSocket ds)
         {
             dSocket = ds;
             clientList = cl;
@@ -99,7 +99,7 @@ public class Server extends Thread {
                         ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
                         
                         os.flush();
-                        os.writeObject(SharedMemoryServer.getInstance().getData());
+                        os.writeObject(SharedMemoryServerSent.getInstance().getData());
                         os.flush();
                         
                         byte[] buf = byteStream.toByteArray();
@@ -119,7 +119,7 @@ public class Server extends Thread {
         private final DatagramSocket dSocket;
         private final ArrayList<ClientData> clientList;
 
-        public ServerUDPReceiveThread(DatagramSocket ds, ArrayList<ClientData> cl) {
+        public ServerUDPReceiveThread(ArrayList<ClientData> cl, DatagramSocket ds) {
             dSocket = ds;
             clientList = cl;
         }
@@ -129,16 +129,17 @@ public class Server extends Thread {
             while(true)
             {
                 try {
+                    ClientSentData data;
                     byte[] buf = new byte[256];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     dSocket.receive(packet);
                     
                     ByteArrayInputStream byteStream = new ByteArrayInputStream(buf);
                     ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
-                    ClientSentData data = (ClientSentData) is.readObject();
+                    data = (ClientSentData) is.readObject();
                     
                     //TODO change writeData to accomodate many clients
-                    SharedMemoryClient.getInstance().writeData(data);
+                    SharedMemoryServerReceived.getInstance().writeData(0, data);
                     
                     is.close();
                 } catch (IOException | ClassNotFoundException ex) {
@@ -150,5 +151,16 @@ public class Server extends Thread {
     
     @Override
     public void run() {
+        ServerTCPThread tcpThread;
+        ServerUDPReceiveThread udpRThread;
+        ServerUDPSendThread udpSThread;
+        
+        tcpThread = new ServerTCPThread(clientsList, serverSocket);
+        udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
+        udpSThread = new ServerUDPSendThread(clientsList, datagramSocket);
+        
+        tcpThread.start();
+        udpRThread.start();
+        udpSThread.start();
     }
 }

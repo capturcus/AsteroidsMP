@@ -6,20 +6,21 @@
 package org.awesometeam;
 
 import java.io.Serializable;
+import java.util.TreeMap;
 import org.awesometeam.gamelogic.KeyPresses;
 
 /**
  *
  * @author michal
  */
-public class ClientSentData implements Serializable {
-    KeyPresses keyPresses;
+public class ServerReceivedData implements Serializable {
+    public TreeMap<Integer, KeyPresses> map;
     
-    public ClientSentData() {
-        keyPresses = new KeyPresses();
+    public ServerReceivedData() {
+        map = new TreeMap<>();
     }
     
-    public ClientSentData(ClientSentData csd) {
-        keyPresses = new KeyPresses(csd.keyPresses);
+    public ServerReceivedData(ServerReceivedData srd) {
+        map = new TreeMap<>(srd.map);
     }
 }
