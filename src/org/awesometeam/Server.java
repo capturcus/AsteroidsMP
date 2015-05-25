@@ -47,6 +47,7 @@ public class Server extends Thread {
     protected DatagramSocket datagramSocket = null;
     
     public Server() throws IOException {
+        clientsList = new ArrayList<>();
         serverSocket = new ServerSocket(portNumber);
         datagramSocket = new DatagramSocket(portNumber);
         nextID = 0;
@@ -54,6 +55,7 @@ public class Server extends Thread {
     
     public Server(int pN) throws IOException
     {
+        clientsList = new ArrayList<>();
         serverSocket = new ServerSocket(pN);
         datagramSocket = new DatagramSocket(pN);
         nextID = 0;
