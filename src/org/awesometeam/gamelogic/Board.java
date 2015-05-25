@@ -7,7 +7,8 @@ public class Board {
 
 	private double width;
 	private double height;
-
+        public static int players = 0;
+        
 	public Board() {
 		width = 1024 + 100;
 		height = 768 + 100;

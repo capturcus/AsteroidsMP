@@ -10,7 +10,7 @@ public class ActorManager {
 
     private ActorLists actorLists;
     private ArrayList<BoardActor> actorList;
-    private ArrayList<Player> playerList;
+    private TreeMap<Integer, Player> playerMap;
     private CollisionDetector collisionDetector;
 
     public ActorManager(int playerCount) {
@@ -24,14 +24,14 @@ public class ActorManager {
         actorLists.setPhysics(physics);
         
         actorList = new ArrayList<BoardActor>();
-        playerList = new ArrayList<Player>();
+        playerMap = new TreeMap<Integer, Player>();
 
-        for (int index = 0; index < playerCount; index++) {
-            Player player = new Player(index);
-            playerList.add(player);
-            Spaceship spaceship = new Spaceship(player);
-            actorLists.addSpaceship(spaceship);
-        }
+//        for (int index = 0; index < playerCount; index++) {
+//            Player player = new Player(index);
+//            playerList.add(player);
+//            Spaceship spaceship = new Spaceship(player);
+//            actorLists.addSpaceship(spaceship);
+//        }
 
         int asteroidCount = 1;// 2 * playerCount;
 
@@ -63,11 +63,20 @@ public class ActorManager {
         if (false) { //TODO playersKeyPresses.size() != playerList.size()
             throw new IncorrectListLengthAsteroidsMPGLException();
         }
-        for (int i = 0; i < playerList.size(); i++) {
+        for (int i : playersKeyPresses.navigableKeySet()) {
             System.out.println("GameLogic                         Debug" + playersKeyPresses.get(i));
+            if (! playerMap.containsKey(i)) {
+                Player player = new Player(i);
+                playerMap.put(i, player);
+                Spaceship spaceship = new Spaceship(player);
+                actorLists.addSpaceship(spaceship);
+                spaceship.setPosition(new Point2D(300 + 70 * Board.players,300 + 70 * Board.players));
+                Board.players ++;
+            }
+                
             if (playersKeyPresses.get(i) != null)
-                playerList.get(i).setKeyPresses(playersKeyPresses.get(/*i*/0));
-            System.out.println(i+" "+playerList.get(i).getKeyPresses());
+                playerMap.get(i).setKeyPresses(playersKeyPresses.get(i));
+            //System.out.println(i+" "+playerList.get(i).getKeyPresses());
         }
 
         moveActors(timeInterval);
@@ -94,9 +103,9 @@ public class ActorManager {
                 actorLists.getActorList().get(i).die();
             }
         }
-        for (int i = playerList.size() - 1; i >= 0; i--) {
-            if (playerList.get(i).getState() == Player.State.DEAD) {
-                playerList.remove(i);
+        for (int i : playerMap.navigableKeySet()) {
+            if (playerMap.get(i).getState() == Player.State.DEAD) {
+                playerMap.remove(i);
             }
         }
     }
