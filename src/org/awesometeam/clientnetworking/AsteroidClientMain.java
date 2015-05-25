@@ -1,6 +1,14 @@
 package org.awesometeam.clientnetworking;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.DatagramSocket;
+import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -19,11 +27,13 @@ public class AsteroidClientMain {
     private String serverIP;
     private final int serverPort;
     private DatagramSocket socket;
+    private Socket socketTCP;
+    private String nickname;
 
     public AsteroidClientMain() {
         acs = null;
         serverIP = "";
-        serverPort = 9876;
+        serverPort = 13100;
         try {
 			socket = new DatagramSocket();
 		} catch (SocketException e) {
@@ -39,19 +49,48 @@ public class AsteroidClientMain {
         return instance;
     }
 
-    public void startSending() {
+    public void startSending(String nickname) {
+    	this.nickname = nickname;
         try {
+        	socketTCP = new Socket(serverIP,serverPort);
+        	OutputStream os = socketTCP.getOutputStream();
+        	ObjectOutputStream oos = new ObjectOutputStream(os);
+        	oos.writeObject(nickname);
+        	
+        	InputStream is = socketTCP.getInputStream();
+        	ObjectInputStream ois = new ObjectInputStream(is);
+        	while(true){
+        		try {
+					String s = (String)ois.readObject();
+					if(s == "Accept"){
+						System.out.println("Server accepted our request");
+						break;
+					}
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+        	}
+            
             acs = new AsteroidClientSender(serverIP, serverPort, socket);
             acr = new AsteroidClientReceiver(socket);
             acs.startThread();
             acr.startThread();
+            
         } catch (UnknownHostException e) {
             LoadingState.message("Wrong server address");
+        } catch (IOException e){
+        	LoadingState.message("Cannot instantiate socket object. Please make sure you entered ip correctly");
         }
-        //acr.startThread();
     }
 
     public void stopSending() {
+    	try{
+			OutputStream os = socketTCP.getOutputStream();
+	    	ObjectOutputStream oos = new ObjectOutputStream(os);
+	    	oos.writeObject("Disconnect");
+    	} catch(IOException e){
+	    	System.out.println("IOException. Cannot instantiate outputsream for the socket");
+	    }
 
     }
 

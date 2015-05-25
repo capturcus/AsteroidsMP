@@ -22,7 +22,7 @@ public class AsteroidClientReceiver implements Runnable{
 	
 	@Override
 	public void run() {
-		byte[] dataBuffer = new byte[1024];
+		byte[] dataBuffer = new byte[4096];
 		while(true){
 			try{
 				DatagramPacket incomingPacket = new DatagramPacket(dataBuffer, dataBuffer.length);
@@ -32,9 +32,10 @@ public class AsteroidClientReceiver implements Runnable{
 				ObjectInputStream ois = new ObjectInputStream(bais);				
 				ServerSentData serverPacket = (ServerSentData) ois.readObject();
 				System.out.println("Client received ServerSentData object: \n" + serverPacket);
+				//zapisywanie otrzymanego obiektu do shared memory(synchronizacja itp.)
 				SharedMemoryClientReceived.getInstance().writeData(serverPacket);
 				
-				//zapisywanie otrzymanego obiektu do shared memory
+				
 			}catch(ClassNotFoundException e){
 				System.out.println("Wrong class name of sent object");
 			}catch(IOException e){
