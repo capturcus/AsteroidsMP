@@ -11,17 +11,18 @@ import math.geom2d.Point2D;
  *
  * @author michal
  */
-public class Projectile {
-    public Point2D pos; 
+public class Projectile extends ThinActor{ 
     public double angle;
     
     public Projectile() {
-        pos = new Point2D(0, 0);
+        x = 0;
+        y = 0;
         angle = 0;
     }
     
     public Projectile(org.awesometeam.gamelogic.Projectile pr) {
-        pos = pr.getPosition();
+        x = pr.getPosition().getX();
+        y = pr.getPosition().getY();
         angle = pr.getAngle();
     }
 }

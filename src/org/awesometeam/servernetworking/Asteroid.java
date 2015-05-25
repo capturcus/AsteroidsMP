@@ -15,18 +15,15 @@ public class Asteroid extends ThinActor {
     public int size;
     
     public Asteroid() {
-        pos = new Point2D(0, 0);
+        x = 0;
+        y = 0;
         size = 0;
-    }
-    
-    public Asteroid(Point2D p, int s) {
-        pos = new Point2D(p);
-        size = s;
     }
     
     public Asteroid(org.awesometeam.gamelogic.Asteroid as)
     {
-        pos = as.getPosition();
+        x = as.getPosition().getX();
+        y = as.getPosition().getY();
         size = as.getSize();
     }
 }
