@@ -28,7 +28,7 @@ public class BoardActor {
         shape = new PointArray2D();
         healthPoints = 1;
         mass = 0;
-        velocity = new Vector2D(10, 0);
+        velocity = new Vector2D(100, 0);
         state = State.ALIVE;
         orientation = new Vector2D(1, 0);
         radius = 10;
@@ -59,21 +59,13 @@ public class BoardActor {
     //TODO
     public ArrayList<Projectile> attack(/*Projectile weapon*/) {
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-        Projectile projectile = new Projectile();
-        projectile.setPosition(position);
-        projectile.setOrientation(orientation);
-        projectile.setVelocity(orientation.normalize().times(30));
-        projectiles.add(projectile);
-        
-        actorLists.addProjectile(projectile);
-        
         return projectiles;
     }
 
     
-    public void move(Physics physics, Board board, int timeInterval) {
-        Vector2D vector = physics.getMove(mass, velocity, timeInterval);
-        position = board.getNewPosition(position, vector);
+    public void move(double timeInterval) {
+        Vector2D vector = actorLists.getPhyscics().getMove(mass, velocity, timeInterval);
+        position = actorLists.getBoard().getNewPosition(position, vector);
     }
 
     public void die() {
@@ -123,5 +115,16 @@ public class BoardActor {
     
     public void setActorList(ActorLists actorLists) {
         this.actorLists = actorLists;
+    }
+
+    public void injure(int damage) {
+        healthPoints -= damage;
+        if (healthPoints <= 0)
+            state = BoardActor.State.DYING;
+    }
+
+    public void bounce(BoardActor other) {
+        position = position.plus(new Vector2D(other.getPosition(), position).normalize().times(2));
+        velocity = actorLists.getPhyscics().bounce(position, velocity, other.getPosition());
     }
 }

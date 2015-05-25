@@ -1,22 +1,29 @@
 package org.awesometeam.gamelogic;
 
+import static java.lang.Math.PI;
 import java.util.Random;
 import math.geom2d.Point2D;
 import math.geom2d.Vector2D;
 
 public class Asteroid extends Obstacle {
 
-    public static final int minRadius = 10;
+    public static final int MIN_RADIUS = 10;
+    public static final int MAX_SIZE = 3;
     protected int size;
     public static final Random generator = new Random();
-    private int moveLength;
-    private int moveRandom;
+    private int id;
+    public static int nextId = 0;
+    public final static int START_HP = 1;
+    
+    public final static int DAMAGE = 40;
 
     public Asteroid(Point2D pos) {
+        healthPoints = START_HP;
+        id = nextId;
+        id ++;
         position = pos;
-        moveLength = 0;
-        size = generator.nextInt(4);
-        radius = minRadius * (size + 1);
+        size =  3;//generator.nextInt(MAX_SIZE + 1);
+        radius = MIN_RADIUS * (size + 1);
     }
     
     public Asteroid() {
@@ -28,22 +35,35 @@ public class Asteroid extends Obstacle {
         state = State.DEAD;
         actorLists.removeAsteroid(this);
         if (size > 0) {
-            Asteroid asteroid1 = new Asteroid(this.position);
-            asteroid1.setSize(size - 1);
-            Asteroid asteroid2 = new Asteroid(this.position);
-            asteroid2.setSize(size - 1);
-            actorLists.addAsteroid(asteroid1);
-            actorLists.addAsteroid(asteroid2);
+            actorLists.addAsteroid(createSplinter(1));
+            actorLists.addAsteroid(createSplinter(-1));
         }
+    }
+    
+    private Asteroid createSplinter(double s) {
+        Asteroid asteroid = new Asteroid(this.position);
+        asteroid.setSize(size - 1);
+        Vector2D vec = velocity.normalize().rotate(PI / 2 * s).times(asteroid.getRadius());
+        asteroid.setPosition(this.position.plus(vec));
+        asteroid.setVelocity(velocity.rotate(0.4 * s));
+        return asteroid;
     }
     
     @Override
     public void collision(BoardActor other) {
         other.asteroidCollision(this);
     }
-  
+    
+    public void spaceshipCollision(Spaceship spaceship) {
+        bounce(spaceship);
+    }
+    
+    public void asteroidCollision(Asteroid asteroid) {
+        bounce(asteroid);
+    }
+    
     public void projectileCollision(Projectile projectile) {
-        state = BoardActor.State.DYING;
+        injure(Projectile.DAMAGE);
     }
     
     public void setSize(int size) {
@@ -54,22 +74,13 @@ public class Asteroid extends Obstacle {
         return size;
     }
 
+    public int getId() {
+        return id;
+    }
+    
     @Override
-    public void move(Physics physics, Board board, int timeInterval) {
-        if (moveLength <= 0) {
-            moveLength = generator.nextInt(20)+5;
-            moveRandom = generator.nextInt(10);
-        }
-        moveLength--;
-        if (moveRandom == 0) {
-            orientation = orientation.rotate(0.1);
-            velocity = velocity.rotate(0.1);
-        }
-        if (moveRandom == 1) {
-            orientation = orientation.rotate(-0.1);
-            velocity = velocity.rotate(-0.1);
-        }
-        Vector2D vector = physics.getMove(mass, velocity, timeInterval);
-        position = board.getNewPosition(position, vector);
+    public void move(double timeInterval) {
+        Vector2D vector = actorLists.getPhyscics().getMove(mass, velocity, timeInterval);
+        position = actorLists.getBoard().getNewPosition(position, vector);
     }
 }
