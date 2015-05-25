@@ -1,6 +1,8 @@
 package org.awesometeam.gamelogic;
 
-public class KeyPresses {
+import java.io.Serializable;
+
+public class KeyPresses implements Serializable {
 
     static final int NUMBER_OF_KEYS = 5;
     static final int LEFT = 0;
@@ -12,6 +14,10 @@ public class KeyPresses {
 
     public KeyPresses() {
         keyPresses = new boolean[NUMBER_OF_KEYS];
+    }
+    
+    public KeyPresses(KeyPresses kp) {
+        keyPresses = kp.keyPresses.clone();
     }
 
     public boolean isPressed(int key) {

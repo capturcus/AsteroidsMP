@@ -15,5 +15,5 @@ public class ServerSentData implements Serializable {
     /* TO DO:
         create actual data type
     */
-    int DATA;
+    public int DATA;
 }

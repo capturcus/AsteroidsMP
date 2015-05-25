@@ -9,20 +9,20 @@ package org.awesometeam;
  *
  * @author michal
  */
-public class SharedMemoryServer {
+public class SharedMemoryServerSent {
     
     private ServerSentData DATA;
     
-    private SharedMemoryServer() {
+    private SharedMemoryServerSent() {
     }
     
-    public static SharedMemoryServer getInstance() {
+    public static SharedMemoryServerSent getInstance() {
         return SharedMemoryServerHolder.INSTANCE;
     }
     
     private static class SharedMemoryServerHolder {
 
-        private static final SharedMemoryServer INSTANCE = new SharedMemoryServer();
+        private static final SharedMemoryServerSent INSTANCE = new SharedMemoryServerSent();
     }
     
     public synchronized ServerSentData getData() {
