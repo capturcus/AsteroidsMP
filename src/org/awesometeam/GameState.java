@@ -1,6 +1,8 @@
 package org.awesometeam;
 
 import java.util.ArrayList;
+
+import org.awesometeam.clientnetworking.AsteroidClientMain;
 import org.awesometeam.gamelogic.Asteroid;
 import org.awesometeam.gamelogic.BoardActor;
 import org.awesometeam.gamelogic.Projectile;

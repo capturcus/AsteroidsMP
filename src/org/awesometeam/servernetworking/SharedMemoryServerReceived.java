@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.awesometeam;
+package org.awesometeam.servernetworking;
 
+import org.awesometeam.clientnetworking.ClientSentData;
 import org.awesometeam.gamelogic.KeyPresses;
 
 /**
