@@ -42,7 +42,8 @@ public class AsteroidClientSender implements Runnable {
             while (!Thread.currentThread().isInterrupted()) {
                 x++;
                 ClientSentData keyPressesPacket = SharedMemoryClientSent.getInstance().getData();
-                keyPressesPacket.setID(id);
+                //keyPressesPacket.setID(id);
+                keyPressesPacket.ID = id;
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(baos);
                 oos.writeObject(keyPressesPacket);
