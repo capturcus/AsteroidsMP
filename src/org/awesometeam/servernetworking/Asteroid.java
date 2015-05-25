@@ -11,8 +11,7 @@ import math.geom2d.Point2D;
  *
  * @author michal
  */
-public class Asteroid {
-    Point2D pos;
+public class Asteroid extends ThinActor {
     public int size;
     
     public Asteroid() {
