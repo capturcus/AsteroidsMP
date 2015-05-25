@@ -1,5 +1,6 @@
 package org.awesometeam;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.awesometeam.ui.Button;
@@ -27,9 +28,9 @@ public class MenuState extends BasicGameState {
         return AsteroidsMP.MENUSTATE;
     }
 
-    private void beginConnection(GameContainer gc, StateBasedGame sbg) {
+    private void beginConnection(GameContainer gc, StateBasedGame sbg, String address) {
         sbg.enterState(AsteroidsMP.LOADINGSTATE);
-        AsteroidClientMain.getInstance().setServerIPToConnect(textField.getText());
+        AsteroidClientMain.getInstance().setServerIPToConnect(address);
         AsteroidClientMain.getInstance().startSending();
         sbg.enterState(AsteroidsMP.GAMESTATE);
     }
@@ -44,7 +45,7 @@ public class MenuState extends BasicGameState {
         //uwielbiam ten kod <3
         joinButton = new Button("res/img/join.jpg", 200, step * 2, 200, step * 2,
                 (() -> {
-                    beginConnection(gc, sbg);
+                    beginConnection(gc, sbg, textField.getText());
                 })
         );
         joinButton.init(gc, sbg);
@@ -52,7 +53,12 @@ public class MenuState extends BasicGameState {
         hostButton = new Button("res/img/host.jpg", 200, step * 5, 200, step * 2,
                 (() -> {
                     System.out.println("host!");
-                    //TODO change to networking
+                    try {
+                        (new Server()).start();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    beginConnection(gc, sbg, "localhost");
                 })
         );
         hostButton.init(gc, sbg);
@@ -60,6 +66,7 @@ public class MenuState extends BasicGameState {
         optionsButton = new Button("res/img/options.jpg", 200, step * 8, 200, step * 2,
                 (() -> {
                     System.out.println("options!");
+                    sbg.enterState(AsteroidsMP.OPTIONSSTATE);
                 })
         );
         optionsButton.init(gc, sbg);
@@ -74,7 +81,7 @@ public class MenuState extends BasicGameState {
         textField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
                 333, (int) (step * 1.5), 400, 40,
                 ((x) -> {
-                    beginConnection(gc, sbg);
+                    beginConnection(gc, sbg, textField.getText());
                 })
         );
     }
