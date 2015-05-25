@@ -22,6 +22,6 @@ public class CollisionDetector {
     
     public boolean isCollision(BoardActor actor1, BoardActor actor2) {
         Vector2D vec = new Vector2D(actor1.getPosition(), actor2.getPosition());
-        return vec.norm() <= actor1.getRadius() + actor2.getRadius();
+        return vec.norm() < actor1.getRadius() + actor2.getRadius();
     }
 }

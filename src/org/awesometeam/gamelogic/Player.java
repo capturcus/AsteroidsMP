@@ -37,4 +37,7 @@ public class Player {
         state = State.LEAVING;
     }
 
+    public int getId() {
+        return id;
+    }
 }

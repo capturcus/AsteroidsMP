@@ -26,9 +26,10 @@ public class GameLogic extends Thread {
         //System.out.println(game.getActorList().toString());
 
         Timer time = new Timer(); // Instantiate Timer Object
-        GameUpdater gu = new GameUpdater(game, 50); // Instantiate
+        int timeInterval = 40;
+        GameUpdater gu = new GameUpdater(game, timeInterval); // Instantiate
         // SheduledTask class
-        time.schedule(gu, 0, 50); // Create Repetitively task for every 0.5 secs
+        time.schedule(gu, 0, timeInterval); // Create Repetitively task for every 0.5 secs
 
     }
 
