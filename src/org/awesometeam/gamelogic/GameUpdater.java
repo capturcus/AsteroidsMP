@@ -20,7 +20,7 @@ public class GameUpdater extends TimerTask {
 		//System.out.println("update");
         // TODO Auto-generated method stub
         KeyPresses keyPresses = new KeyPresses();
-        boolean[] Presses = GameState.getKeyPresses();
+        boolean[] Presses = new boolean[2];//GameState.getKeyPresses();
         keyPresses.setKeyPresses(Presses);
         
         ArrayList<KeyPresses> playersKeyPresses = new ArrayList<KeyPresses>();

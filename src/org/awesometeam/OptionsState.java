@@ -6,6 +6,8 @@
 package org.awesometeam;
 
 import java.util.ArrayList;
+import org.awesometeam.ui.Button;
+import org.awesometeam.ui.Label;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -24,7 +26,7 @@ public class OptionsState extends BasicGameState {
 
     Image background = null;
     ArrayList<AbstractComponent> components;
-    public static int serverPort = -1;
+    public static int serverPort = 13100;
 
     @Override
     public int getID() {
@@ -36,8 +38,18 @@ public class OptionsState extends BasicGameState {
         components = new ArrayList<>();
         background = new Image("res/img/gears.jpg");
         TextField textField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
-                200, 100, 100, 40);
+                260, 100, 100, 40);
+        textField.setText(String.valueOf(serverPort));
         components.add(textField);
+        components.add(new Label(gc, 100, 110, "host server port: "));
+        Button b = new Button(gc, "res/img/back.png", gc.getWidth() - 150, gc.getWidth() - 400, 100, 100, AsteroidsMP.OPTIONSSTATE,
+                () -> {
+                    serverPort = Integer.valueOf(textField.getText());
+                    sbg.enterState(AsteroidsMP.MENUSTATE);
+                }
+        );
+        b.init(gc, sbg);
+        components.add(b);
     }
 
     @Override
