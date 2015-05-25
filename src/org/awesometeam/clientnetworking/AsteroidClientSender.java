@@ -48,7 +48,7 @@ public class AsteroidClientSender implements Runnable {
 
                 DatagramPacket sendKeyPressesPacket = new DatagramPacket(byteKeyPresses, byteKeyPresses.length, serverIP, serverPort);
                 socket.send(sendKeyPressesPacket);
-                System.out.println("Object nr " + x + " sent from the client");
+                //System.out.println("Object nr " + x + " sent from the client");
                 oos.close();
                 baos.close();
                 Thread.sleep(waitTime);
