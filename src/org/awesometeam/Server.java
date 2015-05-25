@@ -6,7 +6,6 @@
 package org.awesometeam;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,7 +16,6 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,8 +23,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import math.geom2d.Point2D;
 
 import org.awesometeam.clientnetworking.ClientSentData;
 import org.awesometeam.gamelogic.Spaceship;
@@ -44,7 +40,7 @@ public class Server extends Thread {
     private String hostName;
     private ArrayList<ClientData> clientsList;
 
-    private int nextID;
+    private Integer nextID;
 
     protected ServerSocket serverSocket = null;
     protected DatagramSocket datagramSocket = null;
@@ -63,14 +59,17 @@ public class Server extends Thread {
         nextID = 0;
     }
 
-    private static class ServerTCPThread extends Thread {
+    private class ServerTCPThread extends Thread {
 
         private final ServerSocket sSocket;
         private final ArrayList<ClientData> clientList;
 
-        public ServerTCPThread(ArrayList<ClientData> cl, ServerSocket ss) {
+        private Integer nextID;
+        
+        public ServerTCPThread(ArrayList<ClientData> cl, ServerSocket ss, Integer ni) {
             sSocket = ss;
             clientList = cl;
+            nextID = ni;
         }
 
         @Override
@@ -84,18 +83,33 @@ public class Server extends Thread {
                     String input;
 
                     input = in.readLine();
+                    if(input.startsWith("REQUEST")) {
+                        String name = input.substring(9);
+                        int ID = nextID;
+                        nextID += 1;
+                        
+                        clientList.add(new ClientData(socket.getInetAddress(),
+                                socket.getPort(), ID, name));
+                        out.println("ACCEPT: " + ID);
+                    }
+                    if(input.startsWith("DISCONNECT")){
+                        int ID = Integer.parseInt(input.substring(12));
+                        for (int i = 0; i < clientList.size(); ++i) {
+                            if(clientList.get(i).ID == ID) clientList.remove(i);
+                        }
+                    }
 
-                    //if(input.)
+                    socket.close();
                     //TODO check needed commands
                 } catch (IOException ex) {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
+            
         }
     }
 
-    private static class ServerUDPSendThread extends Thread {
+    private class ServerUDPSendThread extends Thread {
 
         private final DatagramSocket dSocket;
         private final ArrayList<ClientData> clientList;
@@ -111,13 +125,12 @@ public class Server extends Thread {
                 for (int i = 0; i < clientList.size(); ++i) {
                     try {
                         InetAddress address = clientList.get(i).address;
-                        //System.out.println("--------------------" + address + "------------------");
                         int port = clientList.get(i).port;
 
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(4096);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
-                        System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
+                        //System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());
 
                         byte[] buf = byteStream.toByteArray();
@@ -137,7 +150,6 @@ public class Server extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-                System.out.println("Sending packet from the server...");
                 /*dodane dla celow testowych */
             }
         }
@@ -166,9 +178,8 @@ public class Server extends Thread {
                     ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
                     data = (ClientSentData) is.readObject();
 
-                    System.out.println("Object received by the server: " + data);
-                    //TODO change writeData to accomodate many clients
-                    SharedMemoryServerReceived.getInstance().writeData(0, data);
+                    //System.out.println("Object received by the server: " + data);
+                    SharedMemoryServerReceived.getInstance().writeData(data.ID, data);
 
                     is.close();
                 } catch (IOException | ClassNotFoundException ex) {
@@ -184,7 +195,7 @@ public class Server extends Thread {
         ServerUDPReceiveThread udpRThread;
         ServerUDPSendThread udpSThread;
 
-        try {
+        /*try {
             InetAddress self = InetAddress.getLocalHost();
        
         //InetAddress hardcoded = InetAddress.getByName("")
@@ -203,11 +214,12 @@ public class Server extends Thread {
         SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
         
         clientsList.add(new ClientData(self, 9010, 0, "test"));
+        nextID += 1;
         } catch (UnknownHostException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
-        tcpThread = new ServerTCPThread(clientsList, serverSocket);
+        tcpThread = new ServerTCPThread(clientsList, serverSocket, nextID);
         udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
         udpSThread = new ServerUDPSendThread(clientsList, datagramSocket);
 

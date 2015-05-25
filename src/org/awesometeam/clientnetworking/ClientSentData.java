@@ -5,7 +5,8 @@ import java.io.Serializable;
 import org.awesometeam.gamelogic.KeyPresses;
 
 public class ClientSentData implements Serializable {
-	private KeyPresses keypressesObject;
+        public KeyPresses keypressesObject;
+        public int ID;
 	
 	public ClientSentData(){
 		keypressesObject = new KeyPresses();
@@ -27,4 +28,7 @@ public class ClientSentData implements Serializable {
 		return keypressesObject.toString();
 	}
 	
+	public void setID(int id){
+		this.ID = id;
+	}
 }
