@@ -33,17 +33,12 @@ public class AsteroidClientMain {
     private Socket socketTCP;
     private String nickname;
     private int id;
+    private int clientPort;
     
     public AsteroidClientMain() {
         acs = null;
         serverIP = "";
         serverPort = 13100;
-        try {
-            socket = new DatagramSocket(9010);
-        } catch (SocketException e) {
-            System.out.println("Socket creation error!");
-            e.printStackTrace();
-        }
     }
 
     public static AsteroidClientMain getInstance() {
@@ -58,8 +53,10 @@ public class AsteroidClientMain {
         try {
 
         	socketTCP = new Socket(serverIP,serverPort);
+        	clientPort = socketTCP.getPort();
         	PrintWriter out = new PrintWriter(socketTCP.getOutputStream(), true);
-        	out.write("REQUEST: " + nickname);
+        	out.println("REQUEST: " + nickname);
+        	
         	
         	/*
         	OutputStream os = socketTCP.getOutputStream();
@@ -79,13 +76,15 @@ public class AsteroidClientMain {
 				if(s.startsWith("ACCEPT")){
 					String[] subs = s.split(" ");
 					id = Integer.parseInt(subs[1]);
-					System.out.println("Server accepted our request");
+					System.out.println("Server accepted our request, our id: " + id);
 					break;
 				}else {
 					System.out.println("Server has not accepted request or timed out");
 					break;
 				}
         	}
+        	
+            socket = new DatagramSocket(clientPort);
             
             acs = new AsteroidClientSender(serverIP, serverPort, socket);
             acr = new AsteroidClientReceiver(socket);
@@ -94,7 +93,10 @@ public class AsteroidClientMain {
 
         } catch (UnknownHostException e) {
             LoadingState.message("Wrong server address");
-        } catch (IOException e) {
+        }catch (SocketException e) {
+            System.out.println("Socket creation error!");
+            e.printStackTrace();
+		}catch (IOException e) {
             LoadingState.message("IO EXCEPTION");
         }
     }
