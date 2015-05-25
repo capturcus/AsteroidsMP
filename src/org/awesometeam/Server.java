@@ -59,7 +59,7 @@ public class Server extends Thread {
         nextID = 0;
     }
 
-    private static class ServerTCPThread extends Thread {
+    private class ServerTCPThread extends Thread {
 
         private final ServerSocket sSocket;
         private final ArrayList<ClientData> clientList;
@@ -89,6 +89,7 @@ public class Server extends Thread {
                         nextID += 1;
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
+                        out.println("ACCEPT: " + ID);
                     }
                     if(input.startsWith("DISCONNECT")){
                         int ID = Integer.parseInt(input.substring(12));
@@ -96,6 +97,8 @@ public class Server extends Thread {
                             if(clientList.get(i).ID == ID) clientList.remove(i);
                         }
                     }
+                    
+                    socket.close();
                     //TODO check needed commands
                 } catch (IOException ex) {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,7 +107,7 @@ public class Server extends Thread {
         }
     }
 
-    private static class ServerUDPSendThread extends Thread {
+    private class ServerUDPSendThread extends Thread {
 
         private final DatagramSocket dSocket;
         private final ArrayList<ClientData> clientList;
