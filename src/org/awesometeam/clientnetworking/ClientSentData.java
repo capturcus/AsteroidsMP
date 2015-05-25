@@ -10,14 +10,17 @@ public class ClientSentData implements Serializable {
 
     public ClientSentData(){
             keypressesObject = new KeyPresses();
+            ID = -1;
     }
 
     public ClientSentData(ClientSentData csd){
             keypressesObject = new KeyPresses(csd.keypressesObject);
+            ID = -1;
     }
 
     public ClientSentData(KeyPresses kp){
             keypressesObject = new KeyPresses(kp);
+            ID = -1;
     }
 
     public KeyPresses getKeyPressesObject(){
