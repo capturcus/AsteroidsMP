@@ -1,5 +1,6 @@
 package org.awesometeam.gamelogic;
 
+import math.geom2d.Point2D;
 import math.geom2d.Vector2D;
 
 public class Spaceship extends BoardActor {
@@ -7,6 +8,10 @@ public class Spaceship extends BoardActor {
     
     private Player player;
 
+    public Spaceship() {
+        super(new Point2D(200, 200));
+    }
+    
     public Spaceship(Player pl) {
         radius = 30;
         player = pl;
@@ -29,6 +34,7 @@ public class Spaceship extends BoardActor {
         other.spaceshipCollision(this);
     }
     
+    @Override
     public void asteroidCollision(Asteroid asteroid) {
         state = BoardActor.State.DYING;
     }

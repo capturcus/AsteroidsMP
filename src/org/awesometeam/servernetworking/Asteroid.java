@@ -12,7 +12,7 @@ import math.geom2d.Point2D;
  * @author michal
  */
 public class Asteroid {
-    Point2D pos;
+    public Point2D pos;
     public int size;
     
     public Asteroid() {
