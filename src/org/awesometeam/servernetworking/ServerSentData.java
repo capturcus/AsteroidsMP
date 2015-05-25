@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.awesometeam;
+package org.awesometeam.servernetworking;
 
 import java.io.Serializable;
 
@@ -16,4 +16,11 @@ public class ServerSentData implements Serializable {
         create actual data type
     */
     public int DATA;
+    
+    public ServerSentData() {
+    }
+    
+    public ServerSentData(ServerSentData srd) {
+        
+    }
 }

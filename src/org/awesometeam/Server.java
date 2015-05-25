@@ -5,6 +5,10 @@
  */
 package org.awesometeam;
 
+import org.awesometeam.servernetworking.SharedMemoryServerReceived;
+import org.awesometeam.servernetworking.ClientSentData;
+import org.awesometeam.servernetworking.ClientData;
+import org.awesometeam.servernetworking.SharedMemoryServerSent;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -24,6 +28,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.awesometeam.clientnetworking.ClientSentData;
+
 /**
  *
  * @author michal
@@ -33,12 +39,22 @@ public class Server extends Thread {
     private String hostName;
     private ArrayList<ClientData> clientsList;
     
+    private int nextID;
+    
     protected ServerSocket serverSocket = null;
     protected DatagramSocket datagramSocket = null;
     
     public Server() throws IOException {
         serverSocket = new ServerSocket(portNumber);
         datagramSocket = new DatagramSocket(portNumber);
+        nextID = 0;
+    }
+    
+    public Server(int pN) throws IOException
+    {
+        serverSocket = new ServerSocket(pN);
+        datagramSocket = new DatagramSocket(pN);
+        nextID = 0;
     }
     
     private static class ServerTCPThread extends Thread {

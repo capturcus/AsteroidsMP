@@ -3,6 +3,8 @@ package org.awesometeam;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.awesometeam.clientnetworking.AsteroidClientMain;
 import org.awesometeam.ui.Button;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
