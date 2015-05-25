@@ -36,8 +36,9 @@ public class AsteroidClientReceiver implements Runnable {
                 ServerSentData serverPacket = (ServerSentData) ois.readObject();
                 System.out.println("Client received ServerSentData object: \n" + serverPacket);
                 SharedMemoryClientReceived.getInstance().writeData(serverPacket);
-
-                //zapisywanie otrzymanego obiektu do shared memory
+                
+                System.out.println(SharedMemoryClientReceived.getInstance().getData().spaceships.get(0));
+                
             } catch (ClassNotFoundException e) {
                 System.out.println("Wrong class name of sent object");
             } catch (IOException e) {

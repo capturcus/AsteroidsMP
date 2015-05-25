@@ -23,7 +23,7 @@ public abstract class Renderer {
     public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, ThinActor a, float scale, float angle, Image img) throws SlickException {
         Image temp = img.getScaledCopy(scale);
         temp.setRotation((float) Math.toDegrees(angle));
-        temp.draw((float) a.pos.x() - (temp.getWidth() / 2.f), (float) a.pos.y() - (temp.getHeight() / 2.f));
+        temp.draw((float) a.x - (temp.getWidth() / 2.f), (float) a.y - (temp.getHeight() / 2.f));
         //temp.draw((float) a.getPosition().x(), (float) a.getPosition().y());
     }
 }

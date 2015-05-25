@@ -35,7 +35,7 @@ public class AsteroidClientMain {
         serverIP = "";
         serverPort = 13100;
         try {
-            socket = new DatagramSocket();
+            socket = new DatagramSocket(9010);
         } catch (SocketException e) {
             System.out.println("Socket creation error!");
             e.printStackTrace();

@@ -19,12 +19,6 @@ public class ClientSentData implements Serializable {
 		keypressesObject = new KeyPresses(kp);
 	}
 	
-	/*public ClientSentData(boolean[] keypressesArray){
-		
-		this.keypressesObject = new KeyPresses();
-		keypressesObject.setKeyPresses(keypressesArray);
-	}*/
-	
 	public KeyPresses getKeyPressesObject(){
 		return keypressesObject;
 	}
