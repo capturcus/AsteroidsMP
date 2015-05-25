@@ -5,13 +5,14 @@
  */
 package org.awesometeam.servernetworking;
 
+import java.io.Serializable;
 import math.geom2d.Point2D;
 
 /**
  *
  * @author michal
  */
-public class Asteroid extends ThinActor {
+public class Asteroid extends ThinActor implements Serializable {
     public int size;
     
     public Asteroid() {
