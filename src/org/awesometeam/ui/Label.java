@@ -18,9 +18,16 @@ public class Label extends AbstractComponent {
 
     int x, y;
     public String text;
-    
+
     public Label(GUIContext container) {
         super(container);
+    }
+
+    public Label(GUIContext container, int i, int i1, String s) {
+        super(container);
+        this.x = i;
+        this.y = i1;
+        text = s;
     }
 
     @Override
