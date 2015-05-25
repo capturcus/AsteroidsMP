@@ -11,6 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -45,18 +46,18 @@ public class MenuState extends BasicGameState {
         int step = gc.getHeight() / 13;
 
         //uwielbiam ten kod <3
-        joinButton = new Button("res/img/join.jpg", 200, step * 2, 200, step * 2,
+        joinButton = new Button(gc, "res/img/join.jpg", 200, step * 2, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     beginConnection(gc, sbg, textField.getText());
                 })
         );
         joinButton.init(gc, sbg);
 
-        hostButton = new Button("res/img/host.jpg", 200, step * 5, 200, step * 2,
+        hostButton = new Button(gc, "res/img/host.jpg", 200, step * 5, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     System.out.println("host!");
                     try {
-                        (new Server()).start();
+                        (new Server(OptionsState.serverPort)).start();
                     } catch (IOException ex) {
                         Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -65,7 +66,7 @@ public class MenuState extends BasicGameState {
         );
         hostButton.init(gc, sbg);
 
-        optionsButton = new Button("res/img/options.jpg", 200, step * 8, 200, step * 2,
+        optionsButton = new Button(gc, "res/img/options.jpg", 200, step * 8, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     System.out.println("options!");
                     sbg.enterState(AsteroidsMP.OPTIONSSTATE);
@@ -73,7 +74,7 @@ public class MenuState extends BasicGameState {
         );
         optionsButton.init(gc, sbg);
 
-        exitButton = new Button("res/img/quit.jpg", 200, step * 11, 200, step * 2,
+        exitButton = new Button(gc, "res/img/quit.jpg", 200, step * 11, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     System.out.println("gtfo!");
                     System.exit(0);
