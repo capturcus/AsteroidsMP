@@ -25,13 +25,10 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameState extends BasicGameState {
 
     private final static boolean[] keyPresses = new boolean[5];
-    private AsteroidClientMain net;
     ArrayList<BoardActor> arr = new ArrayList<>();
 
-    Asteroid ass;
-
     public GameState() throws SlickException {
-        this.net = new AsteroidClientMain();
+
     }
 
     @Override
@@ -44,7 +41,6 @@ public class GameState extends BasicGameState {
         AsteroidRenderer.init(gc, sbg, "res/img/asteroid.png");
         SpaceshipRenderer.init(gc, sbg, "res/img/ship.png");
         ProjectileRenderer.init(gc, sbg, "res/img/projectile.png");
-        ass = new Asteroid();
     }
 
     @Override
@@ -74,11 +70,9 @@ public class GameState extends BasicGameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        net.startSending();
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        net.stopSending();
     }
 }

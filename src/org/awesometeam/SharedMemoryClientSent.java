@@ -14,7 +14,7 @@ import org.awesometeam.gamelogic.KeyPresses;
  * @author michal
  */
 public class SharedMemoryClientSent {
-    private ClientSentData DATA;
+    private ClientSentData DATA = new ClientSentData();
     
     private SharedMemoryClientSent() {
     }

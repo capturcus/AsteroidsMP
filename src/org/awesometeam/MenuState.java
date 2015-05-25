@@ -22,9 +22,9 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MenuState extends BasicGameState {
 
-    Image menu;
+    Image menu, name, server;
     Button joinButton, hostButton, optionsButton, exitButton;
-    private TextField textField;
+    private TextField serverField, nameField;
 
     @Override
     public int getID() {
@@ -34,7 +34,7 @@ public class MenuState extends BasicGameState {
     private void beginConnection(GameContainer gc, StateBasedGame sbg, String address) {
         sbg.enterState(AsteroidsMP.LOADINGSTATE);
         AsteroidClientMain.getInstance().setServerIPToConnect(address);
-        AsteroidClientMain.getInstance().startSending();
+        AsteroidClientMain.getInstance().startSending(nameField.getText());
         sbg.enterState(AsteroidsMP.GAMESTATE);
     }
 
@@ -42,13 +42,18 @@ public class MenuState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
         menu = new Image("res/img/menu.jpg");
+        name = new Image("res/img/name.png");
+        server = new Image("res/img/server.png");
 
+        nameField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
+                333, 250, 400, 40);
+        
         int step = gc.getHeight() / 13;
 
         //uwielbiam ten kod <3
         joinButton = new Button(gc, "res/img/join.jpg", 200, step * 2, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
-                    beginConnection(gc, sbg, textField.getText());
+                    beginConnection(gc, sbg, serverField.getText());
                 })
         );
         joinButton.init(gc, sbg);
@@ -81,10 +86,10 @@ public class MenuState extends BasicGameState {
                 })
         );
         exitButton.init(gc, sbg);
-        textField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
+        serverField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
                 333, (int) (step * 1.5), 400, 40,
                 ((x) -> {
-                    beginConnection(gc, sbg, textField.getText());
+                    beginConnection(gc, sbg, serverField.getText());
                 })
         );
     }
@@ -96,7 +101,10 @@ public class MenuState extends BasicGameState {
         hostButton.render(gc, sbg, grphcs);
         optionsButton.render(gc, sbg, grphcs);
         exitButton.render(gc, sbg, grphcs);
-        textField.render(gc, grphcs);
+        serverField.render(gc, grphcs);
+        nameField.render(gc, grphcs);
+        name.draw(gc.getWidth() / 2 - name.getWidth() / 2, 200);
+        server.draw(gc.getWidth() / 2 - server.getWidth() / 2, 30);
     }
 
     @Override

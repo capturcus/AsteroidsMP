@@ -2,7 +2,7 @@ package org.awesometeam.clientnetworking;
 
 
 import java.io.Serializable;
-import org.awesometeam.gamelogic.KeyPresses;;
+import org.awesometeam.gamelogic.KeyPresses;
 
 public class ClientSentData implements Serializable {
 	private KeyPresses keypressesObject;
