@@ -19,7 +19,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -195,27 +194,15 @@ public class Server extends Thread {
         ServerUDPReceiveThread udpRThread;
         ServerUDPSendThread udpSThread;
 
-        try {
-            InetAddress self = InetAddress.getLocalHost();
-       
-        //InetAddress hardcoded = InetAddress.getByName("")
-        
         ArrayList<org.awesometeam.gamelogic.Spaceship> sp;
         ArrayList<org.awesometeam.gamelogic.Asteroid> as;
         ArrayList<org.awesometeam.gamelogic.Projectile> pr;
         sp = new ArrayList<>();
         as = new ArrayList<>();
         pr = new ArrayList<>();
-        
         org.awesometeam.gamelogic.Spaceship ship = new Spaceship();
-        
         sp.add(ship);
-        
         SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
-        
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         tcpThread = new ServerTCPThread(clientsList, serverSocket, nextID);
         udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
