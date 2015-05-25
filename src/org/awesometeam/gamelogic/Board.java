@@ -9,8 +9,8 @@ public class Board {
 	private double height;
 
 	public Board() {
-		width = 1024;
-		height = 768;
+		width = 1024 + 100;
+		height = 768 + 100;
 	}
 
 	public Point2D getNewPosition(Point2D beginPosition, Vector2D moveVector) {
