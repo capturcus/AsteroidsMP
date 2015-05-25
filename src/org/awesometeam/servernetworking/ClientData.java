@@ -17,4 +17,19 @@ public class ClientData {
     public int ID;
     
     String nickName;
+
+    
+    public ClientData() {
+        address = null;
+        port = 0;
+        ID = 0;
+        nickName = "lol";
+    }
+    
+    public ClientData(InetAddress a, int p, int i, String n) {
+        address = a;
+        port = p;
+        ID = i;
+        nickName = n;
+    }
 }

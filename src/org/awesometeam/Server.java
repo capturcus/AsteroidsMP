@@ -5,7 +5,6 @@
  */
 package org.awesometeam;
 
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -37,93 +36,89 @@ import org.awesometeam.servernetworking.SharedMemoryServerSent;
  * @author michal
  */
 public class Server extends Thread {
+
     private final int portNumber = 13100;
     private String hostName;
     private ArrayList<ClientData> clientsList;
-    
+
     private int nextID;
-    
+
     protected ServerSocket serverSocket = null;
     protected DatagramSocket datagramSocket = null;
-    
+
     public Server() throws IOException {
         clientsList = new ArrayList<>();
         serverSocket = new ServerSocket(portNumber);
         datagramSocket = new DatagramSocket(portNumber);
         nextID = 0;
     }
-    
-    public Server(int pN) throws IOException
-    {
+
+    public Server(int pN) throws IOException {
         clientsList = new ArrayList<>();
         serverSocket = new ServerSocket(pN);
         datagramSocket = new DatagramSocket(pN);
         nextID = 0;
     }
-    
+
     private static class ServerTCPThread extends Thread {
+
         private final ServerSocket sSocket;
         private final ArrayList<ClientData> clientList;
-        
+
         public ServerTCPThread(ArrayList<ClientData> cl, ServerSocket ss) {
             sSocket = ss;
             clientList = cl;
         }
-        
+
         @Override
         public void run() {
-            while(true)
-            {
+            while (true) {
                 try {
                     Socket socket = sSocket.accept();
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    
+
                     String input;
-                    
+
                     input = in.readLine();
-                    
+
                     //if(input.)
-                    
                     //TODO check needed commands
-                    
                 } catch (IOException ex) {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         }
     }
-    
+
     private static class ServerUDPSendThread extends Thread {
+
         private final DatagramSocket dSocket;
         private final ArrayList<ClientData> clientList;
-        
-        public ServerUDPSendThread(ArrayList<ClientData> cl, DatagramSocket ds)
-        {
+
+        public ServerUDPSendThread(ArrayList<ClientData> cl, DatagramSocket ds) {
             dSocket = ds;
             clientList = cl;
         }
-        
+
         @Override
         public void run() {
-            while(true)
-            {
-                for(int i = 0; i < clientList.size(); ++i)
-                {
+            while (true) {
+                for (int i = 0; i < clientList.size(); ++i) {
                     try {
                         InetAddress address = clientList.get(i).address;
                         int port = clientList.get(i).port;
-                        
+
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(4096);
                         ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(byteStream));
-                        
+
                         os.flush();
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());
-                        
+
                         byte[] buf = byteStream.toByteArray();
                         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
-                        
+
                         dSocket.send(packet);
                         os.close();
                     } catch (IOException ex) {
@@ -133,8 +128,9 @@ public class Server extends Thread {
             }
         }
     }
-    
+
     private class ServerUDPReceiveThread extends Thread {
+
         private final DatagramSocket dSocket;
         private final ArrayList<ClientData> clientList;
 
@@ -142,24 +138,23 @@ public class Server extends Thread {
             dSocket = ds;
             clientList = cl;
         }
-        
+
         @Override
         public void run() {
-            while(true)
-            {
+            while (true) {
                 try {
                     ClientSentData data;
                     byte[] buf = new byte[256];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     dSocket.receive(packet);
-                    
+
                     ByteArrayInputStream byteStream = new ByteArrayInputStream(buf);
                     ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
                     data = (ClientSentData) is.readObject();
-                    
+
                     //TODO change writeData to accomodate many clients
                     SharedMemoryServerReceived.getInstance().writeData(0, data);
-                    
+
                     is.close();
                 } catch (IOException | ClassNotFoundException ex) {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,15 +162,19 @@ public class Server extends Thread {
             }
         }
     }
-    
+
     @Override
     public void run() {
         ServerTCPThread tcpThread;
         ServerUDPReceiveThread udpRThread;
         ServerUDPSendThread udpSThread;
-        
+
         try {
             InetAddress self = InetAddress.getLocalHost();
+       
+        //InetAddress hardcoded = InetAddress.getByName("")
+
+        clientsList.add(new ClientData(self, 9010, 0, "test"));
         } catch (UnknownHostException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -183,7 +182,7 @@ public class Server extends Thread {
         tcpThread = new ServerTCPThread(clientsList, serverSocket);
         udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
         udpSThread = new ServerUDPSendThread(clientsList, datagramSocket);
-        
+
         tcpThread.start();
         udpRThread.start();
         udpSThread.start();
