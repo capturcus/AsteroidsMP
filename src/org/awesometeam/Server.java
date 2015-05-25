@@ -5,9 +5,7 @@
  */
 package org.awesometeam;
 
-import org.awesometeam.servernetworking.SharedMemoryServerReceived;
-import org.awesometeam.servernetworking.ClientData;
-import org.awesometeam.servernetworking.SharedMemoryServerSent;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -20,14 +18,19 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.awesometeam.clientnetworking.ClientSentData;
+import org.awesometeam.servernetworking.ClientData;
+import org.awesometeam.servernetworking.SharedMemoryServerReceived;
+import org.awesometeam.servernetworking.SharedMemoryServerSent;
 
 /**
  *
@@ -168,6 +171,12 @@ public class Server extends Thread {
         ServerTCPThread tcpThread;
         ServerUDPReceiveThread udpRThread;
         ServerUDPSendThread udpSThread;
+        
+        try {
+            InetAddress self = InetAddress.getLocalHost();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         tcpThread = new ServerTCPThread(clientsList, serverSocket);
         udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
