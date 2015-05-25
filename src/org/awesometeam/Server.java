@@ -97,13 +97,14 @@ public class Server extends Thread {
                             if(clientList.get(i).ID == ID) clientList.remove(i);
                         }
                     }
-                    
+
                     socket.close();
                     //TODO check needed commands
                 } catch (IOException ex) {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
         }
     }
 
