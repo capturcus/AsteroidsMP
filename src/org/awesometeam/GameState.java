@@ -10,6 +10,7 @@ import org.awesometeam.ui.SpaceshipRenderer;
 import org.awesometeam.ui.ProjectileRenderer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -23,6 +24,8 @@ public class GameState extends BasicGameState {
 
     private final static boolean[] keyPresses = new boolean[5];
 
+    private Image background;
+    
     public GameState() throws SlickException {
 
     }
@@ -37,10 +40,13 @@ public class GameState extends BasicGameState {
         AsteroidRenderer.init(gc, sbg, "res/img/asteroid.png");
         SpaceshipRenderer.init(gc, sbg, "res/img/ship.png");
         ProjectileRenderer.init(gc, sbg, "res/img/projectile.png");
+        
+        background = new Image("res/img/background.jpg");
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
+        background.draw();
         ServerSentData ssd = SharedMemoryClientReceived.getInstance().getData();
         for (Asteroid a : ssd.asteroids) {
             AsteroidRenderer.render(gc, sbg, grphcs, a);
