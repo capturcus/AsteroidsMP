@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.awesometeam.clientnetworking.AsteroidClientMain;
 import org.awesometeam.ui.Button;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -22,7 +23,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MenuState extends BasicGameState {
 
-    Image menu, name, server;
+    Image menu, name, server, stripe1, stripe2;
     Button joinButton, hostButton, optionsButton, exitButton;
     private TextField serverField, nameField;
 
@@ -41,24 +42,30 @@ public class MenuState extends BasicGameState {
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
-        menu = new Image("res/img/menu.jpg");
+        menu = new Image("res/img/menu.png");
         name = new Image("res/img/name.png");
         server = new Image("res/img/server.png");
 
+        stripe1 = new Image("res/img/pasek1.png");
+        stripe2 = new Image("res/img/pasek2.png");
+
         nameField = new TextField(gc, new TrueTypeFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 24), false),
                 333, 250, 400, 40);
-        
+
+        nameField.setBackgroundColor(Color.transparent);
+        nameField.setBorderColor(Color.transparent);
+
         int step = gc.getHeight() / 13;
 
         //uwielbiam ten kod <3
-        joinButton = new Button(gc, "res/img/join.jpg", 200, step * 2, 200, step * 2, AsteroidsMP.MENUSTATE,
+        joinButton = new Button(gc, "res/img/joingame.png", 200, step * 2, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     beginConnection(gc, sbg, serverField.getText());
                 })
         );
         joinButton.init(gc, sbg);
 
-        hostButton = new Button(gc, "res/img/host.jpg", 200, step * 5, 200, step * 2, AsteroidsMP.MENUSTATE,
+        hostButton = new Button(gc, "res/img/hostgame.png", 200, step * 5, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     System.out.println("host!");
                     try {
@@ -72,7 +79,7 @@ public class MenuState extends BasicGameState {
         );
         hostButton.init(gc, sbg);
 
-        optionsButton = new Button(gc, "res/img/options.jpg", 200, step * 8, 200, step * 2, AsteroidsMP.MENUSTATE,
+        optionsButton = new Button(gc, "res/img/options.png", 200, step * 8, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     System.out.println("options!");
                     sbg.enterState(AsteroidsMP.OPTIONSSTATE);
@@ -80,7 +87,7 @@ public class MenuState extends BasicGameState {
         );
         optionsButton.init(gc, sbg);
 
-        exitButton = new Button(gc, "res/img/quit.jpg", 200, step * 11, 200, step * 2, AsteroidsMP.MENUSTATE,
+        exitButton = new Button(gc, "res/img/gtfo.png", 200, step * 11, 200, step * 2, AsteroidsMP.MENUSTATE,
                 (() -> {
                     System.out.println("gtfo!");
                     System.exit(0);
@@ -93,6 +100,9 @@ public class MenuState extends BasicGameState {
                     beginConnection(gc, sbg, serverField.getText());
                 })
         );
+
+        serverField.setBackgroundColor(Color.transparent);
+        serverField.setBorderColor(Color.transparent);
     }
 
     @Override
@@ -102,10 +112,12 @@ public class MenuState extends BasicGameState {
         hostButton.render(gc, sbg, grphcs);
         optionsButton.render(gc, sbg, grphcs);
         exitButton.render(gc, sbg, grphcs);
+        stripe2.draw(327, 59.f * 1.5f - 5);
+        stripe1.draw(327, 242);
         serverField.render(gc, grphcs);
         nameField.render(gc, grphcs);
-        name.draw(gc.getWidth() / 2 - name.getWidth() / 2, 200);
-        server.draw(gc.getWidth() / 2 - server.getWidth() / 2, 30);
+        name.draw(323, 200);
+        server.draw(350, 40);
     }
 
     @Override
