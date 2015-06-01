@@ -29,6 +29,8 @@ public class MenuState extends BasicGameState {
 
     public static boolean timeout = false;
 
+    public static String message = "";
+
     @Override
     public int getID() {
         return AsteroidsMP.MENUSTATE;
@@ -40,8 +42,10 @@ public class MenuState extends BasicGameState {
             AsteroidClientMain.getInstance().setServerIPToConnect(address);
             AsteroidClientMain.getInstance().startSending(nameField.getText());
             sbg.enterState(AsteroidsMP.GAMESTATE);
+            message = "";
         } catch (IOException ex) {
             sbg.enterState(AsteroidsMP.MENUSTATE);
+            message = "Could not connect to server!";
         }
     }
 
@@ -124,6 +128,8 @@ public class MenuState extends BasicGameState {
         nameField.render(gc, grphcs);
         name.draw(323, 200);
         server.draw(350, 40);
+
+        grphcs.drawString(message, gc.getWidth() / 2, gc.getHeight() - 300);
     }
 
     @Override

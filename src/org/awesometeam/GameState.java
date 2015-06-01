@@ -64,7 +64,8 @@ public class GameState extends BasicGameState {
         keyPresses[0] = gc.getInput().isKeyDown(Input.KEY_LEFT);
         keyPresses[1] = gc.getInput().isKeyDown(Input.KEY_RIGHT);
         keyPresses[2] = gc.getInput().isKeyDown(Input.KEY_UP);
-        keyPresses[3] = gc.getInput().isKeyDown(Input.KEY_DOWN);
+//        keyPresses[3] = gc.getInput().isKeyDown(Input.KEY_DOWN);
+        keyPresses[3] = false;
         keyPresses[4] = gc.getInput().isKeyDown(Input.KEY_SPACE);
         KeyPresses kp = new KeyPresses();
         kp.setKeyPresses(keyPresses);
