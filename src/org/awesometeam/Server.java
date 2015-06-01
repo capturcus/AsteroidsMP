@@ -126,7 +126,7 @@ public class Server extends Thread {
                         InetAddress address = clientList.get(i).address;
                         int port = clientList.get(i).port;
 
-                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(4096);
+                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(131072);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
                         //System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
@@ -144,11 +144,11 @@ public class Server extends Thread {
                 }
                 /*dodane dla celow testowych */
                 try {
-					Thread.sleep(33);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    Thread.sleep(33);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 /*dodane dla celow testowych */
             }
         }
@@ -169,7 +169,7 @@ public class Server extends Thread {
             while (true) {
                 try {
                     ClientSentData data;
-                    byte[] buf = new byte[256];
+                    byte[] buf = new byte[16384];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     dSocket.receive(packet);
 
