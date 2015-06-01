@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.awesometeam.clientnetworking.ClientSentData;
-import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.servernetworking.ClientData;
 import org.awesometeam.servernetworking.SharedMemoryPlayerNameMapping;
 import org.awesometeam.servernetworking.SharedMemoryServerReceived;
@@ -91,9 +90,8 @@ public class Server extends Thread {
 
                         SharedMemoryPlayerNameMapping.getInstance().addName(ID, name);
 
-                        System.out.println(name);
-                        
-                        System.out.println(SharedMemoryPlayerNameMapping.getInstance().getName(0));
+                //      System.out.println(name);
+                //      System.out.println(SharedMemoryPlayerNameMapping.getInstance().getName(0));
                         
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
@@ -140,10 +138,9 @@ public class Server extends Thread {
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(131072);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
-
-                        if (!SharedMemoryServerSent.getInstance().getData().spaceships.isEmpty()) {
+                        /*if (!SharedMemoryServerSent.getInstance().getData().spaceships.isEmpty()) {
                             System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
-                        }
+                        }*/
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());
 
                         byte[] buf = byteStream.toByteArray();
