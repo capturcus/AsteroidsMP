@@ -15,15 +15,16 @@ public class TimeoutCounter implements Runnable {
 
     private int time;
     private Thread thread;
+    private final int TIME = 30;
 
     public TimeoutCounter() {
-        time = 100;
+        time = TIME;
         thread = new Thread(this, "TimeoutCounter Thread");
         thread.start();
     }
 
-    public boolean checkTimeout() {
-        return time > 0;
+    public synchronized boolean checkTimeout() {
+        return time < 0;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class TimeoutCounter implements Runnable {
     }
 
     public synchronized void resetTime() {
-        time = 100;
+        time = TIME;
     }
 
 }

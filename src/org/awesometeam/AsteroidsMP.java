@@ -30,7 +30,7 @@ public class AsteroidsMP extends StateBasedGame {
      * @throws org.newdawn.slick.SlickException
      */
     public static void main(String[] args) throws SlickException {
-        AppGameContainer container = new AppGameContainer(new AsteroidsMP("Dis gaem b dopE!"), WIDTH, HEIGHT, false);
+        AppGameContainer container = new AppGameContainer(new AsteroidsMP("Asteroids Multiplayer"), WIDTH, HEIGHT, false);
         container.setTargetFrameRate(FPS);
         container.setShowFPS(true);
         container.start();
