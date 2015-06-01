@@ -29,7 +29,7 @@ public class GameUpdater extends TimerTask {
         
         //ArrayList<KeyPresses> playersKeyPresses = new ArrayList<KeyPresses>();
         TreeMap<Integer, KeyPresses> playersKeyPresses = SharedMemoryServerReceived.getInstance().getData().map;
-        System.out.println("GameLogic                  Debug" + playersKeyPresses);
+        //System.out.println("GameLogic                  Debug" + playersKeyPresses);
         //playersKeyPresses.put(0, keyPresses);
         
         //playersKeyPresses.add(keyPresses);
@@ -41,7 +41,7 @@ public class GameUpdater extends TimerTask {
                     actorManager.getActorLists().getSpaceshipList(),
                     actorManager.getActorLists().getProjectileList(),
                     actorManager.getActorLists().getAsteroidList());
-            System.out.println("GameLogic                  Debug");
+            //System.out.println("GameLogic                  Debug");
         } catch (IncorrectListLengthAsteroidsMPGLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

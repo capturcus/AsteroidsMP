@@ -10,7 +10,6 @@ public class Asteroid extends Obstacle {
     public static final int MIN_RADIUS = 10;
     public static final int MAX_SIZE = 3;
     protected int size;
-    public static final Random generator = new Random();
     private int id;
     public static int nextId = 0;
     public final static int START_HP = 1;
@@ -22,7 +21,7 @@ public class Asteroid extends Obstacle {
         id = nextId;
         id ++;
         position = pos;
-        size =  3;//generator.nextInt(MAX_SIZE + 1);
+        size =  3;//ActorMnager.randomGenerator.nextInt(MAX_SIZE + 1);
         radius = MIN_RADIUS * (size + 1);
     }
     
@@ -68,6 +67,7 @@ public class Asteroid extends Obstacle {
     
     public void setSize(int size) {
         this.size = size;
+        this.radius = MIN_RADIUS * (size + 1);
     }
     
     public int getSize() {
