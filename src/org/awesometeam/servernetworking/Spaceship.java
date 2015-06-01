@@ -18,6 +18,7 @@ public class Spaceship extends ThinActor implements Serializable {
     public int HP;
     public int kills;
     public int deaths;
+    public int score;
     public boolean thrust;
     
     public Spaceship() {
@@ -29,6 +30,7 @@ public class Spaceship extends ThinActor implements Serializable {
         ID = 0;
         kills = 0;
         deaths = 0;
+        score = 0;
         thrust = false;
     }
     
@@ -41,12 +43,15 @@ public class Spaceship extends ThinActor implements Serializable {
         name = sp.getName();
         kills = sp.getKills();
         deaths = sp.getDeaths();
+        score = sp.getScore();
         if(SharedMemoryServerReceived.getInstance().getData().map.containsKey(ID))
         thrust = SharedMemoryServerReceived.getInstance().getData().map.get(ID).isPressed(KeyPresses.UP);
         else thrust = false;
     }
     
+    @Override
     public String toString() {
-    	return "spaceship: "+x+" "+y+" "+angle+" "+name + " " + ID + " " + kills + " " + deaths + " " + thrust;
+    	return "spaceship: "+x+" "+y+" "+angle+" "+name + " " + ID 
+                + " " + kills + " " + deaths + " " + thrust + " " + score;
     }
 }

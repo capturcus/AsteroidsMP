@@ -89,16 +89,16 @@ public class ActorManager {
             }
 
             if (playerMap.get(i).getState() == Player.State.WAITING_FOR_POSITION) {
-                boolean clearPosition = true;
+                /*boolean clearPosition = true;
                 for (BoardActor actor : actorLists.getActorList()) {
                     if (collisionDetector.areToClose(actor, spaceship, 30)) {
                         clearPosition = false;
                     }
-                }
-                if (clearPosition) {
+                }*/
+                //if (clearPosition) {
                     actorLists.addSpaceship(spaceship);
                     spaceship.start();
-                }
+                //}
 
             }
 
@@ -135,13 +135,13 @@ public class ActorManager {
 
         toRemove.clear();
         for (int i : playerMap.navigableKeySet()) {
-            if (playerMap.get(i).getState() == Player.State.DEAD) {
-                toRemove.add(i);
-            }
+            if (playerMap.get(i).getState() == Player.State.DEAD)
+                playerMap.get(i).startWaiting();
         }
-        for (int i : toRemove) {
-            playerMap.remove(i);
-        }
+//        }
+//        for (int i : toRemove) {
+//            playerMap.remove(i);
+//        }
 
     }
 
