@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class KeyPresses implements Serializable {
 
-    static final int NUMBER_OF_KEYS = 5;
-    static final int LEFT = 0;
-    static final int RIGHT = 1;
-    static final int UP = 2;
-    static final int DOWN = 3;
-    static final int ACTION = 4;
+    public static final int NUMBER_OF_KEYS = 5;
+    public static final int LEFT = 0;
+    public static final int RIGHT = 1;
+    public static final int UP = 2;
+    public static final int DOWN = 3;
+    public static final int ACTION = 4;
     boolean keyPresses[];
 
     public KeyPresses() {

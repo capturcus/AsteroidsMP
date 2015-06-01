@@ -6,6 +6,7 @@
 package org.awesometeam.servernetworking;
 
 import java.io.Serializable;
+import org.awesometeam.gamelogic.KeyPresses;
 /**
  *
  * @author michal
@@ -17,6 +18,7 @@ public class Spaceship extends ThinActor implements Serializable {
     public int HP;
     public int kills;
     public int deaths;
+    public boolean thrust;
     
     public Spaceship() {
         x = 0;
@@ -27,6 +29,7 @@ public class Spaceship extends ThinActor implements Serializable {
         ID = 0;
         kills = 0;
         deaths = 0;
+        thrust = false;
     }
     
     public Spaceship(org.awesometeam.gamelogic.Spaceship sp){
@@ -38,9 +41,12 @@ public class Spaceship extends ThinActor implements Serializable {
         name = sp.getName();
         kills = sp.getKills();
         deaths = sp.getDeaths();
+        if(SharedMemoryServerReceived.getInstance().getData().map.containsKey(ID))
+        thrust = SharedMemoryServerReceived.getInstance().getData().map.get(ID).isPressed(KeyPresses.UP);
+        else thrust = false;
     }
     
     public String toString() {
-    	return "spaceship: "+x+" "+y+" "+angle+" "+name + " " + ID + " " + kills + " " + deaths;
+    	return "spaceship: "+x+" "+y+" "+angle+" "+name + " " + ID + " " + kills + " " + deaths + " " + thrust;
     }
 }

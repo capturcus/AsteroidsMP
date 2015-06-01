@@ -81,5 +81,4 @@ public class Player {
     public int getDeaths() {
         return deaths;
     }
-
 }
