@@ -48,14 +48,14 @@ public class GameState extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs) throws SlickException {
         background.draw();
         ServerSentData ssd = SharedMemoryClientReceived.getInstance().getData();
-        for (Asteroid a : ssd.asteroids) {
-            AsteroidRenderer.render(gc, sbg, grphcs, a);
-        }
         for (Spaceship s : ssd.spaceships) {
             SpaceshipRenderer.render(gc, sbg, grphcs, s);
         }
         for (Projectile s : ssd.projectiles) {
             ProjectileRenderer.render(gc, sbg, grphcs, s);
+        }
+        for (Asteroid a : ssd.asteroids) {
+            AsteroidRenderer.render(gc, sbg, grphcs, a);
         }
     }
 

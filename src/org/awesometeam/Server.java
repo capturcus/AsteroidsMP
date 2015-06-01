@@ -92,9 +92,9 @@ public class Server extends Thread {
                         SharedMemoryPlayerNameMapping.getInstance().addName(ID, name);
 
                         System.out.println(name);
-                        
+
                         System.out.println(SharedMemoryPlayerNameMapping.getInstance().getName(0));
-                        
+
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
                         out.println("ACCEPT: " + ID);
@@ -139,7 +139,6 @@ public class Server extends Thread {
 
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(131072);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
-
 
                         if (!SharedMemoryServerSent.getInstance().getData().spaceships.isEmpty()) {
                             System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
