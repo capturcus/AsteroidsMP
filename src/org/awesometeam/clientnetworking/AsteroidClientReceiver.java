@@ -25,7 +25,7 @@ public class AsteroidClientReceiver implements Runnable {
 
     @Override
     public void run() {
-        byte[] dataBuffer = new byte[1024];
+        byte[] dataBuffer = new byte[131072];
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 DatagramPacket incomingPacket = new DatagramPacket(dataBuffer, dataBuffer.length);
