@@ -8,7 +8,7 @@ public class Player {
 
         ALIVE, DEAD, LEAVING, WAITING_FOR_RESURRECTION, WAITING_FOR_POSITION
     }
-    public final static double DEFAULT_TIME_TO_RESURRECTION = 3;
+    public final static double DEFAULT_TIME_TO_RESURRECTION = 1.5;
     private double timeToResurrection;
 
     private String name;
