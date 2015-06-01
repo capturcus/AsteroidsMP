@@ -209,9 +209,9 @@ public class Server extends Thread {
         sp = new ArrayList<>();
         as = new ArrayList<>();
         pr = new ArrayList<>();
-        org.awesometeam.gamelogic.Spaceship ship = new Spaceship();
-        sp.add(ship);
-        SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
+//        org.awesometeam.gamelogic.Spaceship ship = new Spaceship();
+  //      sp.add(ship);
+    //    SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
         
         tcpThread = new ServerTCPThread(clientsList, serverSocket, nextID);
         udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
