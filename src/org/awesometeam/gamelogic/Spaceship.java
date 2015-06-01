@@ -38,6 +38,7 @@ public class Spaceship extends BoardActor {
         projectile.setPosition(position.plus(orientation.normalize().times(10 + radius + projectile.getRadius())));
         projectile.setOrientation(orientation);
         projectile.setVelocity(velocity.plus(orientation.normalize().times(400)));
+        projectile.setVelocity(velocity.plus(orientation.normalize().times(200)));
         projectiles.add(projectile);
         
         actorLists.addProjectile(projectile);

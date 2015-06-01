@@ -40,6 +40,7 @@ public class ActorManager {
 
         int asteroidCount = 5;// 2 * playerCount;
 
+
         createObstacles(asteroidCount);
         Point2D[] positions = board.randomPositions(actorLists.getActorList().size());
         int i = 0;
@@ -98,7 +99,7 @@ public class ActorManager {
                 playerMap.get(i).setKeyPresses(playersKeyPresses.get(i));
             //System.out.println(i+" "+playerList.get(i).getKeyPresses());
         }
-        
+
         moveActors(timeInterval);
         attack();
         detectCollisions();
@@ -123,7 +124,7 @@ public class ActorManager {
                 actorLists.getActorList().get(i).die();
             }
         }
-        
+
         toRemove.clear();
         for (int i : playerMap.navigableKeySet()) {
             if (playerMap.get(i).getState() == Player.State.DEAD) {

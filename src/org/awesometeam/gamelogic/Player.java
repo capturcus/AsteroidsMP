@@ -1,5 +1,7 @@
 package org.awesometeam.gamelogic;
 
+import org.awesometeam.servernetworking.SharedMemoryPlayerNameMapping;
+
 public class Player {
 
     public enum State {
@@ -8,13 +10,16 @@ public class Player {
     }
     public final static double DEFAULT_TIME_TO_RESURRECTION = 3;
     private double timeToResurrection;
-    
+
+    private String name;
     private int id;
     private KeyPresses keyPresses;
     private State state;
 
     public Player(int index) {
         id = index;
+        SharedMemoryPlayerNameMapping.getInstance().getName(id);
+        
         state = State.WAITING_FOR_RESURRECTION;
         timeToResurrection = DEFAULT_TIME_TO_RESURRECTION;
         keyPresses = new KeyPresses();
@@ -44,7 +49,6 @@ public class Player {
     public int getId() {
         return id;
     }
-    
     public void waitForPosition(double timeInterval) {
         timeToResurrection -= timeInterval;
         if (timeToResurrection <= 0)
@@ -53,5 +57,9 @@ public class Player {
     
     public void start() {
         state = State.ALIVE;
+    }
+    
+    public String getName() {
+        return name;
     }
 }
