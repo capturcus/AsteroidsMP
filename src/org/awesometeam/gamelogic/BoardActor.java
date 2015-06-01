@@ -20,10 +20,13 @@ public class BoardActor {
     protected State state;
     protected Vector2D orientation;
     protected double radius;
-
+    
+    protected BoardActor killer;
+    
     static double haxxx = 0;
 
     public BoardActor(Point2D pos) {
+        killer = null;
         position = pos;
         shape = new PointArray2D();
         healthPoints = 1;
@@ -126,5 +129,9 @@ public class BoardActor {
     public void bounce(BoardActor other) {
         position = position.plus(new Vector2D(other.getPosition(), position).normalize().times(2));
         velocity = actorLists.getPhyscics().bounce(position, velocity, other.getPosition());
+    }
+    
+    public void increaseKills() {
+        
     }
 }

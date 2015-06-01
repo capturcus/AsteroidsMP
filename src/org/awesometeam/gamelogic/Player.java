@@ -15,8 +15,14 @@ public class Player {
     private int id;
     private KeyPresses keyPresses;
     private State state;
+    
+    private int kills;
+    private int deaths;
 
     public Player(int index) {
+        
+        kills = 0;
+        deaths = 0;
         id = index;
         SharedMemoryPlayerNameMapping.getInstance().getName(id);
         
@@ -35,6 +41,7 @@ public class Player {
 
     public void die() {
         state = State.DEAD;
+        deaths ++;
         timeToResurrection = DEFAULT_TIME_TO_RESURRECTION;
     }
 
@@ -62,4 +69,17 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public void increaseKills() {
+        kills ++;
+    }
+    
+    public int getKills() {
+        return kills;
+    }
+    
+    public int getDeaths() {
+        return deaths;
+    }
+
 }

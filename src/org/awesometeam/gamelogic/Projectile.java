@@ -8,7 +8,8 @@ public class Projectile extends Obstacle {
     public final static int DAMAGE = 50;
     
     int turnsToDie;
-
+    Spaceship owner;
+    
     public Projectile(Point2D pos) {
         position = pos;
         turnsToDie = 40;
@@ -16,6 +17,10 @@ public class Projectile extends Obstacle {
         //size = 0;
         radius = 10;
         //tmp end
+    }
+    
+    public void setOwner(Spaceship owner) {
+        this.owner = owner;
     }
     
     @Override
@@ -54,4 +59,8 @@ public class Projectile extends Obstacle {
             state = BoardActor.State.DYING;
     }
 
+    @Override
+    public void increaseKills() {
+        owner.increaseKills();
+    }
 }

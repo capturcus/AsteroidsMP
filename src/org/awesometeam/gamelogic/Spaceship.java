@@ -38,9 +38,10 @@ public class Spaceship extends BoardActor {
         projectile.setPosition(position.plus(orientation.normalize().times(10 + radius + projectile.getRadius())));
         projectile.setOrientation(orientation);
         projectile.setVelocity(velocity.plus(orientation.normalize().times(400)));
-        projectile.setVelocity(velocity.plus(orientation.normalize().times(200)));
+        //projectile.setVelocity(velocity.plus(orientation.normalize().times(200)));
         projectiles.add(projectile);
         
+        projectile.setOwner(this);
         actorLists.addProjectile(projectile);
         
         return projectiles;
@@ -55,6 +56,8 @@ public class Spaceship extends BoardActor {
 
     @Override
     public void die() {
+        if (killer != null)
+            killer.increaseKills();
         state = State.DEAD;
         player.die();
         actorLists.removeSpaceship(this);
@@ -69,15 +72,21 @@ public class Spaceship extends BoardActor {
     public void asteroidCollision(Asteroid asteroid) {
         bounce(asteroid);
         injure(Asteroid.DAMAGE);
+        if (healthPoints <= 0)
+            killer = asteroid;
     }
     
     public void spaceshipCollision(Spaceship spaceship) {
         bounce(spaceship);
         injure(Spaceship.DAMAGE);
+        if (healthPoints <= 0)
+            killer = spaceship;
     }
     
     public void projectileCollision(Projectile projectile) {
         injure(Projectile.DAMAGE);
+        if (healthPoints <= 0)
+            killer = projectile;
     }
     
     @Override
@@ -119,4 +128,10 @@ public class Spaceship extends BoardActor {
     public int getID() {
         return player.getId();
     }
+    
+    @Override
+    public void increaseKills() {
+        player.increaseKills();
+    }
+    
 }
