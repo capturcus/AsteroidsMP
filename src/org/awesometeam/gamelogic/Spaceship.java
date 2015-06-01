@@ -15,6 +15,10 @@ public class Spaceship extends BoardActor {
     public final static int START_HP = 100;
     public final static int DAMAGE = 10;
     
+    public final static int SCORE_FOR_BIG_ASTEROID = 1;
+    public final static int SCORE_FOR_SMALL_ASTEROID = 2;
+    public final static int SCORE_FOR_SPACESHIP = 5;
+    
     private double timeToNextAttack;
     private Player player;
 
@@ -132,6 +136,11 @@ public class Spaceship extends BoardActor {
     @Override
     public void increaseKills() {
         player.increaseKills();
+    }
+    
+    @Override 
+    public void increaseScore(int score) {
+        player.increaseScore(score);
     }
 
     public String getName() {

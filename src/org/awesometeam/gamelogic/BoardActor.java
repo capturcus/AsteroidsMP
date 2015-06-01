@@ -120,10 +120,14 @@ public class BoardActor {
         this.actorLists = actorLists;
     }
 
-    public void injure(int damage) {
+    public boolean injure(int damage) {
         healthPoints -= damage;
-        if (healthPoints <= 0)
+        if (healthPoints <= 0) {
             state = BoardActor.State.DYING;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void bounce(BoardActor other) {
@@ -132,6 +136,10 @@ public class BoardActor {
     }
     
     public void increaseKills() {
+        
+    }
+    
+    public void increaseScore(int score) {
         
     }
 }

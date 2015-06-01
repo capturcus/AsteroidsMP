@@ -35,11 +35,17 @@ public class Projectile extends Obstacle {
     }
     
     public void asteroidCollision(Asteroid asteroid) {
-        injure(Asteroid.DAMAGE);
+        if (injure(Asteroid.DAMAGE)) {
+            if (asteroid.getSize() == 0)
+                owner.increaseScore(Spaceship.SCORE_FOR_SMALL_ASTEROID);
+            else
+                owner.increaseScore(Spaceship.SCORE_FOR_BIG_ASTEROID);
+        }
     }
     
     public void spaceshipCollision(Spaceship spaceship) {
-        injure(Spaceship.DAMAGE);
+        if (injure(Spaceship.DAMAGE))
+            owner.increaseScore(Spaceship.SCORE_FOR_SPACESHIP);
     }
     
     public void projectileCollision(Projectile projectile) {
@@ -63,4 +69,5 @@ public class Projectile extends Obstacle {
     public void increaseKills() {
         owner.increaseKills();
     }
+    
 }

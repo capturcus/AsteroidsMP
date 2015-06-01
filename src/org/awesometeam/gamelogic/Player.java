@@ -78,6 +78,10 @@ public class Player {
         kills ++;
     }
     
+    public void increaseScore(int score) {
+        this.score += score;
+    }
+    
     public int getKills() {
         return kills;
     }
