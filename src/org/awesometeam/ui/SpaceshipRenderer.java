@@ -29,7 +29,8 @@ public class SpaceshipRenderer extends Renderer {
 
     public static void render(GameContainer gc, StateBasedGame sbg, Graphics grphcs, Spaceship s) throws SlickException {
         render(gc, sbg, grphcs, s, (float) SCALE, (float) s.angle, img);
-        System.out.println("name" + s.name);
-        grphcs.drawString(s.name, (float) s.x, (float) s.y);
+//        System.out.println("CLIENT SIDE: " + s);
+        grphcs.drawString(s.name + " K: " + s.kills + " D: " + s.deaths,
+                (float) s.x - img.getWidth() / 2, (float) s.y - img.getHeight() / 2);
     }
 }
