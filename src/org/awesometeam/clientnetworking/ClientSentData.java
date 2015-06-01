@@ -33,5 +33,5 @@ public class ClientSentData implements Serializable {
 
     public void setID(int id){
             this.ID = id;
-}
+    }
 }
