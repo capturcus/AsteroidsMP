@@ -41,7 +41,7 @@ public class MenuState extends BasicGameState {
             AsteroidClientMain.getInstance().startSending(nameField.getText());
             sbg.enterState(AsteroidsMP.GAMESTATE);
         } catch (IOException ex) {
-            Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
+            sbg.enterState(AsteroidsMP.MENUSTATE);
         }
     }
 
