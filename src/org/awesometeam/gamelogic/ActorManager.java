@@ -90,14 +90,14 @@ public class ActorManager {
 
             if (playerMap.get(i).getState() == Player.State.WAITING_FOR_POSITION) {
                 /*boolean clearPosition = true;
-                for (BoardActor actor : actorLists.getActorList()) {
-                    if (collisionDetector.areToClose(actor, spaceship, 30)) {
-                        clearPosition = false;
-                    }
-                }*/
+                 for (BoardActor actor : actorLists.getActorList()) {
+                 if (collisionDetector.areToClose(actor, spaceship, 30)) {
+                 clearPosition = false;
+                 }
+                 }*/
                 //if (clearPosition) {
-                    actorLists.addSpaceship(spaceship);
-                    spaceship.start();
+                actorLists.addSpaceship(spaceship);
+                spaceship.start();
                 //}
 
             }
@@ -111,9 +111,10 @@ public class ActorManager {
         moveActors(timeInterval);
         attack();
         detectCollisions();
-        
-        if (randomGenerator.nextInt(500) == 0)
-                createNewAsteroid();
+
+        if (randomGenerator.nextInt(400) == 0) {
+            createNewAsteroid();
+        }
     }
 
     private void createNewAsteroid() {
@@ -121,7 +122,7 @@ public class ActorManager {
         asteroid.setPosition(actorLists.getBoard().randomPosition());
         actorLists.addAsteroid(asteroid);
     }
-    
+
     private void attack() {
         for (int i = 0; i < actorLists.getActorList().size(); i++) {
             if (actorLists.getActorList().get(i).isAttacking()) {
@@ -144,8 +145,9 @@ public class ActorManager {
 
         toRemove.clear();
         for (int i : playerMap.navigableKeySet()) {
-            if (playerMap.get(i).getState() == Player.State.DEAD)
+            if (playerMap.get(i).getState() == Player.State.DEAD) {
                 playerMap.get(i).startWaiting();
+            }
         }
 //        }
 //        for (int i : toRemove) {
