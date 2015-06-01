@@ -55,16 +55,19 @@ public class Asteroid extends Obstacle {
         other.asteroidCollision(this);
     }
     
+    @Override
     public void spaceshipCollision(Spaceship spaceship) {
         bounce(spaceship);
     }
     
+    @Override
     public void asteroidCollision(Asteroid asteroid) {
         bounce(asteroid);
     }
     
+    @Override
     public void projectileCollision(Projectile projectile) {
-        injure(Projectile.DAMAGE);
+        boolean unused = injure(Projectile.DAMAGE);
     }
     
     public void setSize(int size) {

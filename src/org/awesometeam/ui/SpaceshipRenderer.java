@@ -38,7 +38,7 @@ public class SpaceshipRenderer extends Renderer {
         }
         render(gc, sbg, grphcs, s, (float) SCALE, (float) s.angle, img);
 //        System.out.println("CLIENT SIDE: " + s);
-        grphcs.drawString(s.name + " K: " + s.kills + " D: " + s.deaths,
+        grphcs.drawString(s.name + " K: " + s.kills + " D: " + s.deaths + " S: " + s.score,
                 (float) s.x - img.getWidth() / 2, (float) s.y - img.getHeight() / 2);
     }
 }
