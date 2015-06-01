@@ -41,7 +41,7 @@ public class GameUpdater extends TimerTask {
                     actorManager.getActorLists().getSpaceshipList(),
                     actorManager.getActorLists().getProjectileList(),
                     actorManager.getActorLists().getAsteroidList());
-            System.out.println("GameLogic                  Debug");
+            //System.out.println("GameLogic                  Debug");
         } catch (IncorrectListLengthAsteroidsMPGLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
