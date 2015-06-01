@@ -12,7 +12,7 @@ public class Spaceship extends BoardActor {
     public final static double MAX_VELOCITY = 400;
     
     public final static double ATTACK_INTERVAL = 0.4;
-    public final static int START_HP = 10000;
+    public final static int START_HP = 100;
     public final static int DAMAGE = 10;
     
     private double timeToNextAttack;
