@@ -18,11 +18,14 @@ public class Player {
     
     private int kills;
     private int deaths;
+    private int score;
 
     public Player(int index) {
         
         kills = 0;
         deaths = 0;
+        score = 0;
+        
         id = index;
         name = SharedMemoryPlayerNameMapping.getInstance().getName(id);
         
@@ -80,5 +83,9 @@ public class Player {
     
     public int getDeaths() {
         return deaths;
+    }
+    
+    public int getScore() {
+        return score;
     }
 }
