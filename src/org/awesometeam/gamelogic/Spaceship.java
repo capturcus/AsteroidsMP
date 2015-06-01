@@ -137,5 +137,12 @@ public class Spaceship extends BoardActor {
     public String getName() {
         return player.getName();
     }
-
+    
+    public int getKills() {
+        return player.getKills();
+    }
+    
+    public int getDeaths() {
+        return player.getDeaths();
+    }
 }
