@@ -69,6 +69,7 @@ public class GameState extends BasicGameState {
         KeyPresses kp = new KeyPresses();
         kp.setKeyPresses(keyPresses);
         SharedMemoryClientSent.getInstance().writeData(kp);
+        MenuState.checkTimeout();
     }
 
     @Override

@@ -23,6 +23,7 @@ public class AsteroidClientSender implements Runnable {
     private final int waitTime = 1000 / FPS;
     private DatagramSocket socket;
     private int id;
+    private String nickname;
 
     public void interruptThread(){
     	thread.interrupt();
