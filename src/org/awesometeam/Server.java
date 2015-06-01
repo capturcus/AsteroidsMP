@@ -66,7 +66,7 @@ public class Server extends Thread {
         private final SynchronizedClientList clientList;
 
         private Integer nextID;
-        
+
         public ServerTCPThread(SynchronizedClientList cl, ServerSocket ss, Integer ni) {
             sSocket = ss;
             clientList = cl;
@@ -84,23 +84,25 @@ public class Server extends Thread {
                     String input;
 
                     input = in.readLine();
-                    if(input.startsWith("REQUEST")) {
+                    if (input.startsWith("REQUEST")) {
                         String name = input.substring(9);
                         int ID = nextID;
                         nextID += 1;
-                        
+
                         SharedMemoryPlayerNameMapping.getInstance().addName(ID, name);
-                        
+
                         System.out.println(name);
+                        
+                        System.out.println(SharedMemoryPlayerNameMapping.getInstance().getName(0));
                         
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
                         out.println("ACCEPT: " + ID);
                     }
-                    if(input.startsWith("DISCONNECT")){
+                    if (input.startsWith("DISCONNECT")) {
                         int ID = Integer.parseInt(input.substring(12));
                         for (int i = 0; i < clientList.size(); ++i) {
-                            if(clientList.get(i).ID == ID) {
+                            if (clientList.get(i).ID == ID) {
                                 clientList.remove(i);
                                 SharedMemoryPlayerNameMapping.getInstance().removeByID(i);
                             }
@@ -113,7 +115,7 @@ public class Server extends Thread {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
         }
     }
 
@@ -138,14 +140,17 @@ public class Server extends Thread {
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(131072);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
-                        //System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
+
+                        if (!SharedMemoryServerSent.getInstance().getData().spaceships.isEmpty()) {
+                            System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
+                        }
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());
 
                         byte[] buf = byteStream.toByteArray();
                         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 
                         dSocket.send(packet);
-                        
+
                         os.close();
                     } catch (IOException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -154,10 +159,10 @@ public class Server extends Thread {
                 /*dodane dla celow testowych */
                 try {
                     Thread.sleep(33);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 /*dodane dla celow testowych */
             }
         }
@@ -211,9 +216,8 @@ public class Server extends Thread {
         pr = new ArrayList<>();
 
 //        org.awesometeam.gamelogic.Spaceship ship = new Spaceship();
-  //      sp.add(ship);
-    //    SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
-        
+        //      sp.add(ship);
+        //    SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
         tcpThread = new ServerTCPThread(clientsList, serverSocket, nextID);
         udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
         udpSThread = new ServerUDPSendThread(clientsList, datagramSocket);

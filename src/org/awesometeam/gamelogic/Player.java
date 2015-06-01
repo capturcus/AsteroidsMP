@@ -24,7 +24,7 @@ public class Player {
         kills = 0;
         deaths = 0;
         id = index;
-        SharedMemoryPlayerNameMapping.getInstance().getName(id);
+        name = SharedMemoryPlayerNameMapping.getInstance().getName(id);
         
         state = State.WAITING_FOR_RESURRECTION;
         timeToResurrection = DEFAULT_TIME_TO_RESURRECTION;

@@ -6,9 +6,6 @@
 package org.awesometeam.servernetworking;
 
 import java.io.Serializable;
-
-import math.geom2d.Point2D;
-
 /**
  *
  * @author michal
@@ -34,10 +31,10 @@ public class Spaceship extends ThinActor implements Serializable {
         angle = sp.getAngle();
         HP = sp.getHealthPoints();
         ID = sp.getID();
-        name = "";
+        name = sp.getName();
     }
     
     public String toString() {
-    	return "spaceship: "+x+" "+y+" "+angle;
+    	return "spaceship: "+x+" "+y+" "+angle+" "+name + " " + ID;
     }
 }
