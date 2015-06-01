@@ -45,7 +45,6 @@ public class Player {
     public void die() {
         state = State.DEAD;
         deaths ++;
-        System.out.println("ddddddddddddddddddd                      "+deaths);
         timeToResurrection = DEFAULT_TIME_TO_RESURRECTION;
     }
 

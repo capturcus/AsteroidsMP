@@ -39,7 +39,7 @@ public class Projectile extends Obstacle {
             if (asteroid.getSize() == 0)
                 owner.increaseScore(Spaceship.SCORE_FOR_SMALL_ASTEROID);
             else
-                owner.increaseScore(Spaceship.SCORE_FOR_BIG_ASTEROID);
+                owner.increaseScore(Spaceship.SCORE_FOR_NOT_SMALL_ASTEROID);
         }
     }
     

@@ -16,7 +16,7 @@ public class Spaceship extends BoardActor {
     public final static int DAMAGE = 10;
     public final static double ANGULAR_VELOCITY = 0.2;
     
-    public final static int SCORE_FOR_BIG_ASTEROID = 1;
+    public final static int SCORE_FOR_NOT_SMALL_ASTEROID = 1;
     public final static int SCORE_FOR_SMALL_ASTEROID = 2;
     public final static int SCORE_FOR_SPACESHIP = 5;
     

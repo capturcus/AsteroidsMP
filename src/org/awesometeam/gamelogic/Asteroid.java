@@ -15,6 +15,8 @@ public class Asteroid extends Obstacle {
     public final static int START_HP = 1;
     
     public final static int DAMAGE = 40;
+    
+    public static int bigAsteroidCount;
 
     public Asteroid(Point2D pos) {
         healthPoints = START_HP;
