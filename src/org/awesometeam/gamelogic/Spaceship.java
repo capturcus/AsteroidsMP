@@ -12,7 +12,7 @@ public class Spaceship extends BoardActor {
     public final static double MAX_VELOCITY = 400;
     
     public final static double ATTACK_INTERVAL = 0.4;
-    public final static int START_HP = 100;
+    public final static int START_HP = 10000;
     public final static int DAMAGE = 10;
     
     private double timeToNextAttack;
@@ -37,6 +37,7 @@ public class Spaceship extends BoardActor {
         Projectile projectile = new Projectile();
         projectile.setPosition(position.plus(orientation.normalize().times(10 + radius + projectile.getRadius())));
         projectile.setOrientation(orientation);
+        projectile.setVelocity(velocity.plus(orientation.normalize().times(400)));
         projectile.setVelocity(velocity.plus(orientation.normalize().times(200)));
         projectiles.add(projectile);
         
@@ -109,5 +110,13 @@ public class Spaceship extends BoardActor {
 
         Vector2D vector = actorLists.getPhyscics().getMove(mass, velocity, timeInterval);
         position = actorLists.getBoard().getNewPosition(position, vector);
+    }
+    
+    public void start() {
+        player.start();
+    }
+
+    public int getID() {
+        return player.getId();
     }
 }

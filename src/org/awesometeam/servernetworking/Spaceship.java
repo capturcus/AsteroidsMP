@@ -17,12 +17,14 @@ public class Spaceship extends ThinActor implements Serializable {
     public double angle;
     public String name;
     public int ID;
+    public int HP;
     
     public Spaceship() {
         x = 0;
         y = 0;
         angle = 0;
         name = "";
+        HP = 0;
         ID = 0;
     }
     
@@ -30,8 +32,9 @@ public class Spaceship extends ThinActor implements Serializable {
         x = sp.getPosition().getX();
         y = sp.getPosition().getY();
         angle = sp.getAngle();
+        HP = sp.getHealthPoints();
+        ID = sp.getID();
         name = "";
-        ID = 0;
     }
     
     public String toString() {

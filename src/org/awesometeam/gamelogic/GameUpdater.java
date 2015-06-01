@@ -29,7 +29,7 @@ public class GameUpdater extends TimerTask {
         
         //ArrayList<KeyPresses> playersKeyPresses = new ArrayList<KeyPresses>();
         TreeMap<Integer, KeyPresses> playersKeyPresses = SharedMemoryServerReceived.getInstance().getData().map;
-        System.out.println("GameLogic                  Debug" + playersKeyPresses);
+        //System.out.println("GameLogic                  Debug" + playersKeyPresses);
         //playersKeyPresses.put(0, keyPresses);
         
         //playersKeyPresses.add(keyPresses);
