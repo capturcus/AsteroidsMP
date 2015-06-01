@@ -25,6 +25,9 @@ public class Asteroid extends Obstacle {
         position = pos;
         size =  3;//ActorMnager.randomGenerator.nextInt(MAX_SIZE + 1);
         radius = MIN_RADIUS * (size + 1);
+        
+        orientation = new Vector2D((ActorManager.randomGenerator.nextInt(100)-50),(ActorManager.randomGenerator.nextInt(100)-50)).normalize();
+        velocity = orientation.times(100);
     }
     
     public Asteroid() {

@@ -111,8 +111,17 @@ public class ActorManager {
         moveActors(timeInterval);
         attack();
         detectCollisions();
+        
+        if (randomGenerator.nextInt(500) == 0)
+                createNewAsteroid();
     }
 
+    private void createNewAsteroid() {
+        Asteroid asteroid = new Asteroid();
+        asteroid.setPosition(actorLists.getBoard().randomPosition());
+        actorLists.addAsteroid(asteroid);
+    }
+    
     private void attack() {
         for (int i = 0; i < actorLists.getActorList().size(); i++) {
             if (actorLists.getActorList().get(i).isAttacking()) {
