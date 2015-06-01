@@ -138,7 +138,7 @@ public class Server extends Thread {
                         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(131072);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
-                      /*  if (!SharedMemoryServerSent.getInstance().getData().spaceships.isEmpty()) {
+                        /*if (!SharedMemoryServerSent.getInstance().getData().spaceships.isEmpty()) {
                             System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
                         }*/
                         os.writeObject(SharedMemoryServerSent.getInstance().getData());

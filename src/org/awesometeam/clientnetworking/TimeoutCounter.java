@@ -15,7 +15,7 @@ public class TimeoutCounter implements Runnable {
 
     private int time;
     private Thread thread;
-    private final int TIME = 30;
+    private final int TIME = 10;
 
     public TimeoutCounter() {
         time = TIME;

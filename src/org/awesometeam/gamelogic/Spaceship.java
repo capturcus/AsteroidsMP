@@ -7,13 +7,14 @@ import math.geom2d.Vector2D;
 
 public class Spaceship extends BoardActor {
     
-    public final static double FORWARD_ACCELERATION = 200;
+    public final static double FORWARD_ACCELERATION = 300;
     public final static double BACKWARD_ACCELERATION = 100;
     public final static double MAX_VELOCITY = 400;
     
-    public final static double ATTACK_INTERVAL = 0.4;
+    public final static double ATTACK_INTERVAL = 0.3;
     public final static int START_HP = 100;
     public final static int DAMAGE = 10;
+    public final static double ANGULAR_VELOCITY = 0.2;
     
     private double timeToNextAttack;
     private Player player;
@@ -76,6 +77,7 @@ public class Spaceship extends BoardActor {
             killer = asteroid;
     }
     
+    @Override
     public void spaceshipCollision(Spaceship spaceship) {
         bounce(spaceship);
         injure(Spaceship.DAMAGE);
@@ -83,6 +85,7 @@ public class Spaceship extends BoardActor {
             killer = spaceship;
     }
     
+    @Override
     public void projectileCollision(Projectile projectile) {
         injure(Projectile.DAMAGE);
         if (healthPoints <= 0)
@@ -109,11 +112,11 @@ public class Spaceship extends BoardActor {
                 velocity = newVelocity;
         }
         if (keyPresses.isPressed(KeyPresses.RIGHT)) {
-            orientation = orientation.rotate(0.1);
+            orientation = orientation.rotate(ANGULAR_VELOCITY);
             //velocity = velocity.rotate(0.1);
         }
         if (keyPresses.isPressed(KeyPresses.LEFT)) {
-            orientation = orientation.rotate(-0.1);
+            orientation = orientation.rotate(-ANGULAR_VELOCITY);
             //velocity = velocity.rotate(-0.1);
         }
 
