@@ -49,17 +49,18 @@ public class AsteroidClientMain {
         return instance;
     }
 
-    public void startSending(String nickname) {
-    	System.out.println("siusiu");
+    public void startSending(String nickname) throws UnknownHostException, IOException{
         this.nickname = nickname;
+        
+        System.out.println("Server ip: " + serverIP + " , serverPort: " + serverPort);
+        socketTCP = new Socket(serverIP,serverPort);
         try {
-        	System.out.println("Server ip: " + serverIP + " , serverPort: " + serverPort);
-        	socketTCP = new Socket(serverIP,serverPort);
+        	
         	clientPort = socketTCP.getLocalPort();
         	System.out.println("clientPort: "+ socketTCP.getLocalPort());
         	PrintWriter out = new PrintWriter(socketTCP.getOutputStream(), true);
         	out.println("REQUEST: " + nickname);
-        	System.out.println("polecial request");
+        	LoadingState.message("Request sent");
         	
         	/*
         	OutputStream os = socketTCP.getOutputStream();
@@ -106,7 +107,7 @@ public class AsteroidClientMain {
 
     public void stopSending() {
     	try{
-			OutputStream os = socketTCP.getOutputStream();
+		OutputStream os = socketTCP.getOutputStream();
 	    	ObjectOutputStream oos = new ObjectOutputStream(os);
 	    	oos.writeObject("DISCONNECT: " + id);
 	    	acs.interruptThread();

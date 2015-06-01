@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import org.awesometeam.LoadingState;
 
 import org.awesometeam.SharedMemoryClientReceived;
 import org.awesometeam.servernetworking.*;
@@ -14,6 +15,7 @@ public class AsteroidClientReceiver implements Runnable {
 
     private Thread thread;
     private DatagramSocket socket;
+    private TimeoutCounter tc;
 
     public void interruptThread(){
     	thread.interrupt();
@@ -26,10 +28,13 @@ public class AsteroidClientReceiver implements Runnable {
     @Override
     public void run() {
         byte[] dataBuffer = new byte[131072];
+        tc = new TimeoutCounter();
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                DatagramPacket incomingPacket = new DatagramPacket(dataBuffer, dataBuffer.length);
+                DatagramPacket incomingPacket = new DatagramPacket(dataBuffer, dataBuffer.length);     
+             
                 socket.receive(incomingPacket);
+                tc.resetTime();
                 dataBuffer = incomingPacket.getData();
                 ByteArrayInputStream bais = new ByteArrayInputStream(dataBuffer);
                 ObjectInputStream ois = new ObjectInputStream(bais);

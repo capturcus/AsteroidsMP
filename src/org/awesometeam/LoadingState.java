@@ -47,6 +47,7 @@ public class LoadingState extends BasicGameState {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
+        MenuState.checkTimeout();
     }
 
 }

@@ -27,16 +27,22 @@ public class MenuState extends BasicGameState {
     Button joinButton, hostButton, optionsButton, exitButton;
     private TextField serverField, nameField;
 
+    public static boolean timeout = false;
+
     @Override
     public int getID() {
         return AsteroidsMP.MENUSTATE;
     }
 
     private void beginConnection(GameContainer gc, StateBasedGame sbg, String address) {
-        sbg.enterState(AsteroidsMP.LOADINGSTATE);
-        AsteroidClientMain.getInstance().setServerIPToConnect(address);
-        AsteroidClientMain.getInstance().startSending(nameField.getText());
-        sbg.enterState(AsteroidsMP.GAMESTATE);
+        try {
+            sbg.enterState(AsteroidsMP.LOADINGSTATE);
+            AsteroidClientMain.getInstance().setServerIPToConnect(address);
+            AsteroidClientMain.getInstance().startSending(nameField.getText());
+            sbg.enterState(AsteroidsMP.GAMESTATE);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -122,6 +128,13 @@ public class MenuState extends BasicGameState {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
+        checkTimeout();
     }
 
+    public static void checkTimeout() {
+        if (timeout) {
+            timeout = false;
+            throw new NullPointerException("timeout");
+        }
+    }
 }
