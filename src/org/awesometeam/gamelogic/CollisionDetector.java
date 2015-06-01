@@ -21,7 +21,11 @@ public class CollisionDetector {
     }
     
     public boolean isCollision(BoardActor actor1, BoardActor actor2) {
+        return areToClose(actor1, actor2, 0);
+    }
+    
+    public boolean areToClose(BoardActor actor1, BoardActor actor2, int interspace) {
         Vector2D vec = new Vector2D(actor1.getPosition(), actor2.getPosition());
-        return vec.norm() < actor1.getRadius() + actor2.getRadius();
+        return vec.norm() < actor1.getRadius() + actor2.getRadius() + interspace;
     }
 }

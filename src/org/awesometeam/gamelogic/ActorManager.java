@@ -17,7 +17,7 @@ public class ActorManager {
     private ArrayList<Integer> toRemove;
 
     public ActorManager(int playerCount) {
-        
+
         toRemove = new ArrayList<Integer>();
 
         collisionDetector = new CollisionDetector();
@@ -27,7 +27,7 @@ public class ActorManager {
         actorLists = new ActorLists();
         actorLists.setBoard(board);
         actorLists.setPhysics(physics);
-        
+
         actorList = new ArrayList<BoardActor>();
         playerMap = new TreeMap<Integer, Player>();
 
@@ -37,9 +37,7 @@ public class ActorManager {
 //            Spaceship spaceship = new Spaceship(player);
 //            actorLists.addSpaceship(spaceship);
 //        }
-
         int asteroidCount = 5;// 2 * playerCount;
-
 
         createObstacles(asteroidCount);
         Point2D[] positions = board.randomPositions(actorLists.getActorList().size());
@@ -71,9 +69,9 @@ public class ActorManager {
         }
         for (int i : playersKeyPresses.navigableKeySet()) {
             //System.out.println("GameLogic                         Debug" + playersKeyPresses.get(i));
-            
+
             Spaceship spaceship = null;
-            if (! playerMap.containsKey(i)) {
+            if (!playerMap.containsKey(i)) {
                 Player player = new Player(i);
                 playerMap.put(i, player);
                 //spaceship = new Spaceship(player);
@@ -81,7 +79,7 @@ public class ActorManager {
                 //player.waitForPosition(0.1);//(Player.DEFAULT_TIME_TO_RESURRECTION);
                 //Board.players ++;
             }
-            
+
             if (playerMap.get(i).getState() == Player.State.WAITING_FOR_RESURRECTION) {
                 playerMap.get(i).waitForPosition(timeInterval);
                 if (playerMap.get(i).getState() == Player.State.WAITING_FOR_POSITION) {
@@ -89,14 +87,24 @@ public class ActorManager {
                     spaceship.setPosition(actorLists.getBoard().randomPosition()); //new Point2D(300 + 70 * Board.players,300 + 70 * Board.players));
                 }
             }
-            
+
             if (playerMap.get(i).getState() == Player.State.WAITING_FOR_POSITION) {
-                actorLists.addSpaceship(spaceship);
-                spaceship.start();
+                boolean clearPosition = true;
+                for (BoardActor actor : actorLists.getActorList()) {
+                    if (collisionDetector.areToClose(actor, spaceship, 30)) {
+                        clearPosition = false;
+                    }
+                }
+                if (clearPosition) {
+                    actorLists.addSpaceship(spaceship);
+                    spaceship.start();
+                }
+
             }
-            
-            if (playersKeyPresses.get(i) != null)
+
+            if (playersKeyPresses.get(i) != null) {
                 playerMap.get(i).setKeyPresses(playersKeyPresses.get(i));
+            }
             //System.out.println(i+" "+playerList.get(i).getKeyPresses());
         }
 
@@ -131,8 +139,9 @@ public class ActorManager {
                 toRemove.add(i);
             }
         }
-        for (int i : toRemove)
+        for (int i : toRemove) {
             playerMap.remove(i);
+        }
 
     }
 
