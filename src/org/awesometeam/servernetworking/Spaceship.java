@@ -34,7 +34,7 @@ public class Spaceship extends ThinActor implements Serializable {
         angle = sp.getAngle();
         name = "";
         HP = sp.getHealthPoints();
-        ID = 0;
+        ID = sp.getID();
     }
     
     public String toString() {

@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.awesometeam.clientnetworking.ClientSentData;
 import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.servernetworking.ClientData;
+import org.awesometeam.servernetworking.SharedMemoryPlayerNameMapping;
 import org.awesometeam.servernetworking.SharedMemoryServerReceived;
 import org.awesometeam.servernetworking.SharedMemoryServerSent;
 import org.awesometeam.servernetworking.SynchronizedClientList;
@@ -87,6 +88,9 @@ public class Server extends Thread {
                         String name = input.substring(9);
                         int ID = nextID;
                         nextID += 1;
+                        
+                        SharedMemoryPlayerNameMapping.getInstance().addName(ID, name);
+                        
                         System.out.println(name);
                         
                         clientList.add(new ClientData(socket.getInetAddress(),
@@ -96,7 +100,10 @@ public class Server extends Thread {
                     if(input.startsWith("DISCONNECT")){
                         int ID = Integer.parseInt(input.substring(12));
                         for (int i = 0; i < clientList.size(); ++i) {
-                            if(clientList.get(i).ID == ID) clientList.remove(i);
+                            if(clientList.get(i).ID == ID) {
+                                clientList.remove(i);
+                                SharedMemoryPlayerNameMapping.getInstance().removeByID(i);
+                            }
                         }
                     }
 

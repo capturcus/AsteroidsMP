@@ -110,4 +110,8 @@ public class Spaceship extends BoardActor {
         Vector2D vector = actorLists.getPhyscics().getMove(mass, velocity, timeInterval);
         position = actorLists.getBoard().getNewPosition(position, vector);
     }
+    
+    public int getID() {
+        return player.getId();
+    }
 }
