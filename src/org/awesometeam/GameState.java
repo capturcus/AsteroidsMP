@@ -25,7 +25,7 @@ public class GameState extends BasicGameState {
     private final static boolean[] keyPresses = new boolean[5];
 
     private Image background;
-    
+
     public GameState() throws SlickException {
 
     }
@@ -40,7 +40,7 @@ public class GameState extends BasicGameState {
         AsteroidRenderer.init(gc, sbg, "res/img/asteroid.png");
         SpaceshipRenderer.init(gc, sbg, "res/img/ship.png");
         ProjectileRenderer.init(gc, sbg, "res/img/projectile.png");
-        
+
         background = new Image("res/img/background.jpg");
     }
 
@@ -70,7 +70,12 @@ public class GameState extends BasicGameState {
         KeyPresses kp = new KeyPresses();
         kp.setKeyPresses(keyPresses);
         SharedMemoryClientSent.getInstance().writeData(kp);
-        MenuState.checkTimeout();
+        try {
+            MenuState.checkTimeout();
+        } catch (Exception e) {
+            sbg.enterState(AsteroidsMP.MENUSTATE);
+            MenuState.message = "Lost connection!";
+        }
     }
 
     @Override
