@@ -153,14 +153,12 @@ public class Server extends Thread {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                /*dodane dla celow testowych */
                 try {
                     Thread.sleep(33);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                /*dodane dla celow testowych */
             }
         }
     }

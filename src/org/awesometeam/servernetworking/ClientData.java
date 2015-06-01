@@ -16,6 +16,7 @@ public class ClientData {
     public InetAddress address;
     public int port;
     public int ID;
+    public int timer;
     
     String nickName;
 
@@ -25,6 +26,7 @@ public class ClientData {
         port = 0;
         ID = 0;
         nickName = "lol";
+        timer = 0;
     }
     
     public ClientData(InetAddress a, int p, int i, String n) {
@@ -32,6 +34,7 @@ public class ClientData {
         port = p;
         ID = i;
         nickName = n;
+        timer = 0;
     }
     
     public ClientData(ClientData cd) {
@@ -39,5 +42,14 @@ public class ClientData {
         port = cd.port;
         ID = cd.ID;
         nickName = cd.nickName;
+        timer = cd.timer;
+    }
+    
+    public boolean increaseTimer() {
+        return ++timer > 90;
+    }
+    
+    public void resetTimer() {
+        timer = 0;
     }
 }

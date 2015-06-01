@@ -8,7 +8,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import org.awesometeam.LoadingState;
 
-import org.awesometeam.SharedMemoryClientReceived;
 import org.awesometeam.servernetworking.*;
 
 public class AsteroidClientReceiver implements Runnable {

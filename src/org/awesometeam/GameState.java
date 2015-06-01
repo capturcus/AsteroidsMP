@@ -1,5 +1,7 @@
 package org.awesometeam;
 
+import org.awesometeam.clientnetworking.SharedMemoryClientSent;
+import org.awesometeam.clientnetworking.SharedMemoryClientReceived;
 import org.awesometeam.gamelogic.KeyPresses;
 import org.awesometeam.servernetworking.Asteroid;
 import org.awesometeam.servernetworking.Projectile;
