@@ -35,6 +35,6 @@ public class Spaceship extends ThinActor implements Serializable {
     }
     
     public String toString() {
-    	return "spaceship: "+x+" "+y+" "+angle+" "+name;
+    	return "spaceship: "+x+" "+y+" "+angle+" "+name + " " + ID;
     }
 }
