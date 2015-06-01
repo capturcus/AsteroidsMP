@@ -28,6 +28,7 @@ import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.servernetworking.ClientData;
 import org.awesometeam.servernetworking.SharedMemoryServerReceived;
 import org.awesometeam.servernetworking.SharedMemoryServerSent;
+import org.awesometeam.servernetworking.SynchronizedClientList;
 
 /**
  *
@@ -37,22 +38,22 @@ public class Server extends Thread {
 
     private final int portNumber = 13100;
     private String hostName;
-    private ArrayList<ClientData> clientsList;
+    private final SynchronizedClientList clientsList;
 
-    private Integer nextID;
+    private final Integer nextID;
 
     protected ServerSocket serverSocket = null;
     protected DatagramSocket datagramSocket = null;
 
     public Server() throws IOException {
-        clientsList = new ArrayList<>();
+        clientsList = new SynchronizedClientList();
         serverSocket = new ServerSocket(portNumber);
         datagramSocket = new DatagramSocket(portNumber);
         nextID = 0;
     }
 
     public Server(int pN) throws IOException {
-        clientsList = new ArrayList<>();
+        clientsList = new SynchronizedClientList();
         serverSocket = new ServerSocket(pN);
         datagramSocket = new DatagramSocket(pN);
         nextID = 0;
@@ -61,11 +62,11 @@ public class Server extends Thread {
     private class ServerTCPThread extends Thread {
 
         private final ServerSocket sSocket;
-        private final ArrayList<ClientData> clientList;
+        private final SynchronizedClientList clientList;
 
         private Integer nextID;
         
-        public ServerTCPThread(ArrayList<ClientData> cl, ServerSocket ss, Integer ni) {
+        public ServerTCPThread(SynchronizedClientList cl, ServerSocket ss, Integer ni) {
             sSocket = ss;
             clientList = cl;
             nextID = ni;
@@ -86,6 +87,7 @@ public class Server extends Thread {
                         String name = input.substring(9);
                         int ID = nextID;
                         nextID += 1;
+                        System.out.println(name);
                         
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
@@ -111,9 +113,9 @@ public class Server extends Thread {
     private class ServerUDPSendThread extends Thread {
 
         private final DatagramSocket dSocket;
-        private final ArrayList<ClientData> clientList;
+        private final SynchronizedClientList clientList;
 
-        public ServerUDPSendThread(ArrayList<ClientData> cl, DatagramSocket ds) {
+        public ServerUDPSendThread(SynchronizedClientList cl, DatagramSocket ds) {
             dSocket = ds;
             clientList = cl;
         }
@@ -157,9 +159,9 @@ public class Server extends Thread {
     private class ServerUDPReceiveThread extends Thread {
 
         private final DatagramSocket dSocket;
-        private final ArrayList<ClientData> clientList;
+        private final SynchronizedClientList clientList;
 
-        public ServerUDPReceiveThread(ArrayList<ClientData> cl, DatagramSocket ds) {
+        public ServerUDPReceiveThread(SynchronizedClientList cl, DatagramSocket ds) {
             dSocket = ds;
             clientList = cl;
         }
