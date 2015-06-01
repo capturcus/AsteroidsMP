@@ -114,4 +114,8 @@ public class Spaceship extends BoardActor {
     public void start() {
         player.start();
     }
+
+    public int getID() {
+        return player.getId();
+    }
 }

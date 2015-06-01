@@ -1,6 +1,7 @@
 build/
 natives/
 nbproject/private/
+nbproject/
 
 *.class
 

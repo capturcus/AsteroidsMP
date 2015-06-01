@@ -26,8 +26,10 @@ import java.util.logging.Logger;
 import org.awesometeam.clientnetworking.ClientSentData;
 import org.awesometeam.gamelogic.Spaceship;
 import org.awesometeam.servernetworking.ClientData;
+import org.awesometeam.servernetworking.SharedMemoryPlayerNameMapping;
 import org.awesometeam.servernetworking.SharedMemoryServerReceived;
 import org.awesometeam.servernetworking.SharedMemoryServerSent;
+import org.awesometeam.servernetworking.SynchronizedClientList;
 
 /**
  *
@@ -37,22 +39,22 @@ public class Server extends Thread {
 
     private final int portNumber = 13100;
     private String hostName;
-    private ArrayList<ClientData> clientsList;
+    private final SynchronizedClientList clientsList;
 
-    private Integer nextID;
+    private final Integer nextID;
 
     protected ServerSocket serverSocket = null;
     protected DatagramSocket datagramSocket = null;
 
     public Server() throws IOException {
-        clientsList = new ArrayList<>();
+        clientsList = new SynchronizedClientList();
         serverSocket = new ServerSocket(portNumber);
         datagramSocket = new DatagramSocket(portNumber);
         nextID = 0;
     }
 
     public Server(int pN) throws IOException {
-        clientsList = new ArrayList<>();
+        clientsList = new SynchronizedClientList();
         serverSocket = new ServerSocket(pN);
         datagramSocket = new DatagramSocket(pN);
         nextID = 0;
@@ -61,11 +63,11 @@ public class Server extends Thread {
     private class ServerTCPThread extends Thread {
 
         private final ServerSocket sSocket;
-        private final ArrayList<ClientData> clientList;
+        private final SynchronizedClientList clientList;
 
         private Integer nextID;
         
-        public ServerTCPThread(ArrayList<ClientData> cl, ServerSocket ss, Integer ni) {
+        public ServerTCPThread(SynchronizedClientList cl, ServerSocket ss, Integer ni) {
             sSocket = ss;
             clientList = cl;
             nextID = ni;
@@ -87,6 +89,10 @@ public class Server extends Thread {
                         int ID = nextID;
                         nextID += 1;
                         
+                        SharedMemoryPlayerNameMapping.getInstance().addName(ID, name);
+                        
+                        System.out.println(name);
+                        
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
                         out.println("ACCEPT: " + ID);
@@ -94,7 +100,10 @@ public class Server extends Thread {
                     if(input.startsWith("DISCONNECT")){
                         int ID = Integer.parseInt(input.substring(12));
                         for (int i = 0; i < clientList.size(); ++i) {
-                            if(clientList.get(i).ID == ID) clientList.remove(i);
+                            if(clientList.get(i).ID == ID) {
+                                clientList.remove(i);
+                                SharedMemoryPlayerNameMapping.getInstance().removeByID(i);
+                            }
                         }
                     }
 
@@ -111,9 +120,9 @@ public class Server extends Thread {
     private class ServerUDPSendThread extends Thread {
 
         private final DatagramSocket dSocket;
-        private final ArrayList<ClientData> clientList;
+        private final SynchronizedClientList clientList;
 
-        public ServerUDPSendThread(ArrayList<ClientData> cl, DatagramSocket ds) {
+        public ServerUDPSendThread(SynchronizedClientList cl, DatagramSocket ds) {
             dSocket = ds;
             clientList = cl;
         }
@@ -126,7 +135,7 @@ public class Server extends Thread {
                         InetAddress address = clientList.get(i).address;
                         int port = clientList.get(i).port;
 
-                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(4096);
+                        ByteArrayOutputStream byteStream = new ByteArrayOutputStream(131072);
                         ObjectOutputStream os = new ObjectOutputStream(byteStream);
 
                         //System.out.println(SharedMemoryServerSent.getInstance().getData().spaceships.get(0));
@@ -144,11 +153,11 @@ public class Server extends Thread {
                 }
                 /*dodane dla celow testowych */
                 try {
-					Thread.sleep(33);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    Thread.sleep(33);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 /*dodane dla celow testowych */
             }
         }
@@ -157,9 +166,9 @@ public class Server extends Thread {
     private class ServerUDPReceiveThread extends Thread {
 
         private final DatagramSocket dSocket;
-        private final ArrayList<ClientData> clientList;
+        private final SynchronizedClientList clientList;
 
-        public ServerUDPReceiveThread(ArrayList<ClientData> cl, DatagramSocket ds) {
+        public ServerUDPReceiveThread(SynchronizedClientList cl, DatagramSocket ds) {
             dSocket = ds;
             clientList = cl;
         }
@@ -169,7 +178,7 @@ public class Server extends Thread {
             while (true) {
                 try {
                     ClientSentData data;
-                    byte[] buf = new byte[256];
+                    byte[] buf = new byte[16384];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     dSocket.receive(packet);
 

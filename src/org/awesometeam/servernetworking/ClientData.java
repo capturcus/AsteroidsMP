@@ -5,6 +5,7 @@
  */
 package org.awesometeam.servernetworking;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 
 /**
@@ -31,5 +32,12 @@ public class ClientData {
         port = p;
         ID = i;
         nickName = n;
+    }
+    
+    public ClientData(ClientData cd) {
+        address = cd.address;
+        port = cd.port;
+        ID = cd.ID;
+        nickName = cd.nickName;
     }
 }
