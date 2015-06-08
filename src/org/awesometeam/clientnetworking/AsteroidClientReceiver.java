@@ -3,10 +3,8 @@ package org.awesometeam.clientnetworking;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import org.awesometeam.LoadingState;
 
 import org.awesometeam.servernetworking.*;
 

@@ -21,7 +21,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,6 +100,7 @@ public class Server extends Thread {
                         
                         clientList.add(new ClientData(socket.getInetAddress(),
                                 socket.getPort(), ID, name));
+                        SharedMemoryServerReceived.getInstance().addInstance(ID);
                         out.println("ACCEPT: " + ID);
                     }
                     if (input.startsWith("DISCONNECT")) {
@@ -108,7 +108,10 @@ public class Server extends Thread {
                         for (int i = 0; i < clientList.size(); ++i) {
                             if (clientList.get(i).ID == ID) {
                                 clientList.remove(i);
+                                IDset.remove(i);
+                                SharedMemoryServerReceived.getInstance().removeInstance(i);
                                 SharedMemoryPlayerNameMapping.getInstance().removeByID(i);
+                                break;
                             }
                         }
                     }
@@ -162,6 +165,7 @@ public class Server extends Thread {
                         else if(clientList.get(i).increaseTimer()) {
                             IDset.remove(i);
                             SharedMemoryServerReceived.getInstance().removeInstance(i);
+                            SharedMemoryPlayerNameMapping.getInstance().removeByID(i);
                             clientList.remove(i);
                             --i;
                         }
