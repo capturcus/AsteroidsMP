@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import org.awesometeam.GameState;
-import org.awesometeam.SharedMemoryClientSent;
 import org.awesometeam.servernetworking.*; 
 public class AsteroidClientSender implements Runnable {
 

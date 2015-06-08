@@ -1,5 +1,8 @@
 package org.awesometeam;
 
+import org.awesometeam.clientnetworking.AsteroidClientMain;
+import org.awesometeam.clientnetworking.SharedMemoryClientSent;
+import org.awesometeam.clientnetworking.SharedMemoryClientReceived;
 import org.awesometeam.gamelogic.KeyPresses;
 import org.awesometeam.servernetworking.Asteroid;
 import org.awesometeam.servernetworking.Projectile;
@@ -74,6 +77,7 @@ public class GameState extends BasicGameState {
             MenuState.checkTimeout();
         } catch (Exception e) {
             sbg.enterState(AsteroidsMP.MENUSTATE);
+            AsteroidClientMain.getInstance().stopSending();
             MenuState.message = "Lost connection!";
         }
     }

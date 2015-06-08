@@ -34,7 +34,19 @@ public class SharedMemoryServerReceived {
     }
     
     //writes data valid for a SINGLE CLIENT
-    public synchronized void writeData(int ID, ClientSentData d) {
-        DATA.map.put(ID, new KeyPresses(d.getKeyPressesObject()));
+    public synchronized boolean writeData(int ID, ClientSentData d) {
+        if(DATA.map.containsKey(ID)) {
+            DATA.map.put(ID, new KeyPresses(d.getKeyPressesObject()));
+            return true;
+        }
+        return false;
+    }
+    
+    public synchronized void addInstance(int ID) {
+        DATA.map.put(ID, new KeyPresses());
+    }
+
+    public synchronized void removeInstance(int ID) {
+        DATA.map.remove(ID);
     }
 }
