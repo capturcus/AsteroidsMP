@@ -19,7 +19,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,7 +42,8 @@ public class Server extends Thread {
     private final int portNumber = 13100;
     private String hostName;
     private final SynchronizedClientList clientsList;
-
+    private final Set<Integer> IDset;
+    
     private final Integer nextID;
 
     protected ServerSocket serverSocket = null;
@@ -49,6 +53,7 @@ public class Server extends Thread {
         clientsList = new SynchronizedClientList();
         serverSocket = new ServerSocket(portNumber);
         datagramSocket = new DatagramSocket(portNumber);
+        IDset = Collections.synchronizedSet(new HashSet<Integer>());
         nextID = 0;
     }
 
@@ -56,6 +61,7 @@ public class Server extends Thread {
         clientsList = new SynchronizedClientList();
         serverSocket = new ServerSocket(pN);
         datagramSocket = new DatagramSocket(pN);
+        IDset = Collections.synchronizedSet(new HashSet<Integer>());
         nextID = 0;
     }
 
@@ -63,7 +69,7 @@ public class Server extends Thread {
 
         private final ServerSocket sSocket;
         private final SynchronizedClientList clientList;
-
+    
         private Integer nextID;
 
         public ServerTCPThread(SynchronizedClientList cl, ServerSocket ss, Integer ni) {
@@ -121,10 +127,12 @@ public class Server extends Thread {
 
         private final DatagramSocket dSocket;
         private final SynchronizedClientList clientList;
+        private final Set<Integer> IDset;
 
-        public ServerUDPSendThread(SynchronizedClientList cl, DatagramSocket ds) {
+        public ServerUDPSendThread(SynchronizedClientList cl, DatagramSocket ds, Set<Integer> is) {
             dSocket = ds;
             clientList = cl;
+            IDset = is;
         }
 
         @Override
@@ -147,7 +155,17 @@ public class Server extends Thread {
                         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 
                         dSocket.send(packet);
-
+                        if(IDset.contains(i)) {
+                            clientList.get(i).resetTimer();
+                            IDset.remove(i);
+                        }
+                        else if(clientList.get(i).increaseTimer()) {
+                            IDset.remove(i);
+                            SharedMemoryServerReceived.getInstance().removeInstance(i);
+                            clientList.remove(i);
+                            --i;
+                        }
+                        
                         os.close();
                     } catch (IOException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,10 +185,12 @@ public class Server extends Thread {
 
         private final DatagramSocket dSocket;
         private final SynchronizedClientList clientList;
+        private final Set<Integer> IDset;
 
-        public ServerUDPReceiveThread(SynchronizedClientList cl, DatagramSocket ds) {
+        public ServerUDPReceiveThread(SynchronizedClientList cl, DatagramSocket ds, Set<Integer> is) {
             dSocket = ds;
             clientList = cl;
+            IDset = is;
         }
 
         @Override
@@ -186,8 +206,10 @@ public class Server extends Thread {
                     ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
                     data = (ClientSentData) is.readObject();
 
-                    //System.out.println("Object received by the server: " + data);
-                    SharedMemoryServerReceived.getInstance().writeData(data.ID, data);
+                    //checks if the received data is from a registered client
+                    if(SharedMemoryServerReceived.getInstance().writeData(data.ID, data)) {
+                        IDset.add(data.ID);
+                    }
 
                     is.close();
                 } catch (IOException | ClassNotFoundException ex) {
@@ -203,19 +225,9 @@ public class Server extends Thread {
         ServerUDPReceiveThread udpRThread;
         ServerUDPSendThread udpSThread;
 
-        ArrayList<org.awesometeam.gamelogic.Spaceship> sp;
-        ArrayList<org.awesometeam.gamelogic.Asteroid> as;
-        ArrayList<org.awesometeam.gamelogic.Projectile> pr;
-        sp = new ArrayList<>();
-        as = new ArrayList<>();
-        pr = new ArrayList<>();
-
-//        org.awesometeam.gamelogic.Spaceship ship = new Spaceship();
-        //      sp.add(ship);
-        //    SharedMemoryServerSent.getInstance().writeData(sp, pr, as);
         tcpThread = new ServerTCPThread(clientsList, serverSocket, nextID);
-        udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket);
-        udpSThread = new ServerUDPSendThread(clientsList, datagramSocket);
+        udpRThread = new ServerUDPReceiveThread(clientsList, datagramSocket, IDset);
+        udpSThread = new ServerUDPSendThread(clientsList, datagramSocket, IDset);
 
         tcpThread.start();
         udpRThread.start();
