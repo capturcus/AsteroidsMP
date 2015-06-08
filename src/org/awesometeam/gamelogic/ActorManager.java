@@ -5,6 +5,7 @@ import math.geom2d.Vector2D;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TreeMap;
+import org.awesometeam.OptionsState;
 //import org.awesometeam.SharedMemoryServerReceived;
 
 public class ActorManager {
@@ -15,10 +16,14 @@ public class ActorManager {
     private TreeMap<Integer, Player> playerMap;
     private CollisionDetector collisionDetector;
     private ArrayList<Integer> toRemove;
+    private Asteroid asteroidToCreate;
+    ArrayList<Spaceship> waitingSpaceships;
 
     public ActorManager(int playerCount) {
 
+        asteroidToCreate = null;
         toRemove = new ArrayList<Integer>();
+        waitingSpaceships = new ArrayList<Spaceship>();
 
         collisionDetector = new CollisionDetector();
         Board board = new Board();
@@ -31,13 +36,9 @@ public class ActorManager {
         actorList = new ArrayList<BoardActor>();
         playerMap = new TreeMap<Integer, Player>();
 
-//        for (int index = 0; index < playerCount; index++) {
-//            Player player = new Player(index);
-//            playerList.add(player);
-//            Spaceship spaceship = new Spaceship(player);
-//            actorLists.addSpaceship(spaceship);
-//        }
-        int asteroidCount = 5;// 2 * playerCount;
+        int asteroidCount = 0;
+        if (OptionsState.asteroidDensity >= 0 && OptionsState.asteroidDensity <= 25)
+            asteroidCount = OptionsState.asteroidDensity;
 
         createObstacles(asteroidCount);
         Point2D[] positions = board.randomPositions(actorLists.getActorList().size());
@@ -61,66 +62,84 @@ public class ActorManager {
         return obstacleList;
     }
 
-    public void update(TreeMap<Integer, KeyPresses> playersKeyPresses, double timeInterval)
-            throws IncorrectListLengthAsteroidsMPGLException {
+    public void update(TreeMap<Integer, KeyPresses> playersKeyPresses, double timeInterval) {
 
-        if (false) { //TODO playersKeyPresses.size() != playerList.size()
-            throw new IncorrectListLengthAsteroidsMPGLException();
-        }
         for (int i : playersKeyPresses.navigableKeySet()) {
-            //System.out.println("GameLogic                         Debug" + playersKeyPresses.get(i));
-
             Spaceship spaceship = null;
             if (!playerMap.containsKey(i)) {
                 Player player = new Player(i);
                 playerMap.put(i, player);
-                //spaceship = new Spaceship(player);
-                //spaceship.setPosition(actorLists.getBoard().randomPosition()); //new Point2D(300 + 70 * Board.players,300 + 70 * Board.players));
-                //player.waitForPosition(0.1);//(Player.DEFAULT_TIME_TO_RESURRECTION);
-                //Board.players ++;
             }
 
             if (playerMap.get(i).getState() == Player.State.WAITING_FOR_RESURRECTION) {
                 playerMap.get(i).waitForPosition(timeInterval);
                 if (playerMap.get(i).getState() == Player.State.WAITING_FOR_POSITION) {
                     spaceship = new Spaceship(playerMap.get(i));
-                    spaceship.setPosition(actorLists.getBoard().randomPosition()); //new Point2D(300 + 70 * Board.players,300 + 70 * Board.players));
+                    spaceship.setPosition(actorLists.getBoard().randomPosition());
+                    waitingSpaceships.add(spaceship);
                 }
-            }
-
-            if (playerMap.get(i).getState() == Player.State.WAITING_FOR_POSITION) {
-                /*boolean clearPosition = true;
-                 for (BoardActor actor : actorLists.getActorList()) {
-                 if (collisionDetector.areToClose(actor, spaceship, 30)) {
-                 clearPosition = false;
-                 }
-                 }*/
-                //if (clearPosition) {
-                actorLists.addSpaceship(spaceship);
-                spaceship.start();
-                //}
-
             }
 
             if (playersKeyPresses.get(i) != null) {
                 playerMap.get(i).setKeyPresses(playersKeyPresses.get(i));
             }
-            //System.out.println(i+" "+playerList.get(i).getKeyPresses());
+        }
+
+        ArrayList<Spaceship> spaceshipsToRemove = new ArrayList<Spaceship>();
+        for (int i = 0; i < waitingSpaceships.size(); i++) {
+            Spaceship spaceship = waitingSpaceships.get(i);
+            boolean clearPosition = true;
+            for (BoardActor actor : actorLists.getActorList()) {
+
+                if (collisionDetector.areToClose(actor, spaceship, Spaceship.START_INTERSPACE)) {
+                    clearPosition = false;
+                }
+            }
+            if (clearPosition) {
+                actorLists.addSpaceship(spaceship);
+                spaceship.start();
+                spaceshipsToRemove.add(spaceship);
+            }
+        }
+
+        waitingSpaceships.removeAll(spaceshipsToRemove);
+
+        for (int i = actorLists.getSpaceshipList().size() - 1; i >= 0; i--) {
+            Spaceship spaceship = actorLists.getSpaceshipList().get(i);
+            if (!playersKeyPresses.containsKey(spaceship.getID())) {
+                playerMap.remove(spaceship.getID());
+                spaceship.die();
+            }
         }
 
         moveActors(timeInterval);
+
         attack();
+
         detectCollisions();
 
-        if (randomGenerator.nextInt(400) == 0) {
-            createNewAsteroid();
-        }
+        tryToCreateNewAsteroid();
     }
 
-    private void createNewAsteroid() {
-        Asteroid asteroid = new Asteroid();
-        asteroid.setPosition(actorLists.getBoard().randomPosition());
-        actorLists.addAsteroid(asteroid);
+    private void tryToCreateNewAsteroid() {
+        if (asteroidToCreate == null) {
+            if (randomGenerator.nextInt(400) == 0) {
+                asteroidToCreate = new Asteroid();
+                asteroidToCreate.setPosition(actorLists.getBoard().randomPosition());
+            }
+        } else {
+            boolean clearPosition = true;
+            for (BoardActor actor : actorLists.getActorList()) {
+                if (collisionDetector.areToClose(actor, asteroidToCreate, Asteroid.START_INTERSPACE)) {
+                    clearPosition = false;
+                }
+            }
+            if (clearPosition) {
+                actorLists.addAsteroid(asteroidToCreate);
+                asteroidToCreate = null;
+            }
+        }
+
     }
 
     private void attack() {
@@ -143,16 +162,11 @@ public class ActorManager {
             }
         }
 
-        toRemove.clear();
         for (int i : playerMap.navigableKeySet()) {
             if (playerMap.get(i).getState() == Player.State.DEAD) {
                 playerMap.get(i).startWaiting();
             }
         }
-//        }
-//        for (int i : toRemove) {
-//            playerMap.remove(i);
-//        }
 
     }
 

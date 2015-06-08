@@ -20,6 +20,10 @@ public class Spaceship extends BoardActor {
     public final static int SCORE_FOR_SMALL_ASTEROID = 2;
     public final static int SCORE_FOR_SPACESHIP = 5;
     
+    public final static int DEFAULT_RADIUS = 50;
+    
+    public final static int START_INTERSPACE = 15;
+    
     private double timeToNextAttack;
     private Player player;
 
@@ -29,7 +33,7 @@ public class Spaceship extends BoardActor {
     
     public Spaceship(Player pl) {
         healthPoints = START_HP;
-        radius = 50;
+        radius = DEFAULT_RADIUS;
         player = pl;
         timeToNextAttack = 0;
     }

@@ -15,6 +15,7 @@ public class Asteroid extends Obstacle {
     public final static int START_HP = 1;
     
     public final static int DAMAGE = 40;
+    public final static int START_INTERSPACE = 15;
     
     public static int bigAsteroidCount;
 
