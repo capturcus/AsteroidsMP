@@ -33,4 +33,12 @@ public class SynchronizedClientList {
     public synchronized void remove(int i) {
         list.remove(i);
     }
+    
+    public synchronized void resetTimer(int i) {
+        list.get(i).resetTimer();
+    }
+    
+    public synchronized int increaseTimer(int i) {
+        return list.get(i).increaseTimer();
+    }
 }

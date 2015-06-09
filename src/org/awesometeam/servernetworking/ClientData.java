@@ -45,8 +45,9 @@ public class ClientData {
         timer = cd.timer;
     }
     
-    public boolean increaseTimer() {
-        return ++timer > 90;
+    public int increaseTimer() {
+        timer += 1;
+        return timer;
     }
     
     public void resetTimer() {

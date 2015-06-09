@@ -108,9 +108,10 @@ public class Server extends Thread {
                         for (int i = 0; i < clientList.size(); ++i) {
                             if (clientList.get(i).ID == ID) {
                                 clientList.remove(i);
-                                IDset.remove(i);
-                                SharedMemoryServerReceived.getInstance().removeInstance(i);
-                                SharedMemoryPlayerNameMapping.getInstance().removeByID(i);
+                                IDset.remove(ID);
+                                SharedMemoryServerReceived.getInstance().removeInstance(ID);
+                                SharedMemoryPlayerNameMapping.getInstance().removeByID(ID);
+                                System.out.println(ID);
                                 break;
                             }
                         }
@@ -157,15 +158,21 @@ public class Server extends Thread {
                         byte[] buf = byteStream.toByteArray();
                         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 
+                        
+                        System.out.print("Timer status for: ");
+                        System.out.print(i);
+                        System.out.print(" :");
+                        System.out.println(clientList.increaseTimer(i));
+                        
                         dSocket.send(packet);
-                        if(IDset.contains(i)) {
-                            clientList.get(i).resetTimer();
-                            IDset.remove(i);
+                        if(IDset.contains(clientList.get(i).ID)) {
+                            clientList.resetTimer(i);
+                            IDset.remove(clientList.get(i).ID);
                         }
-                        else if(clientList.get(i).increaseTimer()) {
-                            IDset.remove(i);
-                            SharedMemoryServerReceived.getInstance().removeInstance(i);
-                            SharedMemoryPlayerNameMapping.getInstance().removeByID(i);
+                        else if(clientList.increaseTimer(i) > 90) {
+                            IDset.remove(clientList.get(i).ID);
+                            SharedMemoryServerReceived.getInstance().removeInstance(clientList.get(i).ID);
+                            SharedMemoryPlayerNameMapping.getInstance().removeByID(clientList.get(i).ID);
                             clientList.remove(i);
                             --i;
                         }
@@ -213,6 +220,8 @@ public class Server extends Thread {
                     //checks if the received data is from a registered client
                     if(SharedMemoryServerReceived.getInstance().writeData(data.ID, data)) {
                         IDset.add(data.ID);
+                        System.out.print("Received DataPacket: ");
+                        System.out.println(data.ID);
                     }
 
                     is.close();
